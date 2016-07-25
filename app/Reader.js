@@ -1,5 +1,6 @@
-import React, {
-  Component,
+import React, { Component } from 'react';
+
+import {
   StyleSheet,
   Text,
   View,
@@ -39,7 +40,7 @@ class Reader extends Component {
 				(contents) => {
 					this.setState({contents})
 				}, (err) => console.error(err));
-		
+
 		});
 
 		this.book.loaded.navigation.then((toc) => this.setState({toc}));

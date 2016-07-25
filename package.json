@@ -6,8 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react": "^0.14.8",
-    "react-native": "^0.22.2",
-    "epubjs": "futurepress/epub.js#view_managers"
+    "epubjs": "futurepress/epub.js#view_managers",
+    "react": "^15.2.1",
+    "react-native": "^0.30.0"
   }
 }
