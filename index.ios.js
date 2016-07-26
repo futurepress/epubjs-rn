@@ -18,7 +18,7 @@ class EpubReader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Reader style={styles.reader} src={"https://s3.amazonaws.com/moby-dick/OPS/package.opf"}/>
+        <Reader style={styles.reader} src={"https://s3.amazonaws.com/moby-dick/OPS/package.opf"} paginated={false}/>
       </View>
     );
   }

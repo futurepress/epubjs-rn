@@ -7,7 +7,11 @@
   },
   "dependencies": {
     "epubjs": "futurepress/epub.js#view_managers",
+    "lodash": "^4.14.0",
     "react": "^15.2.1",
-    "react-native": "^0.30.0"
+    "react-native": "^0.30.0",
+    "react-native-fs": "^1.5.1",
+    "react-native-tableview": "^1.5.2",
+    "react-native-webview-bridge": "^0.20.3"
   }
 }
