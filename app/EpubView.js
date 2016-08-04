@@ -11,8 +11,6 @@ import {
 
 import WebViewBridge from 'react-native-webview-bridge';
 
-const RNFS = require('react-native-fs');
-
 const RSVP = require('epubjs').RSVP;
 
 class EpubView extends Component {
@@ -55,21 +53,11 @@ class EpubView extends Component {
     this.rendered = this.rendering.promise;
 
     this.loading = true;
-    // Load epubjs
-    // RNFS.readFile(`${RNFS.MainBundlePath}/epub.min.js`, 'utf8')
-    //   .then((result) => {
-    //     this.ePubCode = result;
-    //     return result;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message, err.code);
-    //   });
-
-
 
 	}
 
   componentWillMount() {
+    console.log("start load");
     this.props.section.render()
       .then((contents) => {
         this.setState({ contents });
@@ -86,8 +74,6 @@ class EpubView extends Component {
     this.waiting = {};
 
     this.loading = true;
-
-    // this.renderSection();
   }
 
 
@@ -100,20 +86,32 @@ class EpubView extends Component {
       bridge.onMessage = function (message) {
         var decoded = JSON.parse(message);
         var response;
+        var result;
 
         // alert('msg: ' + decoded.method);
         if (decoded.method in contents) {
-          var result = contents[decoded.method].apply(contents, decoded.args);
+
+          result = contents[decoded.method].apply(contents, decoded.args);
+
+          response = JSON.stringify({
+            method: decoded.method,
+            promise: decoded.promise,
+            value: result
+          });
+
+          bridge.send(response);
+
         }
-
-        response = JSON.stringify({
-          method: decoded.method,
-          value: result
-        });
-
-        bridge.send(response);
-
       };
+
+      contents.on("resize", function (size) {
+        bridge.send(JSON.stringify({method:"resize", value: size }));
+      })
+
+      // Will only trigger on font load in chrome, for now
+      contents.on("expand", function () {
+        bridge.send(JSON.stringify({method:"expand", value: true}));
+      })
 
       bridge.send(JSON.stringify({method:"loaded", value: true}));
 
@@ -125,7 +123,7 @@ class EpubView extends Component {
 
         document.onreadystatechange = function() {
           if (document.readyState === "complete") {
-            alert("ready")
+            bridge.send(JSON.stringify({method:"ready", value: true}));
           }
         }
 
@@ -137,22 +135,11 @@ class EpubView extends Component {
     `;
   }
 
-  renderSection() {
-    // var renderer = this.props.renderer || this.state.section.render
-    return this.props.section.render()
-      .then((contents) => {
-
-          this.setState({ contents });
-
-          return this.rendered;
-        }
-      );
-  }
-
-  sendToBridge(method, args) {
+  sendToBridge(method, args, promiseId) {
     var str = JSON.stringify({
       method: method,
-      args: args
+      args: args,
+      promise: promiseId
     });
 
     if (!this.bridge) {
@@ -164,69 +151,112 @@ class EpubView extends Component {
 
   ask(method, args) {
     var asking = new RSVP.defer();
+    var promiseId = asking.promise._id;
 
     if(method in this.waiting) {
-      this.waiting[method].push(asking)
+      this.waiting[promiseId].push(asking)
     } else {
-      this.waiting[method] = [asking];
+      this.waiting[promiseId] = [asking];
     }
 
-    this.sendToBridge(method, args);
+    this.sendToBridge(method, args, promiseId);
 
     return asking.promise;
   }
 
   expand() {
     var width, height;
+    var expanded;
+
+    if (this.expanding || this.loading) {
+      return;
+    }
+    this.expanding = true;
+
     if (this.props.horizontal) {
-      this.contents.height(this.state.height).then((h) => {
+
+      expanded = this.contents.height(this.state.height).then((h) => {
         return this.contents.scrollWidth();
       }).then((w) => {
-        width = this.props.spreadWidth *  Math.ceil(w / this.props.spreadWidth);
-        console.log("Pages",  Math.ceil(w / this.props.spreadWidth));
-        this.setState({ width });
+        var defered = new RSVP.defer();
+
+        width = (this.props.spreadWidth) * Math.ceil(w / this.props.spreadWidth);
+        console.log("Pages", Math.ceil(w / this.props.spreadWidth) );
+
+        this.setState({ width }, () => {
+          this.expanding = false;
+          defered.resolve();
+        });
+
+        return defered.promise;
+
       });
     } else {
-      this.contents.width(this.state.width).then((w) => {
+      expanded = this.contents.width(this.state.width).then((w) => {
         return this.contents.scrollHeight();
       }).then((h) => {
+        var defered = new RSVP.defer();
         height = h;
-        console.log("Height", h);
-        this.setState({ height });
+        console.log("Height", height);
+
+        this.setState({ height }, () => {
+          this.expanding = false;
+          defered.resolve();
+        });
+
+        return defered.promise;
       });
     }
 
-
+    return expanded;
   }
 
   _onLoad(e) {
+    var format;
 
     this.bridge = this.refs.webviewbridge;
 
     if (this.props.horizontal) {
-      this.contents.css("margin", `${this.props.gap/2}px ${this.props.gap/2}px`);
+      format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap/2}px`).then( () => {
+        return this.props.format(this.contents);
+      });
     } else {
-      this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`);
+      format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`);
     }
 
-    this.props.format(this.contents);
-    this.expand();
+    return format.then( () => {
 
-    this.rendering.resolve();
+      this.loading = false;
 
-    this.loading = false;
+      return this.expand().then(() => {
 
-    this.props.afterLoad(this.props.section.index);
+        this.rendering.resolve();
+
+        this.props.afterLoad(this.props.section.index);
+
+      });
+
+    });
+
+
   }
 
   _onBridgeMessage(msg) {
-    console.log("msg", msg);
 
     var decoded = JSON.parse(msg);
     var p;
+    // console.log("msg", msg);
 
-    if (decoded.method in this.waiting) {
-      p = this.waiting[decoded.method].shift();
+    if (decoded.method === "log") {
+      console.log("msg", msg);
+    }
+
+    if (decoded.method === "resize") {
+      this.expand();
+    }
+
+    if (decoded.promise in this.waiting) {
+      p = this.waiting[decoded.promise].shift();
       p.resolve(decoded.value);
     }
 
@@ -286,6 +316,7 @@ class EpubView extends Component {
 
     if (visibility == true) {
       this.setState({visibility: true});
+
     } else if (!this.loading) {
       // this.setState({visibility: false}, this.reset.bind(this));
     }

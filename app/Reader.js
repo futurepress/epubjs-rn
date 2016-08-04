@@ -28,6 +28,8 @@ const EpubViewManager = require('./EpubViewManager');
 
 const RNFS = require('react-native-fs');
 
+const EPUBJS_LOCATION = `file://${RNFS.MainBundlePath}/epub.js`
+
 class Reader extends Component {
 
 	constructor(props) {
@@ -36,7 +38,7 @@ class Reader extends Component {
     this.book_url = this.props.src || this.props.row.book_url;
 
 		this.state = {
-			title: '',//this.props.row.title,
+			title: '',
 			modalVisible: false,
 			toc: [],
       page: 0,
@@ -52,10 +54,6 @@ class Reader extends Component {
 	componentDidMount() {
 		console.log("loading book: ", this.book_url);
 
-    // this.setState({
-    //   book : ePub(this.state.book_url)
-    // });
-
 		global.book = this.book;
 
     this.rendition = new Rendition(this.book, {});
@@ -67,7 +65,7 @@ class Reader extends Component {
     book.spine.hooks.content.register(function(doc, section) {
       var script = doc.createElement('script');
       script.setAttribute('type', 'text/javascript');
-      script.setAttribute('src', `file://${RNFS.MainBundlePath}/epub.js`);
+      script.setAttribute('src', EPUBJS_LOCATION);
 
       doc.getElementsByTagName('head')[0].appendChild(script);
     });
@@ -111,11 +109,11 @@ class Reader extends Component {
 
     // this.props.hideNavBar(true);
 
-    // setTimeout(() => {
-    //   if (this.state.showMenus) {
-    //     this._toggleMenus();
-    //   }
-    // }, 3200);
+    setTimeout(() => {
+      if (this.state.showMenus) {
+        this._toggleMenus();
+      }
+    }, 3200);
 
 	}
 
@@ -172,69 +170,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
 		flex: 1,
-  },
-	web: {
-		// height: 200,
-		// width: 200
-  },
-	toolbar: {
-		backgroundColor: '#f7f7f7',
-		flex: 1,
-		height: 60,
-		flexDirection: 'row',
-		flexWrap: 'nowrap',
-		justifyContent: "center",
-		alignItems: "center",
-		borderTopColor: "#b2b2b2",
-		borderTopWidth: .5,
-		position: 'absolute',
-		left: 0,
-		bottom: 0,
-		width: 400
-	},
-	toolbar_item: {
-		flex: 1,
-    alignItems: 'center',
-		width: 40,
-	},
-	toolbar_icon: {
-		marginLeft: -40,
-	},
-	toolbar_slider: {
-		flex: 2,
-		width: 200,
-		alignItems: 'center',
-	},
-  topbar: {
-		backgroundColor: '#f7f7f7',
-		flex: 1,
-		height: 60,
-		flexDirection: 'row',
-		flexWrap: 'nowrap',
-		justifyContent: "space-between",
-		alignItems: "center",
-		borderBottomColor: "#b2b2b2",
-		borderBottomWidth: .5,
-		position: 'absolute',
-		left: 0,
-		top: 0,
-	},
-  topbar_item: {
-    marginTop: 10,
-    paddingLeft: 10,
-		flex: 1,
-    // alignItems: 'flex-start',
-	},
-  topbar_title: {
-    marginTop: 10,
-    paddingLeft: 10,
-    flex: 2,
-    // justifyContent: "space-between",
-    // alignItems: "center",
-  },
-	modal: {
-		backgroundColor: "white",
-	}
+  }
 });
 
 module.exports = Reader;

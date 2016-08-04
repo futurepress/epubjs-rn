@@ -38,6 +38,8 @@ class EpubViewManager extends Component {
     this.lookAhead = 3;
     this.lookBehind = 2;
 
+    this.minGap = 20;
+
     this.loading = false;
 
     this.addingQ = [];
@@ -115,6 +117,8 @@ class EpubViewManager extends Component {
     this._visible = [];
     this.scrollProperties.offset = 0;
 
+    console.log("displaying", section.index);
+
     this.setState({
         sections: [section],
       },
@@ -148,7 +152,6 @@ class EpubViewManager extends Component {
       },
       (r) => {
         var view = this.getView(section.index);
-
         view.rendered.then(displaying.resolve, displaying.reject);
 
       }
@@ -465,6 +468,7 @@ class EpubViewManager extends Component {
 				onScroll={this._onScroll.bind(this)}
 				scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
         removeClippedSubviews={true}
+        scrollsToTop={false}
 				>
 				{ this.state.sections.map((section) => {
           return <EpubView
@@ -475,7 +479,7 @@ class EpubViewManager extends Component {
           onPress={this.props.onPress}
           format={this.props.layout.format.bind(this.props.layout)}
           spreadWidth={this.props.layout.spread}
-          gap={this.props.layout.gap}
+          gap={ this.props.horizontal ? this.props.layout.gap : this.minGap}
           afterLoad={this._afterLoad.bind(this)}
 					onResize={(e)=> this._onResize(section, e)}
           willResize={(e)=> this._willResize(section, e)}
@@ -501,8 +505,6 @@ const styles = StyleSheet.create({
   vertScrollContainer: {
     flex: 1,
 		marginTop: 0,
-    // paddingLeft: 20,
-    // paddingRight: 20,
 		flexDirection: 'column',
 		flexWrap: 'nowrap',
 		backgroundColor: "#F8F8F8",
