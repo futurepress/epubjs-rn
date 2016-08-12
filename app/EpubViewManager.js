@@ -12,6 +12,7 @@ const EpubView = require('./EpubView');
 const RSVP = require('epubjs').RSVP;
 const _ = require('lodash');
 const merge = require('merge');
+
 const RCTScrollViewManager = require('NativeModules').ScrollViewManager;
 
 const DEFAULT_SCROLL_RENDER_AHEAD = 1000;
@@ -23,11 +24,13 @@ class EpubViewManager extends Component {
 	constructor(props) {
 		super(props);
 
-    var horizontal = this.props.horizontal;
-    var rate = horizontal ? 800 : 200;
-
+    // var horizontal = this.props.horizontal;
     this.state = {
 			sections: [],
+      layout: undefined,
+      gap: 60,
+      horizontal: this.props.flow === "vertical" ? false : true,
+      rate : this.props.flow === "vertical" ? 200 : 800
 		}
 
 		this.scrollProperties = {};
@@ -45,8 +48,8 @@ class EpubViewManager extends Component {
     this.addingQ = [];
 
     this.scrolling = false;
-    this.scrolled = _.throttle(this._check.bind(this), rate, { 'trailing': true });
-    this.updateVisible = _.throttle(this._updateVisible.bind(this), rate, { 'trailing': true });
+    this.scrolled = _.throttle(this._check.bind(this), this.state.rate, { 'trailing': true });
+    this.updateVisible = _.throttle(this._updateVisible.bind(this), this.state.rate, { 'trailing': true });
 	}
 
 
@@ -152,8 +155,13 @@ class EpubViewManager extends Component {
       },
       (r) => {
         var view = this.getView(section.index);
-        view.rendered.then(displaying.resolve, displaying.reject);
+        if (view) {
+          view.rendered.then(displaying.resolve, displaying.reject);
+        } else {
+          console.log("Missing View for", section.index);
 
+          displaying.resolve();
+        }
       }
 		);
 
@@ -204,6 +212,7 @@ class EpubViewManager extends Component {
 
 	getBounds() {
 		var bounds = Dimensions.get('window');
+    console.log(bounds);
 		return {
 			height: bounds.height,
 			width: bounds.width
@@ -211,7 +220,7 @@ class EpubViewManager extends Component {
 	}
 
 	_onScroll(e) {
-    var isVertical = !this.props.horizontal;
+    var isVertical = !this.state.horizontal;
     this.scrollProperties.visibleLength = e.nativeEvent.layoutMeasurement[
       isVertical ? 'height' : 'width'
     ];
@@ -255,7 +264,7 @@ class EpubViewManager extends Component {
 
   _getVisible() {
     var visible =  [];
-    var isVertical = !this.props.horizontal;
+    var isVertical = !this.state.horizontal;
     var visibleMin = this.scrollProperties.offset;
     var visibleMax = visibleMin + this.scrollProperties.visibleLength;
     var children = this._childFrames;
@@ -278,8 +287,8 @@ class EpubViewManager extends Component {
 
   _updateVisible(updatedFrames) {
     var visible =  [];
-    var isVertical = !this.props.horizontal;
-    var delta = this.props.layout.delta || DEFAULT_SCROLL_RENDER_AHEAD;
+    var isVertical = !this.state.horizontal;
+    var delta = this.state.layout.delta || DEFAULT_SCROLL_RENDER_AHEAD;
     var visibleMin = this.scrollProperties.offset;
     var visibleMax = visibleMin + this.scrollProperties.visibleLength;
 
@@ -334,7 +343,7 @@ class EpubViewManager extends Component {
     var visibleLength = this.scrollProperties.visibleLength;
     var contentLength = this.scrollProperties.contentLength;
 
-    var delta = this.props.layout.delta || DEFAULT_SCROLL_RENDER_AHEAD;
+    var delta = this.state.layout.delta || DEFAULT_SCROLL_RENDER_AHEAD;
 
     if (offset + visibleLength + (delta * this.lookAhead) >= contentLength) {
       section = this.state.sections[this.state.sections.length-1].next();
@@ -365,6 +374,41 @@ class EpubViewManager extends Component {
 
 	}
 
+  updateFlow(flow) {
+    var horizontal = (flow === "paginated") ? true : false;
+
+    this.setState({ horizontal });
+  }
+
+  applyLayout(layout) {
+
+    this.setState({ layout });
+  	this.updateLayout();
+
+  	// this.mapping = new Mapping(this.layout);
+  }
+
+  updateLayout() {
+  	var bounds = this.getBounds();
+
+    if(this.state.horizontal) {
+      this.state.layout.calculate(
+        bounds.width,
+        bounds.height,
+        this.state.gap
+      );
+    } else {
+      this.state.layout.calculate(bounds.width, bounds.height);
+    }
+
+  }
+
+  setLayout(layout){
+
+  	// this.viewSettings.layout = layout;
+
+  };
+
 
   scrollTo(x, y, silent) {
     var moveTo;
@@ -373,7 +417,7 @@ class EpubViewManager extends Component {
       this.silentScroll = true;
     }
 
-    if(this.props.horizontal) {
+    if(this.state.horizontal) {
       moveTo = this.scrollProperties.offset + x
   		this.refs.scrollview.scrollTo({x: moveTo, animated: false});
   	} else {
@@ -391,7 +435,7 @@ class EpubViewManager extends Component {
   }
 
   _onContentSizeChange(width, height) {
-    var contentLength = !this.props.horizontal ? height : width;
+    var contentLength = !this.state.horizontal ? height : width;
     var counter = (contentLength - this.scrollProperties.contentLength);
 
     if (contentLength !== this.scrollProperties.contentLength) {
@@ -405,13 +449,14 @@ class EpubViewManager extends Component {
 
 	_onLayout(event) {
     var {width, height} = event.nativeEvent.layout;
-    var visibleLength = !this.props.horizontal ? height : width;
+    var visibleLength = !this.state.horizontal ? height : width;
 
     if (visibleLength !== this.scrollProperties.visibleLength) {
       this.scrollProperties.visibleLength = visibleLength;
       // this._updateVisible();
       InteractionManager.runAfterInteractions(this._check.bind(this));
     }
+    console.log(event.nativeEvent.layout);
 	}
 
   _needsCounter(section) {
@@ -433,7 +478,7 @@ class EpubViewManager extends Component {
 
     if (this._needsCounter(section)) {
 
-      if(this.props.horizontal) {
+      if(this.state.horizontal) {
         this.scrollTo(e.widthDelta, 0, true);
       } else {
         this.scrollTo(0, e.heightDelta, true);
@@ -459,10 +504,10 @@ class EpubViewManager extends Component {
 			<ScrollView
         ref={SCROLLVIEW_REF}
 				automaticallyAdjustContentInsets={false}
-				horizontal={this.props.horizontal}
-				pagingEnabled={this.props.horizontal ? true : false}
+				horizontal={this.state.horizontal}
+				pagingEnabled={this.state.horizontal ? true : false}
 				stickyHeaderIndices={[]}
-				style={ this.props.horizontal ? styles.horzScrollContainer : styles.vertScrollContainer }
+				style={ this.state.horizontal ? styles.horzScrollContainer : styles.vertScrollContainer }
 				onContentSizeChange={this._onContentSizeChange.bind(this)}
 	      onLayout={this._onLayout.bind(this)}
 				onScroll={this._onScroll.bind(this)}
@@ -475,11 +520,12 @@ class EpubViewManager extends Component {
 					ref={`section_${section.index}`}
 					key={`scrollview_section:${section.index}`}
 					section={section}
-          horizontal={this.props.horizontal}
+          horizontal={this.state.horizontal}
           onPress={this.props.onPress}
-          format={this.props.layout.format.bind(this.props.layout)}
-          spreadWidth={this.props.layout.spread}
-          gap={ this.props.horizontal ? this.props.layout.gap : this.minGap}
+          format={this.state.layout.format.bind(this.state.layout)}
+          layout={this.state.layout.name}
+          spreadWidth={this.state.layout.spreadWidth}
+          gap={ this.state.horizontal ? this.state.layout.gap : this.minGap}
           afterLoad={this._afterLoad.bind(this)}
 					onResize={(e)=> this._onResize(section, e)}
           willResize={(e)=> this._willResize(section, e)}

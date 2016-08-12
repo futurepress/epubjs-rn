@@ -21,10 +21,13 @@ class EpubView extends Component {
     var bounds = Dimensions.get('window');
     var horizontal = this.props.horizontal;
 
+    var height = horizontal ? bounds.height : 0;
+    var width = horizontal ? 0 : bounds.width;
+
 		this.state = {
 			visibility: true,
-      height: horizontal ? bounds.height : 0,
-      width: horizontal ? 0 : bounds.width,
+      height: height,
+      width: width,
       contents: '',
 		}
 
@@ -46,7 +49,10 @@ class EpubView extends Component {
       addStylesheetRules: (rules) => this.ask("addStylesheetRules", [rules]),
       addScript: (src) => this.ask("addScript", [src]),
       range: (_cfi, ignoreClass) => this.ask("addStylesheet", [_cfi, ignoreClass]),
-      map: (map) => this.ask("addStylesheet", [map]),
+      map: (map) => this.ask("map", [map]),
+      columns: (width, height, columnWidth, gap) => this.ask("columns", [width, height, columnWidth, gap]),
+      fit: (width, height) => this.ask("fit", [width, height]),
+      size: (width, height) => this.ask("size", [width, height])
     }
 
     this.rendering = new RSVP.defer();
@@ -90,7 +96,6 @@ class EpubView extends Component {
 
         // alert('msg: ' + decoded.method);
         if (decoded.method in contents) {
-
           result = contents[decoded.method].apply(contents, decoded.args);
 
           response = JSON.stringify({
@@ -167,13 +172,34 @@ class EpubView extends Component {
   expand() {
     var width, height;
     var expanded;
+    var expanding;
 
     if (this.expanding || this.loading) {
       return;
     }
     this.expanding = true;
 
-    if (this.props.horizontal) {
+    if (this.props.layout === "pre-paginated") {
+      // this.expanding = false;
+        var defered = new RSVP.defer();
+
+        this.setState({ width: this.props.spreadWidth }, () => {
+          this.expanding = false;
+
+          expanded = this.contents.size(this.props.spreadWidth, this.state.height).then((w) => {
+            this.expanding = false;
+
+            defered.resolve();
+
+          });
+
+        });
+
+        expanded = defered.promise;
+
+
+
+    } else if (this.props.horizontal) {
 
       expanded = this.contents.height(this.state.height).then((h) => {
         return this.contents.scrollWidth();
@@ -216,7 +242,9 @@ class EpubView extends Component {
 
     this.bridge = this.refs.webviewbridge;
 
-    if (this.props.horizontal) {
+    if (this.props.layout === "pre-paginated") {
+      format = this.props.format(this.contents);
+    } else if (this.props.horizontal) {
       format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap/2}px`).then( () => {
         return this.props.format(this.contents);
       });
@@ -245,7 +273,6 @@ class EpubView extends Component {
 
     var decoded = JSON.parse(msg);
     var p;
-    // console.log("msg", msg);
 
     if (decoded.method === "log") {
       console.log("msg", msg);

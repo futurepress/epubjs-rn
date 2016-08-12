@@ -17,13 +17,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-  /*
-  #ifdef DEBUG
-    jsCodeLocation = [NSURL URLWithString:@"http://lucht.local:8081/index.ios.bundle?platform=ios&dev=true"];
-  #else
-    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-  #endif
-  */
+  
+//  #ifdef DEBUG
+//    jsCodeLocation = [NSURL URLWithString:@"http://lucht.local:8081/index.ios.bundle?platform=ios&dev=true"];
+//  #else
+//    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+//  #endif
+  
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

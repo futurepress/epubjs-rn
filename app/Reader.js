@@ -56,11 +56,6 @@ class Reader extends Component {
 
 		global.book = this.book;
 
-    this.rendition = new Rendition(this.book, {});
-    this.manager = this.refs['manager'];
-
-    this.rendition.setManager(this.manager);
-
     // load epubjs in views
     book.spine.hooks.content.register(function(doc, section) {
       var script = doc.createElement('script');
@@ -70,33 +65,35 @@ class Reader extends Component {
       doc.getElementsByTagName('head')[0].appendChild(script);
     });
 
-    this.rendition.start();
+    this.flow = this.props.flow || "paginated";
 
-    this.horizontal = this.props.paginated;
+    this.rendition = new Rendition(this.book, {
+      flow: this.flow
+    });
 
-    if (this.horizontal) {
-      this.rendition.layout = new Layout.Reflowable();
-    } else {
-      this.rendition.layout = new Layout.Scroll();
-    }
+    this.manager = this.refs['manager'];
+    this.rendition.setManager(this.manager);
 
 
-    this.spreads = 1;
-    this.gap = 60;
-    this.height = Dimensions.get('window').height;
-    this.width = Dimensions.get('window').width;
+    // this.rendition.flow(this.flow);
 
-    this.rendition.layout.calculate(
-        this.width,
-        this.height,
-        this.gap,
-        this.spreads
-      );
+
+    // this.spreads = 1;
+    // this.gap = 60;
+    // this.height = Dimensions.get('window').height;
+    // this.width = Dimensions.get('window').width;
+
+    // this.rendition.layout.calculate(
+    //     this.width,
+    //     this.height,
+    //     this.gap,
+    //     this.spreads
+    //   );
 
     // fixes
     // this.rendition.layout.column = this.rendition.layout.column - 20
 
-    this.layout = this.rendition.layout;
+    // this.layout = this.rendition.layout;
     this.display = this.rendition.display;
 
     if (this.props.location) {
@@ -144,8 +141,8 @@ class Reader extends Component {
 				<EpubViewManager
           ref="manager"
           style={styles.manager}
-          horizontal={this.horizontal}
-          layout={this.layout}
+          flow={this.flow}
+          // layout={this.layout}
           onPress={this._toggleMenus.bind(this)}
         />
 			</View>

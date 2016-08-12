@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  */
  import React, { Component } from 'react';
- 
+
 
 import React, {
   AppRegistry,
@@ -18,7 +18,7 @@ class EpubReader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Reader style={styles.reader} src={"https://s3.amazonaws.com/moby-dick/OPS/package.opf"} paginated={true} location={0}/>
+        <Reader style={styles.reader} src={"https://s3.amazonaws.com/moby-dick/OPS/package.opf"} flow={"paginated"} location={0}/>
       </View>
     );
   }
