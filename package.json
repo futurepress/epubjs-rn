@@ -17,7 +17,8 @@
     "react-native-fetch-blob": "^0.10.0",
     "react-native-fs": "^2.0.1-rc.2",
     "react-native-orientation": "^1.17.0",
-    "react-native-webview-bridge": "^0.33.0"
+    "react-native-webview-bridge": "^0.33.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "babel-jest": "17.0.0",
