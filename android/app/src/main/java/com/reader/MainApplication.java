@@ -1,17 +1,9 @@
-package com.epubreader;
+package com.reader;
 
 import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
-import com.github.yamill.orientation.OrientationPackage;
-import com.rnfs.RNFSPackage;
-import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
-import com.github.yamill.orientation.OrientationPackage;
-import com.rnfs.RNFSPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -31,15 +23,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNFetchBlobPackage(),
-            new WebViewBridgePackage(),
-            new OrientationPackage(this),
-            new RNFSPackage(),
-            new WebViewBridgePackage(),
-            new OrientationPackage(this),
-            new RNFSPackage(),
-            new RNFetchBlobPackage()
+          new MainReactPackage()
       );
     }
   };

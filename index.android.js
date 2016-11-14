@@ -1,25 +1,26 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 
-
-import React, {
+import {
   AppRegistry,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-const Reader = require('./app/Reader');
+const EpubReader = require('./app/EpubReader');
 
-class EpubReader extends Component {
+class Reader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Reader style={styles.reader} src={"https://s3.amazonaws.com/moby-dick/OPS/package.opf"} flow={"paginated"} location={0}/>
+        <EpubReader style={styles.reader}
+              src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
+              flow={"paginated"}
+              location={6}
+              onLocationChange={(visibleLocation)=> { console.log("locationChanged", visibleLocation) }}
+            />
       </View>
+
     );
   }
 }
@@ -34,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('EpubReader', () => EpubReader);
+AppRegistry.registerComponent('Reader', () => Reader);
