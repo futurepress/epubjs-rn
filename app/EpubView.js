@@ -10,22 +10,20 @@ import {
 } from 'react-native';
 
 import WebViewBridge from 'react-native-webview-bridge';
-
-const RSVP = require('epubjs').RSVP;
+const core = require('epubjs/src/core');
 
 class EpubView extends Component {
 
 	constructor(props) {
 		super(props);
-
-    var bounds = Dimensions.get('window');
     var horizontal = this.props.horizontal;
 
-    var height = horizontal ? bounds.height : 0;
-    var width = horizontal ? 0 : bounds.width;
+    var height = horizontal ? this.props.bounds.height : 0;
+    var width = horizontal ? 0 : this.props.bounds.width;
 
 		this.state = {
 			visibility: true,
+      margin: 0,
       height: height,
       width: width,
       contents: '',
@@ -35,6 +33,8 @@ class EpubView extends Component {
 
     this.waiting = {};
 
+
+    this._injectedJavaScript = this._injectScript();
     this.contents = {
       width: (w) => this.ask("width", [w]),
       height: (h) => this.ask("height", [h]),
@@ -42,7 +42,9 @@ class EpubView extends Component {
       textHeight: () => this.ask("textHeight"),
       scrollWidth: () => this.ask("scrollWidth"),
       scrollHeight: () => this.ask("scrollHeight"),
+      contentHeight: () => this.ask("contentHeight"),
       overflow: (overflow) => this.ask("overflow", [overflow]),
+      overflowY: (overflow) => this.ask("overflowY", [overflow]),
       css: (property, value) => this.ask("css", [property, value]),
       viewport: () => this.ask("viewport"),
       addStylesheet: (src) => this.ask("addStylesheet", [src]),
@@ -52,10 +54,12 @@ class EpubView extends Component {
       map: (map) => this.ask("map", [map]),
       columns: (width, height, columnWidth, gap) => this.ask("columns", [width, height, columnWidth, gap]),
       fit: (width, height) => this.ask("fit", [width, height]),
-      size: (width, height) => this.ask("size", [width, height])
+      size: (width, height) => this.ask("size", [width, height]),
+      mapPage: (cfiBase, start, end) => this.ask("mapPage", [cfiBase, start, end]),
+      locationOf: (target) => this.ask("locationOf", [target])
     }
 
-    this.rendering = new RSVP.defer();
+    this.rendering = new core.defer();
     this.rendered = this.rendering.promise;
 
     this.loading = true;
@@ -63,10 +67,12 @@ class EpubView extends Component {
 	}
 
   componentWillMount() {
-    console.log("start load");
-    this.props.section.render()
+
+    this.props.section.render(this.props.request)
       .then((contents) => {
-        this.setState({ contents });
+        this.setState({ contents }, function () {
+          // console.log("done setting", contents.length);
+        });
       });
   }
 
@@ -85,51 +91,50 @@ class EpubView extends Component {
 
   _injectScript() {
 
-    function _ready(bridge) {
-      // var bridge = window.WebViewBridge;
-      var contents = new ePub.Contents(document);
-
-      bridge.onMessage = function (message) {
-        var decoded = JSON.parse(message);
-        var response;
-        var result;
-
-        // alert('msg: ' + decoded.method);
-        if (decoded.method in contents) {
-          result = contents[decoded.method].apply(contents, decoded.args);
-
-          response = JSON.stringify({
-            method: decoded.method,
-            promise: decoded.promise,
-            value: result
-          });
-
-          bridge.send(response);
-
-        }
-      };
-
-      contents.on("resize", function (size) {
-        bridge.send(JSON.stringify({method:"resize", value: size }));
-      })
-
-      // Will only trigger on font load in chrome, for now
-      contents.on("expand", function () {
-        bridge.send(JSON.stringify({method:"expand", value: true}));
-      })
-
-      bridge.send(JSON.stringify({method:"loaded", value: true}));
-
-    }
-
     return `
       (function () {
-        ${_ready.toString()}
 
-        document.onreadystatechange = function() {
-          if (document.readyState === "complete") {
-            bridge.send(JSON.stringify({method:"ready", value: true}));
+        function _ready(bridge) {
+          var contents;
+
+          if (typeof ePub === "undefined") {
+            return bridge.send(JSON.stringify({
+              method: "error",
+              value: "EPUB.js is not loaded"
+            }));
           }
+
+          contents = new ePub.Contents(document);
+
+          bridge.onMessage = function (message) {
+            var decoded = JSON.parse(message);
+            var response;
+            var result;
+
+            if (decoded.method in contents) {
+              result = contents[decoded.method].apply(contents, decoded.args);
+
+              response = JSON.stringify({
+                method: decoded.method,
+                promise: decoded.promise,
+                value: result
+              });
+
+              bridge.send(response);
+
+            }
+          };
+
+          contents.on("resize", function (size) {
+            bridge.send(JSON.stringify({method:"resize", value: size }));
+          });
+
+          contents.on("expand", function () {
+            bridge.send(JSON.stringify({method:"expand", value: true}));
+          });
+
+          bridge.send(JSON.stringify({method:"loaded", value: true}));
+
         }
 
         if (WebViewBridge) {
@@ -155,8 +160,8 @@ class EpubView extends Component {
   }
 
   ask(method, args) {
-    var asking = new RSVP.defer();
-    var promiseId = asking.promise._id;
+    var asking = new core.defer();
+    var promiseId = asking.id;
 
     if(method in this.waiting) {
       this.waiting[promiseId].push(asking)
@@ -181,12 +186,12 @@ class EpubView extends Component {
 
     if (this.props.layout === "pre-paginated") {
       // this.expanding = false;
-        var defered = new RSVP.defer();
+        var defered = new core.defer();
 
-        this.setState({ width: this.props.spreadWidth }, () => {
+        this.setState({ width: this.props.delta  }, () => {
           this.expanding = false;
 
-          expanded = this.contents.size(this.props.spreadWidth, this.state.height).then((w) => {
+          expanded = this.contents.size(this.props.delta, this.state.height).then((w) => {
             this.expanding = false;
 
             defered.resolve();
@@ -200,16 +205,17 @@ class EpubView extends Component {
 
 
     } else if (this.props.horizontal) {
+      var margin = this.props.gap / 2;
 
-      expanded = this.contents.height(this.state.height).then((h) => {
+      expanded = this.contents.height(this.state.height-margin).then((h) => {
         return this.contents.scrollWidth();
       }).then((w) => {
-        var defered = new RSVP.defer();
+        var defered = new core.defer();
 
-        width = (this.props.spreadWidth) * Math.ceil(w / this.props.spreadWidth);
-        console.log("Pages", Math.ceil(w / this.props.spreadWidth) );
+        width = (this.props.delta) * Math.ceil(w / this.props.delta);
+        // console.log("Pages", Math.ceil(w / this.props.delta) );
 
-        this.setState({ width }, () => {
+        this.setState({ width, margin }, () => {
           this.expanding = false;
           defered.resolve();
         });
@@ -221,9 +227,9 @@ class EpubView extends Component {
       expanded = this.contents.width(this.state.width).then((w) => {
         return this.contents.scrollHeight();
       }).then((h) => {
-        var defered = new RSVP.defer();
+        var defered = new core.defer();
         height = h;
-        console.log("Height", height);
+        // console.log("Height", height);
 
         this.setState({ height }, () => {
           this.expanding = false;
@@ -245,9 +251,10 @@ class EpubView extends Component {
     if (this.props.layout === "pre-paginated") {
       format = this.props.format(this.contents);
     } else if (this.props.horizontal) {
-      format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap/2}px`).then( () => {
-        return this.props.format(this.contents);
-      });
+      // format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap/2}px`).then( () => {
+        // return this.props.format(this.contents);
+      // });
+      format = this.props.format(this.contents);
     } else {
       format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`);
     }
@@ -273,9 +280,14 @@ class EpubView extends Component {
 
     var decoded = JSON.parse(msg);
     var p;
+    // console.log("msg", decoded);
 
     if (decoded.method === "log") {
       console.log("msg", msg);
+    }
+
+    if (decoded.method === "error") {
+      console.error(decoded.value);
     }
 
     if (decoded.method === "resize") {
@@ -363,6 +375,49 @@ class EpubView extends Component {
   }
   */
 
+  measure(cb){
+    if (this.refs.wrapper) {
+      this.refs.wrapper.measure(cb);
+    }
+  }
+
+  position() {
+    var bounds = this.bounds;
+    var position = {
+      'top': 0,
+      'bottom': 0,
+      'left': 0,
+      'right': 0
+    }
+
+    if (bounds) {
+      position = {
+        'top': bounds.y,
+        'bottom': bounds.y + bounds.height,
+        'left': bounds.x,
+        'right': bounds.x + bounds.width
+      }
+    }
+
+    return position;
+  }
+
+  mapPage(start, end) {
+    return this.contents.mapPage(this.props.section.cfiBase, start, end);
+  }
+
+  locationOf(target) {
+    var parentPos = this.position();
+    return this.contents.locationOf(target).then((targetPos) => {
+      return {
+        // "left": parentPos.left + targetPos.left,
+        // "top":  parentPos.top + targetPos.top
+        "left": targetPos.left,
+        "top":  targetPos.top
+      };
+    });
+
+  };
 
 	render() {
 
@@ -370,28 +425,37 @@ class EpubView extends Component {
       return (
         <View
           ref="wrapper"
-          style={{width: this.state.width, height: this.state.height, overflow: "hidden"}}
+          style={[this.props.style, {width: this.state.width, height: this.state.height, overflow: "hidden"}]}
           ></View>
       );
     }
 
+
 		return (
       <View
         ref="wrapper"
-        style={{width: this.state.width, height: this.state.height, overflow: "hidden"}}
+        style={[this.props.style, {
+          width: this.state.width - this.state.margin,
+          height: this.state.height - this.state.margin,
+          marginLeft: this.state.margin,
+          marginTop: this.state.margin,
+          overflow: "hidden",
+          }
+        ]}
         onLayout={this._onLayout.bind(this)}
         >
-        <TouchableWithoutFeedback onPress={this.props.onPress.bind(this)}>
+        <TouchableWithoutFeedback onPress={this.props.onPress}>
         <WebViewBridge
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
           style={{width: this.state.width, height: this.state.height, overflow: "hidden"}}
-          source={{html: this.state.contents}}
+          source={{html: this.state.contents, baseUrl: this.props.baseUrl}}
           scalesPageToFit={false}
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}
           onBridgeMessage={this._onBridgeMessage.bind(this)}
-          injectedJavaScript={this._injectScript()}
+          injectedJavaScript={this._injectedJavaScript}
+          javaScriptEnabled={true}
         />
         </TouchableWithoutFeedback>
 

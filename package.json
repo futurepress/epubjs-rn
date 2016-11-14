@@ -1,16 +1,33 @@
 {
-  "name": "EpubReader",
+  "name": "Reader",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
   },
   "dependencies": {
-    "epubjs": "futurepress/epub.js#view_managers",
+    "buffer": "^5.0.1",
+    "epubjs": "futurepress/epub.js#f4ef0acf406ee877e71f41b10107bcfe0c6839d9",
+    "events": "^1.1.1",
+    "jszip": "^3.1.1",
     "lodash": "^4.14.0",
     "react": "^15.2.1",
-    "react-native": "^0.30.0",
-    "react-native-fs": "^1.5.1",
-    "react-native-webview-bridge": "^0.20.3"
+    "react-native": "^0.37.0",
+    "react-native-fetch-blob": "^0.10.0",
+    "react-native-fs": "^2.0.1-rc.2",
+    "react-native-orientation": "^1.17.0",
+    "react-native-webview-bridge": "^0.33.0"
+  },
+  "devDependencies": {
+    "babel-jest": "17.0.0",
+    "babel-plugin-module-resolver": "^2.3.0",
+    "babel-preset-react-native": "1.9.0",
+    "jest": "17.0.0",
+    "jest-react-native": "17.0.0",
+    "react-test-renderer": "~15.3.1"
+  },
+  "jest": {
+    "preset": "jest-react-native"
   }
 }

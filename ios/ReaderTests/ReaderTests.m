@@ -16,11 +16,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React Native!"
 
-@interface EpubReaderTests : XCTestCase
+@interface ReaderTests : XCTestCase
 
 @end
 
-@implementation EpubReaderTests
+@implementation ReaderTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
