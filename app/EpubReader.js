@@ -17,6 +17,8 @@ if (!global.Blob) {
 
 global.JSZip = global.JSZip || require('jszip');
 
+global.URL = require("../polyfills/url.js");
+
 if (!global.btoa) {
   global.btoa = require('base-64').encode;
 }
@@ -88,11 +90,11 @@ class EpubReader extends Component {
 
   _loadBook(bookUrl) {
     console.log("loading book: ", this.book_url);
-    var archived = this.book.determineType(bookUrl);
+    var type = this.book.determineType(bookUrl);
 
     global.book = this.book;
 
-    if ((archived === "directory") || (archived === "opf")) {
+    if ((type === "directory") || (type === "opf")) {
       return this._openBook(bookUrl);
     }
 
