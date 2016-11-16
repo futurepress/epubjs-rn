@@ -6,6 +6,7 @@
         "stream": "stream-browserify",
         "path": "path-webpack"
       }
-    }]
+    }],
+    "static-fs"
   ]
 }

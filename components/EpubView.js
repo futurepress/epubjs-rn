@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
-	WebView,
+  WebView,
   Text,
   Dimensions,
   TouchableWithoutFeedback,
@@ -14,25 +14,26 @@ const core = require('epubjs/src/core');
 
 class EpubView extends Component {
 
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
     var horizontal = this.props.horizontal;
 
     var height = horizontal ? this.props.bounds.height : 0;
     var width = horizontal ? 0 : this.props.bounds.width;
 
-		this.state = {
-			visibility: true,
+    this.state = {
+      visibility: true,
       margin: 0,
       height: height,
       width: width,
       contents: '',
-		}
+    }
 
     this.visible = true;
 
     this.waiting = {};
 
+    this.baseUrl = this.props.baseUrl || "http://futurepress.org";
 
     this._injectedJavaScript = this._injectScript();
     this.contents = {
@@ -64,7 +65,7 @@ class EpubView extends Component {
 
     this.loading = true;
 
-	}
+  }
 
   componentWillMount() {
 
@@ -94,7 +95,8 @@ class EpubView extends Component {
     return `
       (function () {
 
-        function _ready(bridge) {
+        function _ready() {
+          var bridge = WebViewBridge;
           var contents;
 
           if (typeof ePub === "undefined") {
@@ -138,7 +140,11 @@ class EpubView extends Component {
         }
 
         if (WebViewBridge) {
-          _ready(WebViewBridge);
+          if ( document.readyState === 'complete'  ) {
+            return _ready();
+          } else {
+            document.addEventListener( 'interactive', _ready, false );
+          }
         }
 
       }());
@@ -419,7 +425,7 @@ class EpubView extends Component {
 
   };
 
-	render() {
+  render() {
 
     if (this.state.visibility === false || !this.state.contents) {
       return (
@@ -431,7 +437,7 @@ class EpubView extends Component {
     }
 
 
-		return (
+    return (
       <View
         ref="wrapper"
         style={[this.props.style, {
@@ -449,7 +455,7 @@ class EpubView extends Component {
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
           style={{width: this.state.width, height: this.state.height, overflow: "hidden"}}
-          source={{html: this.state.contents, baseUrl: this.props.baseUrl}}
+          source={{html: this.state.contents, baseUrl: this.baseUrl }}
           scalesPageToFit={false}
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}
@@ -460,8 +466,8 @@ class EpubView extends Component {
         </TouchableWithoutFeedback>
 
       </View>
-		);
-	}
+    );
+  }
 
 }
 

@@ -12,8 +12,7 @@
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		00E356F31AD99517003FC87E /* ReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReaderTests.m */; };
-		11A26DAB8AEF4F9A845CF366 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44744A7C06DC45438A6DD98A /* libRNFS.a */; };
+		00E356F31AD99517003FC87E /* EpubReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EpubReaderTests.m */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -23,11 +22,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		33765E5A1DDA040A00EDAE01 /* epub.js in Resources */ = {isa = PBXBuildFile; fileRef = 33765E591DDA040A00EDAE01 /* epub.js */; };
+		3F6505BE222A49E2A85C39E3 /* libReact-Native-Webview-Bridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03058FB3CB5F48BFAB0926C5 /* libReact-Native-Webview-Bridge.a */; };
+		4BF54269C2144A799628E80A /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE1892C30EA4293A1841095 /* libRCTOrientation.a */; };
+		54F669B7FA5B42F0ADB2F942 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F1F0192EABA4A96933DD68D /* libRNFS.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		88BB4CEFD4824890AB34F33C /* libReact-Native-Webview-Bridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B7C61E2CD324A878AF9565B /* libReact-Native-Webview-Bridge.a */; };
-		A69B69BA00834604BA3B1BAD /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBFB36C6824497B97E3559D /* libRCTOrientation.a */; };
-		B5B03665CAC04448A9D5CA78 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F8C4F4DF624BA3BF0CB554 /* libRNFetchBlob.a */; };
+		D1EA6605E17546F9B6C2AE01 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C80877FA313F4A43A1F2AA6D /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +70,7 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Reader;
+			remoteInfo = EpubReader;
 		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -94,82 +93,82 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
-		33765E0E1DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EE41DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A283A1D9B042B00D4039D;
 			remoteInfo = "RCTImage-tvOS";
 		};
-		33765E121DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EE81DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28471D9B043800D4039D;
 			remoteInfo = "RCTLinking-tvOS";
 		};
-		33765E161DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EEC1DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28541D9B044C00D4039D;
 			remoteInfo = "RCTNetwork-tvOS";
 		};
-		33765E1A1DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EEF1DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 889643B8D89448828C37222B /* RCTOrientation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTOrientation;
+		};
+		33765EF31DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28611D9B046600D4039D;
 			remoteInfo = "RCTSettings-tvOS";
 		};
-		33765E1E1DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EF71DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A287B1D9B048500D4039D;
 			remoteInfo = "RCTText-tvOS";
 		};
-		33765E231DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EFC1DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
 			remoteInfo = "RCTWebSocket-tvOS";
 		};
-		33765E271DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765EFF1DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 204F870D61E3410582781481 /* React-Native-Webview-Bridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4114DC4C1C187C3A003CD988;
+			remoteInfo = "React-Native-Webview-Bridge";
+		};
+		33765F031DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
-		33765E2A1DD9E3E700EDAE01 /* PBXContainerItemProxy */ = {
+		33765F061DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1E6C491E01CC45F6A6A5441F /* RNFetchBlob.xcodeproj */;
+			containerPortal = B1E776F97AFA47AAB478CC61 /* RNFetchBlob.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
-		33765E4C1DD9E49C00EDAE01 /* PBXContainerItemProxy */ = {
+		33765F091DDBBA8700EDAE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 3C3BDA7625E24B9891A7B1A6 /* RNFS.xcodeproj */;
+			containerPortal = A27CC88DAA93405BA593BE16 /* RNFS.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
 			remoteInfo = RNFS;
-		};
-		33765E511DD9E49C00EDAE01 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 37B699DE964A4F979D35F01C /* RCTOrientation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTOrientation;
-		};
-		33765E561DD9E49C00EDAE01 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 679042AB64F1414A841B47B3 /* React-Native-Webview-Bridge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4114DC4C1C187C3A003CD988;
-			remoteInfo = "React-Native-Webview-Bridge";
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -194,30 +193,29 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* EpubReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EpubReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReaderTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* EpubReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpubReaderTests.m; sourceTree = "<group>"; };
+		03058FB3CB5F48BFAB0926C5 /* libReact-Native-Webview-Bridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libReact-Native-Webview-Bridge.a"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reader.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Reader/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Reader/AppDelegate.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* EpubReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpubReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = EpubReader/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = EpubReader/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Reader/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Reader/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Reader/main.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = EpubReader/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = EpubReader/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = EpubReader/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1E6C491E01CC45F6A6A5441F /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		33765E591DDA040A00EDAE01 /* epub.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = epub.js; sourceTree = "<group>"; };
-		37B699DE964A4F979D35F01C /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
-		3C3BDA7625E24B9891A7B1A6 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
-		44744A7C06DC45438A6DD98A /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
-		4B7C61E2CD324A878AF9565B /* libReact-Native-Webview-Bridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libReact-Native-Webview-Bridge.a"; sourceTree = "<group>"; };
-		679042AB64F1414A841B47B3 /* React-Native-Webview-Bridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = "React-Native-Webview-Bridge.xcodeproj"; path = "../node_modules/react-native-webview-bridge/ios/React-Native-Webview-Bridge.xcodeproj"; sourceTree = "<group>"; };
+		204F870D61E3410582781481 /* React-Native-Webview-Bridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = "React-Native-Webview-Bridge.xcodeproj"; path = "../node_modules/react-native-webview-bridge/ios/React-Native-Webview-Bridge.xcodeproj"; sourceTree = "<group>"; };
+		3F1F0192EABA4A96933DD68D /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		99F8C4F4DF624BA3BF0CB554 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
-		CCBFB36C6824497B97E3559D /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
+		889643B8D89448828C37222B /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
+		8FE1892C30EA4293A1841095 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
+		A27CC88DAA93405BA593BE16 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
+		B1E776F97AFA47AAB478CC61 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
+		C80877FA313F4A43A1F2AA6D /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,10 +241,10 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				B5B03665CAC04448A9D5CA78 /* libRNFetchBlob.a in Frameworks */,
-				11A26DAB8AEF4F9A845CF366 /* libRNFS.a in Frameworks */,
-				A69B69BA00834604BA3B1BAD /* libRCTOrientation.a in Frameworks */,
-				88BB4CEFD4824890AB34F33C /* libReact-Native-Webview-Bridge.a in Frameworks */,
+				D1EA6605E17546F9B6C2AE01 /* libRNFetchBlob.a in Frameworks */,
+				54F669B7FA5B42F0ADB2F942 /* libRNFS.a in Frameworks */,
+				4BF54269C2144A799628E80A /* libRCTOrientation.a in Frameworks */,
+				3F6505BE222A49E2A85C39E3 /* libReact-Native-Webview-Bridge.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				00C302C01ABCB91800DB3ED1 /* libRCTImage.a */,
-				33765E0F1DD9E3E700EDAE01 /* libRCTImage-tvOS.a */,
+				33765EE51DDBBA8700EDAE01 /* libRCTImage-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -282,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */,
-				33765E171DD9E3E700EDAE01 /* libRCTNetwork-tvOS.a */,
+				33765EED1DDBBA8700EDAE01 /* libRCTNetwork-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -295,13 +293,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		00E356EF1AD99517003FC87E /* ReaderTests */ = {
+		00E356EF1AD99517003FC87E /* EpubReaderTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ReaderTests.m */,
+				00E356F21AD99517003FC87E /* EpubReaderTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ReaderTests;
+			path = EpubReaderTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -316,7 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				139105C11AF99BAD00B5F7CC /* libRCTSettings.a */,
-				33765E1B1DD9E3E700EDAE01 /* libRCTSettings-tvOS.a */,
+				33765EF41DDBBA8700EDAE01 /* libRCTSettings-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,12 +323,12 @@
 			isa = PBXGroup;
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
-				33765E241DD9E3E700EDAE01 /* libRCTWebSocket-tvOS.a */,
+				33765EFD1DDBBA8700EDAE01 /* libRCTWebSocket-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Reader */ = {
+		13B07FAE1A68108700A75B9A /* EpubReader */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -341,63 +339,55 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Reader;
+			name = EpubReader;
 			sourceTree = "<group>";
 		};
 		146834001AC3E56700842450 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				146834041AC3E56700842450 /* libReact.a */,
-				33765E281DD9E3E700EDAE01 /* libReact-tvOS.a */,
+				33765F041DDBBA8700EDAE01 /* libReact-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33765E081DD9E3E700EDAE01 /* Products */ = {
+		33765ED81DDBBA8600EDAE01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33765E2B1DD9E3E700EDAE01 /* libRNFetchBlob.a */,
+				33765F071DDBBA8700EDAE01 /* libRNFetchBlob.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33765E371DD9E49C00EDAE01 /* Products */ = {
+		33765EDA1DDBBA8600EDAE01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33765E4D1DD9E49C00EDAE01 /* libRNFS.a */,
+				33765F0A1DDBBA8700EDAE01 /* libRNFS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33765E4E1DD9E49C00EDAE01 /* Products */ = {
+		33765EDC1DDBBA8600EDAE01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33765E521DD9E49C00EDAE01 /* libRCTOrientation.a */,
+				33765F001DDBBA8700EDAE01 /* libReact-Native-Webview-Bridge.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33765E531DD9E49C00EDAE01 /* Products */ = {
+		33765EDE1DDBBA8600EDAE01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33765E571DD9E49C00EDAE01 /* libReact-Native-Webview-Bridge.a */,
+				33765EF01DDBBA8700EDAE01 /* libRCTOrientation.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		33765E581DDA03DA00EDAE01 /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				33765E591DDA040A00EDAE01 /* epub.js */,
-			);
-			name = scripts;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				78C398B91ACF4ADC00677621 /* libRCTLinking.a */,
-				33765E131DD9E3E700EDAE01 /* libRCTLinking-tvOS.a */,
+				33765EE91DDBBA8700EDAE01 /* libRCTLinking-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -415,10 +405,10 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				1E6C491E01CC45F6A6A5441F /* RNFetchBlob.xcodeproj */,
-				3C3BDA7625E24B9891A7B1A6 /* RNFS.xcodeproj */,
-				37B699DE964A4F979D35F01C /* RCTOrientation.xcodeproj */,
-				679042AB64F1414A841B47B3 /* React-Native-Webview-Bridge.xcodeproj */,
+				B1E776F97AFA47AAB478CC61 /* RNFetchBlob.xcodeproj */,
+				A27CC88DAA93405BA593BE16 /* RNFS.xcodeproj */,
+				889643B8D89448828C37222B /* RCTOrientation.xcodeproj */,
+				204F870D61E3410582781481 /* React-Native-Webview-Bridge.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -427,7 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				832341B51AAA6A8300B99B32 /* libRCTText.a */,
-				33765E1F1DD9E3E700EDAE01 /* libRCTText-tvOS.a */,
+				33765EF81DDBBA8700EDAE01 /* libRCTText-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -435,10 +425,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				33765E581DDA03DA00EDAE01 /* scripts */,
-				13B07FAE1A68108700A75B9A /* Reader */,
+				13B07FAE1A68108700A75B9A /* EpubReader */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ReaderTests */,
+				00E356EF1AD99517003FC87E /* EpubReaderTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 			);
 			indentWidth = 2;
@@ -448,8 +437,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Reader.app */,
-				00E356EE1AD99517003FC87E /* ReaderTests.xctest */,
+				13B07F961A680F5B00A75B9A /* EpubReader.app */,
+				00E356EE1AD99517003FC87E /* EpubReaderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -457,9 +446,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ReaderTests */ = {
+		00E356ED1AD99517003FC87E /* EpubReaderTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ReaderTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EpubReaderTests" */;
 			buildPhases = (
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
@@ -470,14 +459,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ReaderTests;
-			productName = ReaderTests;
-			productReference = 00E356EE1AD99517003FC87E /* ReaderTests.xctest */;
+			name = EpubReaderTests;
+			productName = EpubReaderTests;
+			productReference = 00E356EE1AD99517003FC87E /* EpubReaderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Reader */ = {
+		13B07F861A680F5B00A75B9A /* EpubReader */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reader" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "EpubReader" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -488,9 +477,9 @@
 			);
 			dependencies = (
 			);
-			name = Reader;
+			name = EpubReader;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* Reader.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* EpubReader.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -512,7 +501,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Reader" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "EpubReader" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -545,8 +534,8 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
-					ProductGroup = 33765E4E1DD9E49C00EDAE01 /* Products */;
-					ProjectRef = 37B699DE964A4F979D35F01C /* RCTOrientation.xcodeproj */;
+					ProductGroup = 33765EDE1DDBBA8600EDAE01 /* Products */;
+					ProjectRef = 889643B8D89448828C37222B /* RCTOrientation.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -565,26 +554,26 @@
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
 				{
-					ProductGroup = 33765E531DD9E49C00EDAE01 /* Products */;
-					ProjectRef = 679042AB64F1414A841B47B3 /* React-Native-Webview-Bridge.xcodeproj */;
+					ProductGroup = 33765EDC1DDBBA8600EDAE01 /* Products */;
+					ProjectRef = 204F870D61E3410582781481 /* React-Native-Webview-Bridge.xcodeproj */;
 				},
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = 33765E081DD9E3E700EDAE01 /* Products */;
-					ProjectRef = 1E6C491E01CC45F6A6A5441F /* RNFetchBlob.xcodeproj */;
+					ProductGroup = 33765ED81DDBBA8600EDAE01 /* Products */;
+					ProjectRef = B1E776F97AFA47AAB478CC61 /* RNFetchBlob.xcodeproj */;
 				},
 				{
-					ProductGroup = 33765E371DD9E49C00EDAE01 /* Products */;
-					ProjectRef = 3C3BDA7625E24B9891A7B1A6 /* RNFS.xcodeproj */;
+					ProductGroup = 33765EDA1DDBBA8600EDAE01 /* Products */;
+					ProjectRef = A27CC88DAA93405BA593BE16 /* RNFS.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Reader */,
-				00E356ED1AD99517003FC87E /* ReaderTests */,
+				13B07F861A680F5B00A75B9A /* EpubReader */,
+				00E356ED1AD99517003FC87E /* EpubReaderTests */,
 			);
 		};
 /* End PBXProject section */
@@ -646,81 +635,81 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33765E0F1DD9E3E700EDAE01 /* libRCTImage-tvOS.a */ = {
+		33765EE51DDBBA8700EDAE01 /* libRCTImage-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTImage-tvOS.a";
-			remoteRef = 33765E0E1DD9E3E700EDAE01 /* PBXContainerItemProxy */;
+			remoteRef = 33765EE41DDBBA8700EDAE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33765E131DD9E3E700EDAE01 /* libRCTLinking-tvOS.a */ = {
+		33765EE91DDBBA8700EDAE01 /* libRCTLinking-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTLinking-tvOS.a";
-			remoteRef = 33765E121DD9E3E700EDAE01 /* PBXContainerItemProxy */;
+			remoteRef = 33765EE81DDBBA8700EDAE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33765E171DD9E3E700EDAE01 /* libRCTNetwork-tvOS.a */ = {
+		33765EED1DDBBA8700EDAE01 /* libRCTNetwork-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTNetwork-tvOS.a";
-			remoteRef = 33765E161DD9E3E700EDAE01 /* PBXContainerItemProxy */;
+			remoteRef = 33765EEC1DDBBA8700EDAE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33765E1B1DD9E3E700EDAE01 /* libRCTSettings-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTSettings-tvOS.a";
-			remoteRef = 33765E1A1DD9E3E700EDAE01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33765E1F1DD9E3E700EDAE01 /* libRCTText-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTText-tvOS.a";
-			remoteRef = 33765E1E1DD9E3E700EDAE01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33765E241DD9E3E700EDAE01 /* libRCTWebSocket-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRCTWebSocket-tvOS.a";
-			remoteRef = 33765E231DD9E3E700EDAE01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33765E281DD9E3E700EDAE01 /* libReact-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libReact-tvOS.a";
-			remoteRef = 33765E271DD9E3E700EDAE01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33765E2B1DD9E3E700EDAE01 /* libRNFetchBlob.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFetchBlob.a;
-			remoteRef = 33765E2A1DD9E3E700EDAE01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33765E4D1DD9E49C00EDAE01 /* libRNFS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFS.a;
-			remoteRef = 33765E4C1DD9E49C00EDAE01 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		33765E521DD9E49C00EDAE01 /* libRCTOrientation.a */ = {
+		33765EF01DDBBA8700EDAE01 /* libRCTOrientation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTOrientation.a;
-			remoteRef = 33765E511DD9E49C00EDAE01 /* PBXContainerItemProxy */;
+			remoteRef = 33765EEF1DDBBA8700EDAE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33765E571DD9E49C00EDAE01 /* libReact-Native-Webview-Bridge.a */ = {
+		33765EF41DDBBA8700EDAE01 /* libRCTSettings-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTSettings-tvOS.a";
+			remoteRef = 33765EF31DDBBA8700EDAE01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33765EF81DDBBA8700EDAE01 /* libRCTText-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTText-tvOS.a";
+			remoteRef = 33765EF71DDBBA8700EDAE01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33765EFD1DDBBA8700EDAE01 /* libRCTWebSocket-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTWebSocket-tvOS.a";
+			remoteRef = 33765EFC1DDBBA8700EDAE01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33765F001DDBBA8700EDAE01 /* libReact-Native-Webview-Bridge.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libReact-Native-Webview-Bridge.a";
-			remoteRef = 33765E561DD9E49C00EDAE01 /* PBXContainerItemProxy */;
+			remoteRef = 33765EFF1DDBBA8700EDAE01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33765F041DDBBA8700EDAE01 /* libReact-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReact-tvOS.a";
+			remoteRef = 33765F031DDBBA8700EDAE01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33765F071DDBBA8700EDAE01 /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = 33765F061DDBBA8700EDAE01 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		33765F0A1DDBBA8700EDAE01 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = 33765F091DDBBA8700EDAE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -751,7 +740,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33765E5A1DDA040A00EDAE01 /* epub.js in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -781,7 +769,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ReaderTests.m in Sources */,
+				00E356F31AD99517003FC87E /* EpubReaderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,7 +787,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Reader */;
+			target = 13B07F861A680F5B00A75B9A /* EpubReader */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -811,7 +799,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = Reader;
+			path = EpubReader;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -826,7 +814,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ReaderTests/Info.plist;
+				INFOPLIST_FILE = EpubReaderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -837,7 +825,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Reader.app/Reader";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
 			};
 			name = Debug;
 		};
@@ -847,7 +835,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = FKN6VL994M;
-				INFOPLIST_FILE = ReaderTests/Info.plist;
+				INFOPLIST_FILE = EpubReaderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -858,7 +846,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Reader.app/Reader";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
 			};
 			name = Release;
 		};
@@ -878,15 +866,15 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-webview-bridge/ios",
 				);
-				INFOPLIST_FILE = Reader/Info.plist;
+				INFOPLIST_FILE = EpubReader/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.futurepress.Reader;
-				PRODUCT_NAME = Reader;
+				PRODUCT_BUNDLE_IDENTIFIER = org.futurepress.EpubReader;
+				PRODUCT_NAME = EpubReader;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -906,15 +894,15 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-webview-bridge/ios",
 				);
-				INFOPLIST_FILE = Reader/Info.plist;
+				INFOPLIST_FILE = EpubReader/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.futurepress.Reader;
-				PRODUCT_NAME = Reader;
+				PRODUCT_BUNDLE_IDENTIFIER = org.futurepress.EpubReader;
+				PRODUCT_NAME = EpubReader;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1016,7 +1004,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ReaderTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EpubReaderTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1025,7 +1013,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Reader" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "EpubReader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1034,7 +1022,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Reader" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "EpubReader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

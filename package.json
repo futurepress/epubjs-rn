@@ -1,5 +1,5 @@
 {
-  "name": "Reader",
+  "name": "EpubReader",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,25 +7,25 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-plugin-module-resolver": "^2.3.0",
+    "babel-plugin-static-fs": "^1.1.0",
     "buffer": "^5.0.1",
-    "epubjs": "futurepress/epub.js#f4ef0acf406ee877e71f41b10107bcfe0c6839d9",
+    "epubjs": "futurepress/epub.js#ad26711cb4a276f2e048d504168223f4c7a1a259",
     "events": "^1.1.1",
     "jszip": "^3.1.1",
     "lodash": "^4.14.0",
-    "react": "^15.2.1",
-    "react-native": "^0.37.0",
+    "react": "~15.3.1",
+    "react-native": "0.37.0",
     "react-native-fetch-blob": "^0.10.0",
     "react-native-fs": "^2.0.1-rc.2",
-    "react-native-orientation": "^1.17.0",
-    "react-native-webview-bridge": "^0.33.0",
-    "url": "^0.11.0"
+    "react-native-orientation": "yamill/react-native-orientation",
+    "react-native-webview-bridge": "^0.33.0"
   },
   "devDependencies": {
-    "babel-jest": "17.0.0",
-    "babel-plugin-module-resolver": "^2.3.0",
+    "babel-jest": "17.0.2",
     "babel-preset-react-native": "1.9.0",
-    "jest": "17.0.0",
-    "jest-react-native": "17.0.0",
+    "jest": "17.0.2",
+    "jest-react-native": "17.0.2",
     "react-test-renderer": "~15.3.1"
   },
   "jest": {
