@@ -1,4 +1,4 @@
-Epub.js React Native Example
+Epub.js React Native Components
 ================================
 
 Uses v0.3 of [EPUB.js](https://github.com/futurepress/epub.js) to parse and render epubs on iOS and Android using React Native.
