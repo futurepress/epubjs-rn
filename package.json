@@ -1,7 +1,7 @@
 {
   "name": "EpubReader",
   "version": "0.0.1",
-  "private": true,
+  "main": "components/index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
@@ -10,7 +10,7 @@
     "babel-plugin-module-resolver": "^2.3.0",
     "babel-plugin-static-fs": "^1.1.0",
     "buffer": "^5.0.1",
-    "epubjs": "futurepress/epub.js#ad26711cb4a276f2e048d504168223f4c7a1a259",
+    "epubjs": "futurepress/epub.js#dd14b692dcf2967751587ee29435d9092adf67ca",
     "events": "^1.1.1",
     "jszip": "^3.1.1",
     "lodash": "^4.14.0",
