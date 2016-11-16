@@ -12,7 +12,12 @@ To use the components in your own app install via npm
 npm install --save futurepress/epubjs-rn
 ```
 
-then require them `components` folder
+then link the required libraries with
+```bash
+react-native link
+```
+
+then require the `components` you need
 
 ```
 import { Epub } from 'EpubReader';
@@ -31,6 +36,23 @@ Then you can add the reader element in your code:
 * `onLocationChange`: Function called on every page change, reports current CFI
 * `width`: width (int) of the Epub Rendition
 * `height`: height (int) of the Epub Rendition
+
+Finally update (or add) the `.babelrc` to include the polyfills for `path`, and `stream` and `fs`.
+
+```json
+{
+"presets": ["react-native"],
+"plugins": [
+    ["module-resolver", {
+      "alias": {
+        "stream": "stream-browserify",
+        "path": "path-webpack"
+      }
+    }],
+    "static-fs"
+  ]
+}
+```
 
 Running the example app
 -------------------------
