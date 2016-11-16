@@ -7,13 +7,13 @@ import {
   View
 } from 'react-native';
 
-const EpubReader = require('./app/EpubReader');
+const Epub = require('./components/Epub');
 
-class Reader extends Component {
+class EpubReader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <EpubReader style={styles.reader}
+        <Epub style={styles.reader}
               src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
               flow={"paginated"}
               location={6}
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('Reader', () => Reader);
+AppRegistry.registerComponent('EpubReader', () => EpubReader);

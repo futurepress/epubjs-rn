@@ -11,13 +11,16 @@ import Orientation from 'react-native-orientation';
 
 import RNFetchBlob from 'react-native-fetch-blob'
 
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob
 }
 
 global.JSZip = global.JSZip || require('jszip');
 
-global.URL = require("../polyfills/url.js");
+global.URL = require("epubjs/libs/url/url.js");
 
 if (!global.btoa) {
   global.btoa = require('base-64').encode;
@@ -26,24 +29,24 @@ if (!global.btoa) {
 const ePub = require('epubjs');
 const Rendition = require('epubjs/src/rendition');
 const Layout = require('epubjs/src/layout');
+const core = require('epubjs/src/core');
 
 const EpubViewManager = require('./EpubViewManager');
 
 const RNFS = require('react-native-fs');
 
-const EPUBJS_LOCATION = `file://${RNFS.MainBundlePath}/epub.js`
-// const EPUBJS_LOCATION = "http://localhost:8082/dist/epub.js"
+const EPUBJS = readFileSync(join(__dirname, '../node_modules/epubjs/dist/epub.min.js'), 'utf8');
 
-class EpubReader extends Component {
+class Epub extends Component {
 
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
 
     this.book_url = this.props.src;
-		this.state = {
-			title: '',
-			modalVisible: false,
-			toc: [],
+    this.state = {
+      title: '',
+      modalVisible: false,
+      toc: [],
       page: 0,
       show: false
     }
@@ -56,24 +59,24 @@ class EpubReader extends Component {
     this.bounds = Dimensions.get('window');
   }
 
-	componentDidMount() {
+  componentDidMount() {
 
     Orientation.addOrientationListener(this._orientationDidChange.bind(this));
 
-    fetch(EPUBJS_LOCATION)
-      .then((response) => response.text())
-      .then((text) => {
-        this._epubjsLib = text;
+    // fetch(EPUBJS_LOCATION)
+    //   .then((response) => response.text())
+    //   .then((text) => {
+    //     this._epubjsLib = text;
 
         this._loadBook(this.book_url);
 
 
-        return text;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-	}
+      //   return text;
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      // });
+  }
 
   componentWillUnmount() {
     Orientation.removeOrientationListener(this._orientationDidChange);
@@ -89,7 +92,7 @@ class EpubReader extends Component {
   }
 
   _loadBook(bookUrl) {
-    console.log("loading book: ", this.book_url);
+    console.log("loading book: ", bookUrl);
     var type = this.book.determineType(bookUrl);
 
     global.book = this.book;
@@ -132,7 +135,8 @@ class EpubReader extends Component {
     book.spine.hooks.content.register(function(doc, section) {
       var script = doc.createElement('script');
       script.setAttribute('type', 'text/javascript');
-      script.textContent = this._epubjsLib;
+      script.textContent = EPUBJS;
+      // script.src = EPUBJS_DATAURL;
       doc.getElementsByTagName('head')[0].appendChild(script);
     }.bind(this));
 
@@ -176,7 +180,7 @@ class EpubReader extends Component {
       }
     });
 
-		this.book.loaded.navigation.then((toc) => this.setState({toc}));
+    this.book.loaded.navigation.then((toc) => this.setState({toc}));
   }
 
   visibleLocation() {
@@ -202,9 +206,9 @@ class EpubReader extends Component {
     }
 
     return (
-			<View style={styles.container}>
+      <View style={styles.container}>
 
-				<EpubViewManager
+        <EpubViewManager
           ref="manager"
           style={styles.manager}
           flow={this.flow}
@@ -215,28 +219,28 @@ class EpubReader extends Component {
                     height: this.props.height || this.bounds.height }}
         />
         {loader}
-			</View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-	container: {
+  container: {
     flex: 1,
-		flexDirection: 'column',
+    flexDirection: 'column',
   },
   manager: {
     flex: 1,
   },
-	scrollContainer: {
+  scrollContainer: {
     flex: 1,
-		marginTop: 0,
-		flexDirection: 'row',
-		flexWrap: 'nowrap',
-		backgroundColor: "#F8F8F8",
+    marginTop: 0,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    backgroundColor: "#F8F8F8",
   },
   rowContainer: {
-		flex: 1,
+    flex: 1,
   },
   loadScreen: {
     position: "absolute",
@@ -244,10 +248,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-		backgroundColor: "#fff",
+    backgroundColor: "#fff",
     justifyContent: 'center',
     alignItems: 'center'
   }
 });
 
-module.exports = EpubReader;
+module.exports = Epub;
