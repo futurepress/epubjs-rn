@@ -18,6 +18,11 @@ class EpubReader extends Component {
               flow={"paginated"}
               location={6}
               onLocationChange={(visibleLocation)=> { console.log("locationChanged", visibleLocation) }}
+              onLocationsReady={(locations)=> { console.log("location total", locations.total) }}
+              onReady={(book)=> {
+                console.log("Metadata", book.metadata)
+                console.log("Table of Contents", book.toc)
+              }}
             />
       </View>
 

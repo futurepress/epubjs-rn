@@ -116,6 +116,7 @@ class EpubViewManager extends Component {
 
     for (var i = 0; i < this.state.sections.length; i++) {
       if (section.index === this.state.sections[i].index) {
+        console.log("displaying already shown section", section.index);
         shownView = this.getView(section.index);
         // View is already shown, just move to correct location
         if(target) {
@@ -464,11 +465,16 @@ class EpubViewManager extends Component {
       var min = isVertical ? frame.y : frame.x;
       var max = min + (isVertical ? frame.height : frame.width);
       var section = this.state.sections[frame.index];
-      var view = this.getView(section.index);
+      var view;
 
+      if (!section) {
+        return
+      }
       if (frame.height === 0 || frame.width === 0) {
         return;
       }
+
+      view = this.getView(section.index);
 
       if (max && min > visibleMax + (delta * this.lookAhead) || max < visibleMin - (delta * this.lookBehind)) {
 
@@ -571,8 +577,9 @@ class EpubViewManager extends Component {
 
   applyLayout(layout) {
 
-    this.setState({ layout });
-    this.updateLayout();
+    this.setState({ layout }, () => {
+      this.updateLayout();
+    });
 
     // this.mapping = new Mapping(this.layout);
   }
@@ -745,6 +752,12 @@ class EpubViewManager extends Component {
       this.refs[SCROLLVIEW_REF].getScrollResponder();
   }
 
+  clear(cb) {
+    return this.setState({ sections : [] }, () => {
+      cb && cb();
+    });
+  }
+
   render() {
     return (
       <ScrollView
@@ -792,6 +805,7 @@ const styles = StyleSheet.create({
   horzScrollContainer: {
     flex: 1,
     marginTop: 0,
+    marginLeft: 0,
     flexDirection: 'row',
     flexWrap: 'nowrap',
     backgroundColor: "#FFFFFF",

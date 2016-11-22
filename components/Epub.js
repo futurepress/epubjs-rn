@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 
 import Dimensions from 'Dimensions';
@@ -42,13 +43,17 @@ class Epub extends Component {
   constructor(props) {
     super(props);
 
+    var bounds = Dimensions.get('window');
+
     this.book_url = this.props.src;
     this.state = {
       title: '',
       modalVisible: false,
       toc: [],
       page: 0,
-      show: false
+      show: false,
+      width : bounds.width,
+      height : bounds.height
     }
 
     this.book = ePub({
@@ -56,7 +61,6 @@ class Epub extends Component {
     });
 
 
-    this.bounds = Dimensions.get('window');
   }
 
   componentDidMount() {
@@ -84,11 +88,26 @@ class Epub extends Component {
 
   _orientationDidChange(orientation) {
     var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
+    var bounds = Dimensions.get('window');
+    var width = bounds.width;
+    var height = bounds.height;
 
-    if (this.rendition && location) {
-      this.rendition.layout();
-      this.rendition.display(location);
-    }
+    // if (orientation === "LANDSCAPE") {
+    //   width = width - 1; // Deal with iphone paginated issue at 667
+    // }
+
+    this.rendition.manager.clear(() => {
+      this.setState({ width, height }, () => {
+
+        if (this.rendition && location) {
+          console.log("orientation", orientation, location);
+          this.rendition.layout(this.rendition.settings.globalLayoutProperties);
+          this.rendition.display(location);
+        }
+      });
+    });
+
+
   }
 
   _loadBook(bookUrl) {
@@ -180,7 +199,37 @@ class Epub extends Component {
       }
     });
 
-    this.book.loaded.navigation.then((toc) => this.setState({toc}));
+    this.book.ready.then(() => {
+      this.props.onReady && this.props.onReady(this.book);
+    });
+
+    this.book.loaded.navigation.then((nav) => {
+      this.setState({toc : nav.toc});
+      this.props.onNavigationReady && this.props.onNavigationReady(nav.toc);
+    });
+
+    this.loadLocations();
+  }
+
+  loadLocations() {
+    this.book.ready.then(() => {
+      // Load in stored locations from json or local storage
+      var key = this.book.key()+'-locations';
+
+      return AsyncStorage.getItem(key).then((stored) => {
+        if (stored !== null){
+          return this.book.locations.load(stored);
+        } else {
+          return this.book.locations.generate(600).then((locations) => {
+            // Save out the generated locations to JSON
+            AsyncStorage.setItem(key, this.book.locations.save());
+          });
+        }
+      })
+
+    }).then(() => {
+      this.props.onLocationsReady && this.props.onLocationsReady(this.book.locations);
+    })
   }
 
   visibleLocation() {
@@ -215,8 +264,8 @@ class Epub extends Component {
           request={this.book.load.bind(this.book)}
           onPress={this.props.onPress}
           onShow={this._onShown.bind(this)}
-          bounds={{ width: this.props.width || this.bounds.width,
-                    height: this.props.height || this.bounds.height }}
+          bounds={{ width: this.props.width || this.state.width,
+                    height: this.props.height || this.state.height }}
         />
         {loader}
       </View>

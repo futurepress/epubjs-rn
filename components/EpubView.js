@@ -454,7 +454,7 @@ class EpubView extends Component {
         <WebViewBridge
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
-          style={{width: this.state.width, height: this.state.height, overflow: "hidden"}}
+          style={{width: this.state.width - this.state.margin, height: this.state.height - this.state.margin, overflow: "hidden"}}
           source={{html: this.state.contents, baseUrl: this.baseUrl }}
           scalesPageToFit={false}
           scrollEnabled={false}
