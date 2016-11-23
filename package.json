@@ -18,8 +18,7 @@
     "react-native": "0.37.0",
     "react-native-fetch-blob": "^0.10.0",
     "react-native-fs": "^2.0.1-rc.2",
-    "react-native-orientation": "yamill/react-native-orientation",
-    "react-native-webview-bridge": "^0.33.0"
+    "react-native-orientation": "yamill/react-native-orientation"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
