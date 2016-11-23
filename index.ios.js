@@ -20,8 +20,8 @@ class EpubReader extends Component {
               onLocationChange={(visibleLocation)=> { console.log("locationChanged", visibleLocation) }}
               onLocationsReady={(locations)=> { console.log("location total", locations.total) }}
               onReady={(book)=> {
-                console.log("Metadata", book.metadata)
-                console.log("Table of Contents", book.toc)
+                // console.log("Metadata", book.package.metadata)
+                // console.log("Table of Contents", book.toc)
               }}
             />
       </View>

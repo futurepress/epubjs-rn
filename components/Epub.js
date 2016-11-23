@@ -36,7 +36,7 @@ const EpubViewManager = require('./EpubViewManager');
 
 const RNFS = require('react-native-fs');
 
-const EPUBJS = readFileSync(join(__dirname, '../node_modules/epubjs/dist/epub.min.js'), 'utf8');
+const EPUBJS = readFileSync(join(__dirname, '../node_modules/epubjs/dist/epub.js'), 'utf8');
 
 class Epub extends Component {
 
@@ -86,28 +86,44 @@ class Epub extends Component {
     Orientation.removeOrientationListener(this._orientationDidChange);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.orientation !== this.props.orientation) {
+      _orientationDidChange(nextProps.orientation);
+    } else if (nextProps.width !== this.props.width ||
+        nextProps.height !== this.props.height) {
+      this.redisplay();
+    } else if (nextProps.location !== this.props.location) {
+      this.display(nextProps.location);
+    }
+  }
+
   _orientationDidChange(orientation) {
     var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
     var bounds = Dimensions.get('window');
     var width = bounds.width;
     var height = bounds.height;
 
-    // if (orientation === "LANDSCAPE") {
-    //   width = width - 1; // Deal with iphone paginated issue at 667
-    // }
+    console.log("orientation", orientation, location);
 
-    this.rendition.manager.clear(() => {
-      this.setState({ width, height }, () => {
-
-        if (this.rendition && location) {
-          console.log("orientation", orientation, location);
-          this.rendition.layout(this.rendition.settings.globalLayoutProperties);
-          this.rendition.display(location);
-        }
-      });
+    this.setState({ width, height }, () => {
+      this.redisplay(location);
     });
 
 
+  }
+
+  redisplay(location) {
+    var _location = location;
+    if (!_location) {
+      _location = this._visibleLocation ? this._visibleLocation.start : 0;
+    }
+
+    if (this.rendition) {
+      this.rendition.manager.clear(() => {
+        this.rendition.layout(this.rendition.settings.globalLayoutProperties);
+        this.rendition.display(_location);
+      });
+    }
   }
 
   _loadBook(bookUrl) {

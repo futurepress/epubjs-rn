@@ -107,7 +107,7 @@ class EpubView extends Component {
           }
 
           contents = new ePub.Contents(document);
-
+          window.contents = contents;
           bridge.onMessage = function (message) {
             var decoded = JSON.parse(message);
             var response;
@@ -289,7 +289,7 @@ class EpubView extends Component {
     // console.log("msg", decoded);
 
     if (decoded.method === "log") {
-      console.log("msg", msg);
+      console.log("msg", decoded.value);
     }
 
     if (decoded.method === "error") {
@@ -415,6 +415,7 @@ class EpubView extends Component {
   locationOf(target) {
     var parentPos = this.position();
     return this.contents.locationOf(target).then((targetPos) => {
+
       return {
         // "left": parentPos.left + targetPos.left,
         // "top":  parentPos.top + targetPos.top
@@ -436,16 +437,14 @@ class EpubView extends Component {
       );
     }
 
-
+    console.log(this.state.width);
     return (
       <View
         ref="wrapper"
         style={[this.props.style, {
-          width: this.state.width - this.state.margin,
-          height: this.state.height - this.state.margin,
-          marginLeft: this.state.margin,
-          marginTop: this.state.margin,
-          overflow: "hidden",
+          width: this.state.width,
+          height: this.state.height,
+          overflow: "hidden"
           }
         ]}
         onLayout={this._onLayout.bind(this)}
@@ -454,7 +453,12 @@ class EpubView extends Component {
         <WebViewBridge
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
-          style={{width: this.state.width - this.state.margin, height: this.state.height - this.state.margin, overflow: "hidden"}}
+          style={[this.props.style, {
+            width: this.state.width,
+            height: this.state.height,
+            marginLeft: this.state.margin,
+            marginTop: (this.state.margin/2),
+            overflow: "hidden" }]}
           source={{html: this.state.contents, baseUrl: this.baseUrl }}
           scalesPageToFit={false}
           scrollEnabled={false}
