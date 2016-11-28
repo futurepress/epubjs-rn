@@ -36,7 +36,7 @@ const EpubViewManager = require('./EpubViewManager');
 
 const RNFS = require('react-native-fs');
 
-const EPUBJS = readFileSync(join(__dirname, '../node_modules/epubjs/dist/epub.js'), 'utf8');
+const EPUBJS = readFileSync(__dirname + '/../node_modules/epubjs/dist/epub.js', 'utf8');
 
 class Epub extends Component {
 
