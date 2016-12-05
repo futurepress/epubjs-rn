@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import WebViewBridge from 'react-native-webview-bridge';
 const core = require('epubjs/src/core');
 
 class EpubView extends Component {
@@ -77,10 +76,6 @@ class EpubView extends Component {
       });
   }
 
-  componentDidMount() {
-    this.bridge = this.refs.webviewbridge;
-  }
-
   reset() {
     // this.rendering = new RSVP.defer();
     // this.rendered = this.rendering.promise;
@@ -96,11 +91,10 @@ class EpubView extends Component {
       (function () {
 
         function _ready() {
-          var bridge = WebViewBridge;
           var contents;
 
           if (typeof ePub === "undefined") {
-            return bridge.send(JSON.stringify({
+            return window.postMessage(JSON.stringify({
               method: "error",
               value: "EPUB.js is not loaded"
             }));
@@ -108,8 +102,8 @@ class EpubView extends Component {
 
           contents = new ePub.Contents(document);
           window.contents = contents;
-          bridge.onMessage = function (message) {
-            var decoded = JSON.parse(message);
+          document.addEventListener('message', function (message) {
+            var decoded = JSON.parse(message.data);
             var response;
             var result;
 
@@ -122,29 +116,27 @@ class EpubView extends Component {
                 value: result
               });
 
-              bridge.send(response);
+              window.postMessage(response);
 
             }
-          };
+        });
 
           contents.on("resize", function (size) {
-            bridge.send(JSON.stringify({method:"resize", value: size }));
+            window.postMessage(JSON.stringify({method:"resize", value: size }));
           });
 
           contents.on("expand", function () {
-            bridge.send(JSON.stringify({method:"expand", value: true}));
+            window.postMessage(JSON.stringify({method:"expand", value: true}));
           });
 
-          bridge.send(JSON.stringify({method:"loaded", value: true}));
+          window.postMessage(JSON.stringify({method:"loaded", value: true}));
 
         }
 
-        if (WebViewBridge) {
-          if ( document.readyState === 'complete'  ) {
-            return _ready();
-          } else {
-            document.addEventListener( 'interactive', _ready, false );
-          }
+        if ( document.readyState === 'complete'  ) {
+          return _ready();
+        } else {
+          document.addEventListener( 'interactive', _ready, false );
         }
 
       }());
@@ -162,7 +154,7 @@ class EpubView extends Component {
       return;
     }
 
-    this.bridge.sendToBridge(str);
+    this.bridge.postMessage(str);
   }
 
   ask(method, args) {
@@ -254,8 +246,6 @@ class EpubView extends Component {
   _onLoad(e) {
     var format;
 
-    this.bridge = this.refs.webviewbridge;
-
     if (this.props.layout === "pre-paginated") {
       format = this.props.format(this.contents);
     } else if (this.props.horizontal) {
@@ -286,7 +276,7 @@ class EpubView extends Component {
 
   _onBridgeMessage(msg) {
 
-    var decoded = JSON.parse(msg);
+    var decoded = JSON.parse(msg.nativeEvent.data);
     var p;
     // console.log("msg", decoded);
 
@@ -451,8 +441,8 @@ class EpubView extends Component {
         onLayout={this._onLayout.bind(this)}
         >
         <TouchableWithoutFeedback onPress={this.props.onPress}>
-        <WebViewBridge
-          ref="webviewbridge"
+        <WebView
+          ref={webview => { this.bridge = webview }}
           key={`EpubViewSection:${this.props.section.index}`}
           style={[this.props.style, {
             width: this.state.width,
@@ -464,7 +454,7 @@ class EpubView extends Component {
           scalesPageToFit={false}
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}
-          onBridgeMessage={this._onBridgeMessage.bind(this)}
+          onMessage={this._onBridgeMessage.bind(this)}
           injectedJavaScript={this._injectedJavaScript}
           javaScriptEnabled={true}
         />
