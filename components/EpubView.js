@@ -230,14 +230,16 @@ class EpubView extends Component {
 
       });
     } else {
-      expanded = this.contents.width(this.state.width).then((w) => {
+      expanded = this.contents.width(this.state.width-margin).then((w) => {
         return this.contents.scrollHeight();
       }).then((h) => {
         var defered = new core.defer();
+        var margin = 0;
+
         height = h;
         // console.log("Height", height);
 
-        this.setState({ height }, () => {
+        this.setState({ height, margin }, () => {
           this.expanding = false;
           defered.resolve();
         });
@@ -437,7 +439,6 @@ class EpubView extends Component {
       );
     }
 
-    console.log(this.state.width);
     return (
       <View
         ref="wrapper"

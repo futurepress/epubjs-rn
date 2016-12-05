@@ -10,13 +10,20 @@ import {
 const Epub = require('./components/Epub');
 
 class EpubReader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flow: "paginated", // paginated || scrolled-continuous
+      location: 6
+    };
+  }
   render() {
     return (
       <View style={styles.container}>
         <Epub style={styles.reader}
               src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
-              flow={"paginated"}
-              location={6}
+              flow={this.state.flow}
+              location={this.state.location}
               onLocationChange={(visibleLocation)=> { console.log("locationChanged", visibleLocation) }}
               onLocationsReady={(locations)=> { console.log("location total", locations.total) }}
               onReady={(book)=> {

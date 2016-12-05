@@ -86,7 +86,7 @@ class Epub extends Component {
     Orientation.removeOrientationListener(this._orientationDidChange);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     if (nextProps.orientation !== this.props.orientation) {
       _orientationDidChange(nextProps.orientation);
     } else if (nextProps.width !== this.props.width ||
@@ -94,6 +94,9 @@ class Epub extends Component {
       this.redisplay();
     } else if (nextProps.location !== this.props.location) {
       this.display(nextProps.location);
+    } else if (nextProps.flow !== this.props.flow) {
+      this.rendition.flow(nextProps.flow || "paginated");
+      this.redisplay();
     }
   }
 
@@ -115,7 +118,7 @@ class Epub extends Component {
   redisplay(location) {
     var _location = location;
     if (!_location) {
-      _location = this._visibleLocation ? this._visibleLocation.start : 0;
+      _location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
     }
 
     if (this.rendition) {
@@ -186,12 +189,11 @@ class Epub extends Component {
     });
     */
 
-    this.flow = this.props.flow || "paginated";
 
     this.manager = this.refs['manager'];
 
     this.rendition = new Rendition(this.book, {
-      flow: this.flow,
+      flow: this.props.flow || "paginated",
       minSpreadWidth: 600,
       manager: this.manager
     });
@@ -276,7 +278,7 @@ class Epub extends Component {
         <EpubViewManager
           ref="manager"
           style={styles.manager}
-          flow={this.flow}
+          flow={this.props.flow || "paginated"}
           request={this.book.load.bind(this.book)}
           onPress={this.props.onPress}
           onShow={this._onShown.bind(this)}

@@ -571,8 +571,8 @@ class EpubViewManager extends Component {
 
   updateFlow(flow) {
     var horizontal = (flow === "paginated") ? true : false;
-
-    this.setState({ horizontal });
+    var rate = (this.props.flow === "vertical" ) ? 200 : 800;
+    this.setState({ horizontal, rate });
   }
 
   applyLayout(layout) {
