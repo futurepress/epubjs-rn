@@ -9,13 +9,15 @@ import {
   NativeMethodsMixin
 } from 'react-native';
 
-const ReactNative = require('ReactNative');
+import ReactNative from 'ReactNative';
 
-const EpubView = require('./EpubView');
-const core = require('epubjs/src/core');
-var EventEmitter = require('event-emitter');
-const _ = require('lodash');
-const merge = require('merge');
+import EventEmitter from 'event-emitter'
+import {throttle, debounce} from 'lodash';
+import merge from 'merge';
+
+const core = require("epubjs/src/core");
+
+import EpubView from './EpubView';
 
 const RCTScrollViewManager = require('NativeModules').ScrollViewManager;
 
@@ -52,8 +54,8 @@ class EpubViewManager extends Component {
     this.addingQ = [];
 
     this.scrolling = false;
-    this.check = _.throttle(this._check.bind(this), this.state.rate, { 'trailing': true });
-    this.afterScrolled = _.debounce(this._afterScrolled.bind(this), 200);
+    this.check = throttle(this._check.bind(this), this.state.rate, { 'trailing': true });
+    this.afterScrolled = debounce(this._afterScrolled.bind(this), 200);
     // this.updateVisible = _.throttle(this._updateVisible.bind(this), this.state.rate, { 'trailing': true });
   }
 

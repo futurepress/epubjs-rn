@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import WebViewBridge from 'react-native-webview-bridge';
-const core = require('epubjs/src/core');
+const core = require("epubjs/src/core");
 
 class EpubView extends Component {
 
@@ -99,14 +99,14 @@ class EpubView extends Component {
           var bridge = WebViewBridge;
           var contents;
 
-          if (typeof ePub === "undefined") {
+          if (typeof EPUBJSContents === "undefined") {
             return bridge.send(JSON.stringify({
               method: "error",
               value: "EPUB.js is not loaded"
             }));
           }
 
-          contents = new ePub.Contents(document);
+          contents = new EPUBJSContents(document);
           window.contents = contents;
           bridge.onMessage = function (message) {
             var decoded = JSON.parse(message);

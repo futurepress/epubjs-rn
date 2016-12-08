@@ -1,53 +1,49 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
 import {
   StyleSheet,
   View,
   ActivityIndicator,
   AsyncStorage
-} from 'react-native';
+} from "react-native";
 
-import Dimensions from 'Dimensions';
-import Orientation from 'react-native-orientation';
+import Dimensions from "Dimensions";
+import Orientation from "react-native-orientation";
 
-import RNFetchBlob from 'react-native-fetch-blob'
+import RNFetchBlob from "react-native-fetch-blob"
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { readFileSync } from "fs";
+import { join } from "path";
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob
 }
 
-global.JSZip = global.JSZip || require('jszip');
+global.JSZip = global.JSZip || require("jszip");
 
 global.URL = require("epubjs/libs/url/url.js");
 
 if (!global.btoa) {
-  global.btoa = require('base-64').encode;
+  global.btoa = require("base-64").encode;
 }
 
-const ePub = require('epubjs');
-const Rendition = require('epubjs/src/rendition');
-const Layout = require('epubjs/src/layout');
-const core = require('epubjs/src/core');
+import ePub, { Rendition, Layout } from "epubjs";
+const core = require("epubjs/src/core");
 
-const EpubViewManager = require('./EpubViewManager');
+const EpubViewManager = require("./EpubViewManager");
 
-const RNFS = require('react-native-fs');
-
-const EPUBJS = readFileSync(__dirname + '/../node_modules/epubjs/dist/epub.js', 'utf8');
+const EPUBJS = readFileSync(__dirname + "/../contents/contents.min.js", "utf8");
 
 class Epub extends Component {
 
   constructor(props) {
     super(props);
 
-    var bounds = Dimensions.get('window');
+    var bounds = Dimensions.get("window");
 
     this.book_url = this.props.src;
     this.state = {
-      title: '',
+      title: "",
       modalVisible: false,
       toc: [],
       page: 0,
@@ -102,7 +98,7 @@ class Epub extends Component {
 
   _orientationDidChange(orientation) {
     var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
-    var bounds = Dimensions.get('window');
+    var bounds = Dimensions.get("window");
     var width = bounds.width;
     var height = bounds.height;
 
@@ -139,11 +135,13 @@ class Epub extends Component {
       return this._openBook(bookUrl);
     }
 
+    // this.book.settings.encoding = "base64";
+
     return RNFetchBlob
       .config({
         fileCache : true,
       })
-      .fetch('GET', bookUrl)
+      .fetch("GET", bookUrl)
       .then((res) => {
 
         return res.base64().then((content) => {
@@ -163,34 +161,34 @@ class Epub extends Component {
   }
 
   _openBook(bookArrayBuffer, useBase64) {
-
-    this.book.open(bookArrayBuffer)
+    var type = useBase64 ? "base64" : null;
+    this.book.open(bookArrayBuffer, type)
       .catch((err) => {
         console.error(err);
       })
 
     // Load the epubjs library into a hook for each webview
     book.spine.hooks.content.register(function(doc, section) {
-      var script = doc.createElement('script');
-      script.setAttribute('type', 'text/javascript');
+      var script = doc.createElement("script");
+      script.setAttribute("type", "text/javascript");
       script.textContent = EPUBJS;
       // script.src = EPUBJS_DATAURL;
-      doc.getElementsByTagName('head')[0].appendChild(script);
+      doc.getElementsByTagName("head")[0].appendChild(script);
     }.bind(this));
 
     // load epubjs in views
     /*
     book.spine.hooks.content.register(function(doc, section) {
-      var script = doc.createElement('script');
-      script.setAttribute('type', 'text/javascript');
-      script.setAttribute('src', EPUBJS_LOCATION);
+      var script = doc.createElement("script");
+      script.setAttribute("type", "text/javascript");
+      script.setAttribute("src", EPUBJS_LOCATION);
 
-      doc.getElementsByTagName('head')[0].appendChild(script);
+      doc.getElementsByTagName("head")[0].appendChild(script);
     });
     */
 
 
-    this.manager = this.refs['manager'];
+    this.manager = this.refs["manager"];
 
     this.rendition = new Rendition(this.book, {
       flow: this.props.flow || "paginated",
@@ -232,7 +230,7 @@ class Epub extends Component {
   loadLocations() {
     this.book.ready.then(() => {
       // Load in stored locations from json or local storage
-      var key = this.book.key()+'-locations';
+      var key = this.book.key()+"-locations";
 
       return AsyncStorage.getItem(key).then((stored) => {
         if (stored !== null){
@@ -294,7 +292,7 @@ class Epub extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   manager: {
     flex: 1,
@@ -302,8 +300,8 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     marginTop: 0,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
+    flexDirection: "row",
+    flexWrap: "nowrap",
     backgroundColor: "#F8F8F8",
   },
   rowContainer: {
@@ -316,8 +314,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: "#fff",
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
