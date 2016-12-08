@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "contents": "webpack --progress --config contents/webpack.config.js",
-    "prepublish": "npm run contents"
+    "contents": "webpack --config contents/webpack.config.js"
   },
   "dependencies": {
     "babel-plugin-module-resolver": "^2.3.0",
