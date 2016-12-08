@@ -1,6 +1,6 @@
 {
   "name": "EpubReader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "components/index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
