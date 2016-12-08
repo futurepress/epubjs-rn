@@ -1,5 +1,5 @@
 {
-  "name": "EpubReader",
+  "name": "epubjs-rn",
   "version": "0.0.2",
   "main": "components/index.js",
   "scripts": {
