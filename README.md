@@ -20,7 +20,7 @@ react-native link
 then require the `components` you need
 
 ```
-import { Epub } from 'EpubReader';
+import { Epub } from 'epubjs-rn';
 ```
 
 Then you can add the reader element in your code:
