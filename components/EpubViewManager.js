@@ -15,7 +15,7 @@ import EventEmitter from 'event-emitter'
 import {throttle, debounce} from 'lodash';
 import merge from 'merge';
 
-const core = require("epubjs/src/core");
+const core = require("epubjs/lib/utils/core");
 
 import EpubView from './EpubView';
 
@@ -758,6 +758,15 @@ class EpubViewManager extends Component {
     return this.setState({ sections : [] }, () => {
       cb && cb();
     });
+  }
+
+  getContents(){
+    var contents = [];
+    this.state.sections.each((section) => {
+      var view = this.getView(section.index);
+      contents.push(view.contents);
+    });
+    return contents;
   }
 
   render() {

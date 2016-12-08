@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import WebViewBridge from 'react-native-webview-bridge';
-const core = require("epubjs/src/core");
+const core = require("epubjs/lib/utils/core");
 
 class EpubView extends Component {
 

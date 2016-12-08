@@ -28,7 +28,8 @@ if (!global.btoa) {
 }
 
 import ePub, { Rendition, Layout } from "epubjs";
-const core = require("epubjs/src/core");
+
+const core = require("epubjs/lib/utils/core");
 
 const EpubViewManager = require("./EpubViewManager");
 
