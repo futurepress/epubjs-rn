@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "components/index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -10,6 +10,9 @@
   "dependencies": {
     "babel-plugin-module-resolver": "^2.3.0",
     "babel-plugin-static-fs": "^1.1.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-env": "0.0.9",
     "buffer": "^5.0.1",
     "epubjs": "futurepress/epub.js#a435650c3b6f58835ceff412482afdc4b0d3f8b5",
     "events": "^1.1.1",
