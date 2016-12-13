@@ -194,7 +194,9 @@ class EpubViewManager extends Component {
 
           this.lastDisplayedSection = section;
 
-          view.rendered.then(displaying.resolve, displaying.reject);
+          view.rendered
+            .then(displaying.resolve, displaying.reject)
+            .then(() => this.afterDisplayed(view));
         } else {
           console.log("Missing View for", section.index);
 
@@ -225,7 +227,9 @@ class EpubViewManager extends Component {
       (r) => {
         var view = this.getView(section.index);
 
-        view.rendered.then(displaying.resolve, displaying.reject);
+        view.rendered
+          .then(displaying.resolve, displaying.reject)
+          .then(() => this.afterDisplayed(view));
 
       }
     );
@@ -762,11 +766,15 @@ class EpubViewManager extends Component {
 
   getContents(){
     var contents = [];
-    this.state.sections.each((section) => {
+    this.state.sections.forEach((section) => {
       var view = this.getView(section.index);
       contents.push(view.contents);
     });
     return contents;
+  }
+
+  afterDisplayed(view){
+    this.emit("added", view);
   }
 
   render() {

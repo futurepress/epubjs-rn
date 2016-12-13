@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import WebViewBridge from 'react-native-webview-bridge';
+import EventEmitter from 'event-emitter'
 const core = require("epubjs/lib/utils/core");
 
 class EpubView extends Component {
@@ -47,6 +48,8 @@ class EpubView extends Component {
       overflow: (overflow) => this.ask("overflow", [overflow]),
       overflowY: (overflow) => this.ask("overflowY", [overflow]),
       css: (property, value) => this.ask("css", [property, value]),
+      addClass: (className) => this.ask("addClass", [className]),
+      removeClass: (className) => this.ask("removeClass", [className]),
       viewport: () => this.ask("viewport"),
       addStylesheet: (src) => this.ask("addStylesheet", [src]),
       addStylesheetRules: (rules) => this.ask("addStylesheetRules", [rules]),
@@ -57,8 +60,10 @@ class EpubView extends Component {
       fit: (width, height) => this.ask("fit", [width, height]),
       size: (width, height) => this.ask("size", [width, height]),
       mapPage: (cfiBase, start, end) => this.ask("mapPage", [cfiBase, start, end]),
-      locationOf: (target) => this.ask("locationOf", [target])
+      locationOf: (target) => this.ask("locationOf", [target]),
     }
+
+    EventEmitter(this.contents);
 
     this.rendering = new core.defer();
     this.rendered = this.rendering.promise;
@@ -133,6 +138,10 @@ class EpubView extends Component {
 
           contents.on("expand", function () {
             bridge.send(JSON.stringify({method:"expand", value: true}));
+          });
+
+          contents.on("link", function (href) {
+            bridge.send(JSON.stringify({method:"link", value: href}));
           });
 
           bridge.send(JSON.stringify({method:"loaded", value: true}));
@@ -300,6 +309,10 @@ class EpubView extends Component {
 
     if (decoded.method === "resize") {
       this.expand();
+    }
+
+    if (decoded.method === "link") {
+      this.contents.emit("link", decoded.value);
     }
 
     if (decoded.promise in this.waiting) {

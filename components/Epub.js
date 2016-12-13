@@ -89,11 +89,21 @@ class Epub extends Component {
     } else if (nextProps.width !== this.props.width ||
         nextProps.height !== this.props.height) {
       this.redisplay();
-    } else if (nextProps.location !== this.props.location) {
-      this.display(nextProps.location);
     } else if (nextProps.flow !== this.props.flow) {
       this.rendition.flow(nextProps.flow || "paginated");
       this.redisplay();
+    }
+
+    if (nextProps.location !== this.props.location) {
+      this.display(nextProps.location);
+    }
+
+    if (nextProps.theme !== this.props.theme) {
+      this.rendition.themes.apply(nextProps.theme);
+    }
+
+    if (nextProps.fontSize !== this.props.fontSize) {
+      this.rendition.themes.fontSize(nextProps.fontSize);
     }
   }
 
@@ -198,6 +208,18 @@ class Epub extends Component {
     });
 
     // this.rendition.setManager(this.manager);
+
+    if (this.props.themes) {
+      this.rendition.themes.register(this.props.themes);
+    }
+
+    if (this.props.theme) {
+      this.rendition.themes.apply(this.props.theme);
+    }
+
+    if (this.props.fontSize) {
+      this.rendition.themes.fontSize(this.props.fontSize);
+    }
 
     this.display = this.rendition.display;
 

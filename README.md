@@ -34,10 +34,13 @@ Then you can add the reader element in your code:
 * `flow`: `paginated` : `scrolled` - (default to false, which presents a scrolling view)
 * `location`: Can be an EPUBCFI, Chapter Url or Spine Position
 * `onLocationChange`: Function called on every page change, reports current CFI
+* `onLocationsReady`: Function called once the locations has been generated. Returns the locations object.
 * `width`: width (int) of the Epub Rendition
 * `height`: height (int) of the Epub Rendition
 * `onReady`: Function called once book has been opened. Returns the book object
-* `onLocationsReady`: Function called once the locations has been generated. Returns the locations object.
+* `themes`: Link to css stylesheet containing themes
+* `theme`: Name of the theme to apply, such as `light`
+* `fontSize`: CSS override for font size of theme
 
 Finally update (or add) the `.babelrc` to include the polyfills for `path`, and `stream` and `fs`.
 
