@@ -12,8 +12,16 @@ To use the components in your own app install via npm
 npm install --save futurepress/epubjs-rn
 ```
 
-then link the required libraries with
+Add the native adapters to your `package.json`
+```
+"react-native-fetch-blob": "^0.10.0",
+"react-native-orientation": "yamill/react-native-orientation",
+"react-native-webview-bridge": "^0.33.0"
+```
+
+then install and link the required libraries with
 ```bash
+npm install
 react-native link
 ```
 

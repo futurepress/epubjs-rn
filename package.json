@@ -23,7 +23,6 @@
     "react": "~15.4.1",
     "react-native": "0.39.2",
     "react-native-fetch-blob": "^0.10.0",
-    "react-native-fs": "^2.0.1-rc.2",
     "react-native-orientation": "yamill/react-native-orientation",
     "react-native-webview-bridge": "^0.33.0"
   },
