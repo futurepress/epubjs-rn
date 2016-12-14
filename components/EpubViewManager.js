@@ -34,7 +34,7 @@ class EpubViewManager extends Component {
     this.state = {
       sections: [],
       layout: undefined,
-      gap: 60,
+      margin: this.props.margin || 60,
       horizontal: this.props.flow === "vertical" ? false : true,
       rate : this.props.flow === "vertical" ? 200 : 800
     }
@@ -169,7 +169,10 @@ class EpubViewManager extends Component {
               this.loading = false;
             }
 
-          });
+          })
+          .then(() => this.afterDisplayed(view))
+          .then(() => this._check());
+
 
           // this.getScrollResponder().scrollTo({x: 0, y: 0})
       }
@@ -592,12 +595,12 @@ class EpubViewManager extends Component {
 
   updateLayout() {
     var bounds = this.props.bounds || this._bounds;
-
+    var margin = this.state.layout !== "pre-paginated" ? 0 : this.state.margin;
     if(this.state.horizontal) {
       this.state.layout.calculate(
-        bounds.width-this.state.gap,
+        bounds.width-margin,
         bounds.height,
-        this.state.gap
+        margin
       );
     } else {
       this.state.layout.calculate(bounds.width, bounds.height);
@@ -803,6 +806,7 @@ class EpubViewManager extends Component {
           format={this.state.layout.format.bind(this.state.layout)}
           layout={this.state.layout.name}
           delta={this.state.layout.delta}
+          columnWidth={this.state.layout.columnWidth}
           gap={ this.state.horizontal ? this.state.layout.gap : this.minGap}
           afterLoad={this._afterLoad.bind(this)}
           onResize={(e)=> this._onResize(section, e)}

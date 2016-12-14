@@ -203,10 +203,10 @@ class EpubView extends Component {
       // this.expanding = false;
         var defered = new core.defer();
 
-        this.setState({ width: this.props.delta  }, () => {
+        this.setState({ width: this.props.columnWidth  }, () => {
           this.expanding = false;
 
-          expanded = this.contents.size(this.props.delta, this.state.height).then((w) => {
+          expanded = this.contents.size(this.props.columnWidth, this.state.height).then((w) => {
             this.expanding = false;
 
             defered.resolve();
