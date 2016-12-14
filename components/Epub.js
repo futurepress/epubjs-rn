@@ -95,7 +95,7 @@ class Epub extends Component {
     }
 
     if (nextProps.location !== this.props.location) {
-      this.display(nextProps.location);
+      this.rendition.display(nextProps.location);
     }
 
     if (nextProps.theme !== this.props.theme) {
@@ -220,8 +220,6 @@ class Epub extends Component {
     if (this.props.fontSize) {
       this.rendition.themes.fontSize(this.props.fontSize);
     }
-
-    this.display = this.rendition.display;
 
     if (this.props.location) {
       this.rendition.display(this.props.location);
