@@ -595,7 +595,8 @@ class EpubViewManager extends Component {
 
   updateLayout() {
     var bounds = this.props.bounds || this._bounds;
-    var margin = this.state.layout !== "pre-paginated" ? 0 : this.state.margin;
+    var margin = this.state.layout === "pre-paginated" ? 0 : this.state.margin;
+
     if(this.state.horizontal) {
       this.state.layout.calculate(
         bounds.width-margin,
@@ -795,6 +796,8 @@ class EpubViewManager extends Component {
         scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
         removeClippedSubviews={true}
         scrollsToTop={false}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         >
         { this.state.sections.map((section) => {
           return <EpubView
