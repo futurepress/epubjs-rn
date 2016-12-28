@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 
-import {
+import ReactNative, {
   StyleSheet,
   View,
   ScrollView,
   Dimensions,
   InteractionManager,
-  NativeMethodsMixin
+  NativeMethodsMixin,
+  NativeModules
 } from 'react-native';
-
-import ReactNative from 'ReactNative';
 
 import EventEmitter from 'event-emitter'
 import {throttle, debounce} from 'lodash';
@@ -19,7 +18,7 @@ const core = require("epubjs/lib/utils/core");
 
 import EpubView from './EpubView';
 
-const RCTScrollViewManager = require('NativeModules').ScrollViewManager;
+const RCTScrollViewManager = NativeModules.ScrollViewManager;
 
 const DEFAULT_SCROLL_RENDER_AHEAD = 1000;
 const DEFAULT_END_REACHED_THRESHOLD = 1000;
