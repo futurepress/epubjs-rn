@@ -4,10 +4,10 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  Dimensions
 } from "react-native";
 
-import Dimensions from "Dimensions";
 import Orientation from "react-native-orientation";
 
 import RNFetchBlob from "react-native-fetch-blob"

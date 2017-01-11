@@ -1,5 +1,5 @@
 {
-  "name": "epubjs-rn",
+  "name": "EpubReader",
   "version": "0.0.9",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "components/index.js",
@@ -17,11 +17,11 @@
     "lodash": "^4.14.0",
     "react-native-fetch-blob": "^0.10.0",
     "react-native-orientation": "yamill/react-native-orientation",
-    "react-native-webview-bridge": "^0.33.0"
+    "react-native-webview-bridge": "^0.33.0",
+    "react": "~15.4.1",
+    "react-native": "0.39.2"
   },
   "devDependencies": {
-    "react": "~15.4.1",
-    "react-native": "0.39.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-module-resolver": "^2.3.0",
     "babel-plugin-static-fs": "^1.1.0",
