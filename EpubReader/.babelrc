@@ -1,11 +1,3 @@
 {
-  "presets": ["react-native"],
-  "plugins": [
-    ["module-resolver", {
-      "alias": {
-        "stream": "stream-browserify",
-        "path": "path-webpack"
-      }
-    }]
-  ]
+  "presets": ["react-native"]
 }

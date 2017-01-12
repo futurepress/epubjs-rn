@@ -4,8 +4,7 @@
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
+    "start": "node EpubReader/node_modules/react-native/local-cli/cli.js start",
     "contents": "webpack --config contents/webpack.config.js",
     "prepublish": "gulp build"
   },
@@ -16,8 +15,10 @@
     "events": "^1.1.1",
     "jszip": "^3.1.1",
     "lodash": "^4.14.0",
+    "path-webpack": "0.0.2",
     "react": "~15.4.1",
-    "react-native": "0.39.2"
+    "react-native": "0.39.2",
+    "stream-browserify": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

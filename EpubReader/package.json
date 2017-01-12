@@ -1,28 +1,23 @@
 {
   "name": "EpubReader",
-  "version": "0.0.9",
+  "version": "0.0.1",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "components/index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "clean" : "watchman watch-del-all",
+    "reset" : "npm run clean && node node_modules/react-native/local-cli/cli.js start -- --resetCache"
   },
   "license": "BSD-2-Clause",
   "dependencies": {
-    "buffer": "^5.0.1",
-    "epubjs": "beta",
-    "events": "^1.1.1",
-    "jszip": "^3.1.1",
-    "lodash": "^4.14.0",
     "react": "~15.4.1",
     "react-native": "0.39.2",
-    "epubjs-rn": "0.0.9"
+    "epubjs-rn": "0.0.12"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
-    "babel-loader": "^6.2.9",
     "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-preset-es2015": "^6.18.0",
     "babel-preset-react-native": "1.9.0",
     "jest": "17.0.3",
     "jest-react-native": "17.1.0",

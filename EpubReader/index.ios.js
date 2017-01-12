@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 // const Epub = require('epubjs-rn').Epub;
-import Epub from "epubjs-rn";
+import { Epub } from "epubjs-rn";
 
 class EpubReader extends Component {
   constructor(props) {
