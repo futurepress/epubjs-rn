@@ -10,7 +10,7 @@ import {
   NativeModules
 } from 'react-native';
 
-import ReactNative from 'ReactNative';
+import ReactNative from 'react-native';
 
 import EventEmitter from 'event-emitter'
 import {throttle, debounce} from 'lodash';

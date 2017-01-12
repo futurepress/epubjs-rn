@@ -1,6 +1,6 @@
 {
-  "name": "EpubReader",
-  "version": "0.0.10",
+  "name": "epubjs-rn",
+  "version": "0.0.11",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "components/index.js",
   "scripts": {
