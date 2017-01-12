@@ -13,7 +13,7 @@
   "dependencies": {
     "react": "~15.4.1",
     "react-native": "0.39.2",
-    "epubjs-rn": "0.0.12"
+    "epubjs-rn": "0.0.13"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
