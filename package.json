@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.9",
+  "version": "0.0.12",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./src/index.js",
   "scripts": {
@@ -18,7 +18,8 @@
     "path-webpack": "0.0.2",
     "react": "~15.4.1",
     "react-native": "0.39.2",
-    "stream-browserify": "^2.0.1"
+    "stream-browserify": "^2.0.1",
+    "util": "^0.10.3"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
