@@ -7,7 +7,8 @@ import {
   View
 } from 'react-native';
 
-const Epub = require('./components/Epub');
+// const Epub = require('epubjs-rn').Epub;
+import { Epub } from "epubjs-rn";
 
 class EpubReader extends Component {
   constructor(props) {
@@ -29,8 +30,7 @@ class EpubReader extends Component {
               onReady={(book)=> {
                 // console.log("Metadata", book.package.metadata)
                 // console.log("Table of Contents", book.toc)
-              }}
-            />
+              }} />
       </View>
 
     );

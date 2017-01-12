@@ -1,6 +1,5 @@
 {
-"presets": ["react-native"],
-"plugins": [
+  "plugins": [
     ["module-resolver", {
       "alias": {
         "stream": "stream-browserify",
