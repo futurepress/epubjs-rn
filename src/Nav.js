@@ -1,6 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import { StyleSheet, Text, View, ListView, TouchableHighlight } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ListView,
+  TouchableHighlight,
+} from 'react-native';
 
 // import NavigationBar from 'react-native-navbar';
 
@@ -17,8 +23,8 @@ class Nav extends Component {
     super(props);
 
     this.state = {
-      error: ''
-    };
+      error: '',
+    }
   }
   _closeModal() {
     this.props.onClose();
@@ -26,39 +32,48 @@ class Nav extends Component {
 
   _onPress(event) {
     var item = this.props.toc[event.selectedIndex];
-    if (this.props.display) {
+    if(this.props.display) {
       this.props.display(item.href);
     }
     this._closeModal();
   }
 
   renderRow(row) {
-    return <TouchableHighlight onPress={() => this.pressRow(row)}>
+    return (
+      <TouchableHighlight onPress={() => this.pressRow(row)}>
         <View style={styles.row}>
           <Text style={styles.title}>
             {row.label}
           </Text>
         </View>
-      </TouchableHighlight>;
+      </TouchableHighlight>
+    );
   }
 
   render() {
     const rightButtonConfig = {
       title: <Icon name="close" size={30} color="#007AFF" />,
-      handler: () => this._closeModal()
+      handler: () => this._closeModal(),
     };
 
-    return <View style={styles.container}>
+    return (
+      <View style={styles.container}>
 
 
-        <TableView style={{ flex: 1 }} tableViewCellStyle={TableView.Consts.CellStyle.Default} onPress={this._onPress.bind(this)} tableViewStyle={TableView.Consts.Style.Plain}>
+        <TableView style={{flex:1}}
+            tableViewCellStyle={TableView.Consts.CellStyle.Default}
+            onPress={this._onPress.bind(this)}
+            tableViewStyle={TableView.Consts.Style.Plain}
+            >
           <Section arrow={true}>
-            {this.props.toc.map(item => <Item key={item.id}>{item.label}</Item>)}
+            {this.props.toc.map((item)=><Item key={item.id}>{item.label}</Item>)}
           </Section>
         </TableView>
-      </View>;
+      </View>
+    );
   }
 }
+
 
 const styles = StyleSheet.create({
   navBar: {
@@ -67,10 +82,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     borderBottomColor: "#b2b2b2",
-    borderBottomWidth: .5
+    borderBottomWidth: .5,
   },
   toc: {
-    flex: 14
+    flex: 14,
   },
   button: {
     marginTop: 8,
@@ -79,10 +94,10 @@ const styles = StyleSheet.create({
   buttonLabel: {
     color: "#007AFF",
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 16,
   },
   container: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   navTitle: {
     fontSize: 16,
@@ -90,26 +105,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flex: 20,
     marginRight: -40,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    // fontFamily: "georgia",
   },
   row: {
     flexDirection: 'row',
     // justifyContent: 'center',
     padding: 10,
     backgroundColor: '#FFFFFF',
-    overflow: "hidden"
+    overflow: "hidden",
   },
   title: {
-    fontFamily: "georgia"
+    fontFamily: "georgia",
   },
   separator: {
     height: 1,
-    backgroundColor: '#CCCCCC'
+    backgroundColor: '#CCCCCC',
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF'
-  }
+    backgroundColor: '#FFFFFF',
+  },
 });
 
 module.exports = Nav;
