@@ -1,6 +1,7 @@
 {
   "name": "EpubReader",
   "version": "0.0.1",
+  "description" : "Demo of Epubjs React Native components",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "components/index.js",
   "scripts": {
@@ -13,7 +14,7 @@
   "dependencies": {
     "react": "~15.4.1",
     "react-native": "0.39.2",
-    "epubjs-rn": "0.0.13"
+    "epubjs-rn": "0.0.15"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
