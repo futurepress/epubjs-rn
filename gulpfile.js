@@ -20,8 +20,8 @@ gulp.task("build", function () {
 });
 
 gulp.task("copy", ["build"], function () {
-	return gulp.src(['./components/**/*.js', '.babelrc'])
-		.pipe(gulp.dest("./EpubReader/node_modules/epubjs-rn"));
+	return gulp.src(['./components/**/*.js'])
+		.pipe(gulp.dest("./EpubReader/node_modules/epubjs-rn/components"));
 });
 
 gulp.task("watch", function () {

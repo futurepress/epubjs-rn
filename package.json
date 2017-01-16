@@ -1,8 +1,8 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "repository": "https://github.com/futurepress/epubjs-rn",
-  "main": "./src/index.js",
+  "main": "./components/index.js",
   "scripts": {
     "start": "node EpubReader/node_modules/react-native/local-cli/cli.js start",
     "contents": "webpack --config contents/webpack.config.js",
