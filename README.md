@@ -50,7 +50,7 @@ Then you can add the reader element in your code:
 * `theme`: Name of the theme to apply, such as `light`
 * `fontSize`: CSS override for font size of theme
 
-Finally update (or add) the `.babelrc` to include the polyfills for `path`, and `stream` and `fs`.
+Update (or add) the `.babelrc` to include the polyfills for `path`, and `stream` and `fs`.
 
 ```json
 {
@@ -65,6 +65,14 @@ Finally update (or add) the `.babelrc` to include the polyfills for `path`, and 
     "static-fs"
   ]
 }
+```
+
+Finally install `babel-plugin-module-resolver`, `babel-plugin-static-fs` and `util` (required by `jszip`) 
+
+```bash
+npm install babel-plugin-module-resolver --save-dev
+npm install babel-plugin-static-fs --save-dev
+npm install util --save
 ```
 
 Running the example app
