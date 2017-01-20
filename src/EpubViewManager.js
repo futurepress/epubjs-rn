@@ -681,9 +681,9 @@ class EpubViewManager extends Component {
   scrollTo(x, y, silent) {
     var moveTo;
     var offset = this.scrollProperties.offset;
-    if(this.state.horizontal) {
-      offset = Math.floor(this.scrollProperties.offset / this.state.layout.columnWidth) * (this.state.layout.delta / this.state.layout.divisor);
-    }
+    // if(this.state.horizontal) {
+    //   offset = Math.floor(this.scrollProperties.offset / this.state.layout.columnWidth) * (this.state.layout.delta / this.state.layout.divisor);
+    // }
     if (silent) {
       this.silentScroll = true;
     }
