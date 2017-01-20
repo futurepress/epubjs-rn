@@ -25,7 +25,9 @@ class EpubReader extends Component {
               src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
               flow={this.state.flow}
               location={this.state.location}
-              onLocationChange={(visibleLocation)=> { console.log("locationChanged", visibleLocation) }}
+              onLocationChange={(visibleLocation)=> {
+                // console.log("locationChanged", visibleLocation)
+              }}
               onLocationsReady={(locations)=> { console.log("location total", locations.total) }}
               onReady={(book)=> {
                 // console.log("Metadata", book.package.metadata)

@@ -15,7 +15,7 @@ class EpubReader extends Component {
     super(props);
     this.state = {
       flow: "paginated", // paginated || scrolled-continuous
-      location: 8
+      location: 6
     };
   }
   render() {

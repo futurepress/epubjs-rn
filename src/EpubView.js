@@ -24,13 +24,14 @@ class EpubView extends Component {
 
     this.state = {
       visibility: false,
+      opacity: 0,
       margin: 0,
       height: height,
       width: width,
       contents: '',
     }
 
-    this.visible = false;
+    this.visible = this.state.visibility;
 
     this.waiting = {};
 
@@ -69,7 +70,7 @@ class EpubView extends Component {
     this.rendered = this.rendering.promise;
 
     this.loading = true;
-
+    this.expanded = false;
   }
 
   componentWillMount() {
@@ -330,6 +331,7 @@ class EpubView extends Component {
     }
 
     this.bounds = e.nativeEvent.layout;
+    this.props.onLayout && this.props.onLayout(e.nativeEvent.layout);
 
     if (this.prevBounds &&
         this.bounds.width === this.prevBounds.width &&
@@ -368,6 +370,11 @@ class EpubView extends Component {
 
   setVisibility(visibility) {
 
+    // if (visibility && (this.expanded === false)) {
+    //   console.log("caught unexpanded");
+    //   visibility = false;
+    // }
+
     if (this.state.visibility == visibility) {
       return; // already have the passed in state, so return early
     }
@@ -375,10 +382,10 @@ class EpubView extends Component {
     this.visible = visibility;
 
     if (visibility == true) {
-      this.setState({visibility: true});
-
-    } else if (!this.loading) {
-      this.setState({visibility: false}, this.reset.bind(this));
+      this.setState({visibility: true, opacity: 1});
+    } else {
+      this.setState({visibility: false, opacity: 0});
+      // this.setState({visibility: false}, this.reset.bind(this));
     }
   }
 
@@ -448,6 +455,7 @@ class EpubView extends Component {
         <View
           ref="wrapper"
           style={[this.props.style, {width: this.state.width, height: this.state.height, overflow: "hidden"}]}
+          collapsable={false}
           ></View>
       );
     }
@@ -459,10 +467,11 @@ class EpubView extends Component {
           width: this.state.width,
           height: this.state.height,
           overflow: "hidden",
-          opacity: this.state.visibility ? 1 : 0
+          opacity: this.state.opacity
           }
         ]}
         onLayout={this._onLayout.bind(this)}
+        collapsable={false}
         >
         <TouchableWithoutFeedback onPress={this.props.onPress}>
         <WebViewBridge

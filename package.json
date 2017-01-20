@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -24,8 +24,6 @@
     "util": "^0.10.3"
   },
   "devDependencies": {
-    "react": "~15.4.1",
-    "react-native": "0.39.2",
     "babel-cli": "^6.18.0",
     "babel-jest": "17.0.2",
     "babel-loader": "^6.2.9",
@@ -39,8 +37,11 @@
     "babili-webpack-plugin": "0.0.7",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-plumber": "^1.1.0",
     "jest": "17.0.3",
     "jest-react-native": "17.1.0",
+    "react": "~15.4.1",
+    "react-native": "0.39.2",
     "react-test-renderer": "~15.4.1",
     "webpack": "^1.14.0"
   },

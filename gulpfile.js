@@ -1,8 +1,12 @@
 var gulp = require("gulp");
 var babel = require("gulp-babel");
-
+var plumber = require('gulp-plumber');
+var onError = function (err) {
+	gutil.log(err);
+};
 gulp.task("build", function () {
 	return gulp.src(["./src/**/*.js"])
+	.pipe(plumber({ errorHandler: onError }))
 	.pipe(babel({
 		"plugins": [
 				"syntax-jsx",
