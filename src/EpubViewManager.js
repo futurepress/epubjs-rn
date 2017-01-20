@@ -471,7 +471,7 @@ class EpubViewManager extends Component {
       var section = this.state.sections[frame.index];
       // var view = this.getView(section.index);
 
-      if (min > visibleMin && max < visibleMax) {
+      if (section && min > visibleMin && max < visibleMax) {
 
         visible.push(section);
 
@@ -482,13 +482,16 @@ class EpubViewManager extends Component {
   }
 
   _checkChildVisiblility (section, x, y, width, height) {
-    var view = this.getView(section.index);
-    var isVertical = !this.state.horizontal;
-    var visibleMin = this.scrollProperties.offset;
-    var visibleMax = visibleMin + this.scrollProperties.visibleLength;
+    if (!section) {
+      return false;
+    }
+    let view = this.getView(section.index);
+    let isVertical = !this.state.horizontal;
+    let visibleMin = this.scrollProperties.offset;
+    let visibleMax = visibleMin + this.scrollProperties.visibleLength;
 
-    var min = isVertical ? y : x;
-    var max = min + (isVertical ? height : width);
+    let min = isVertical ? y : x;
+    let max = min + (isVertical ? height : width);
 
     if (x === undefined || y === undefined ||
         width === undefined || height === undefined) {
