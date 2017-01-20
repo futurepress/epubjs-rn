@@ -12,13 +12,6 @@ To use the components in your own app install via npm
 npm install --save futurepress/epubjs-rn
 ```
 
-Add the native adapters to your `package.json`
-```
-"react-native-fetch-blob": "^0.10.0",
-"react-native-orientation": "yamill/react-native-orientation",
-"react-native-webview-bridge": "^0.33.0"
-```
-
 then install and link the required libraries with
 ```bash
 npm install
@@ -49,23 +42,6 @@ Then you can add the reader element in your code:
 * `themes`: Link to css stylesheet containing themes
 * `theme`: Name of the theme to apply, such as `light`
 * `fontSize`: CSS override for font size of theme
-
-Finally update (or add) the `.babelrc` to include the polyfills for `path`, and `stream` and `fs`.
-
-```json
-{
-"presets": ["react-native"],
-"plugins": [
-    ["module-resolver", {
-      "alias": {
-        "stream": "stream-browserify",
-        "path": "path-webpack"
-      }
-    }],
-    "static-fs"
-  ]
-}
-```
 
 Running the example app
 -------------------------

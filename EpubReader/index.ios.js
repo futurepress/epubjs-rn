@@ -26,7 +26,7 @@ class EpubReader extends Component {
               flow={this.state.flow}
               location={this.state.location}
               onLocationChange={(visibleLocation)=> {
-                console.log("locationChanged", visibleLocation) 
+                // console.log("locationChanged", visibleLocation)
               }}
               onLocationsReady={(locations)=> { console.log("location total", locations.total) }}
               onReady={(book)=> {

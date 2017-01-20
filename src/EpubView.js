@@ -23,14 +23,14 @@ class EpubView extends Component {
     var width = horizontal ? 0 : this.props.bounds.width;
 
     this.state = {
-      visibility: true,
+      visibility: false,
       margin: 0,
       height: height,
       width: width,
       contents: '',
     }
 
-    this.visible = true;
+    this.visible = false;
 
     this.waiting = {};
 
@@ -378,7 +378,7 @@ class EpubView extends Component {
       this.setState({visibility: true});
 
     } else if (!this.loading) {
-      // this.setState({visibility: false}, this.reset.bind(this));
+      this.setState({visibility: false}, this.reset.bind(this));
     }
   }
 
@@ -443,7 +443,7 @@ class EpubView extends Component {
 
   render() {
 
-    if (this.state.visibility === false || !this.state.contents) {
+    if (!this.state.contents) {
       return (
         <View
           ref="wrapper"
@@ -458,7 +458,8 @@ class EpubView extends Component {
         style={[this.props.style, {
           width: this.state.width,
           height: this.state.height,
-          overflow: "hidden"
+          overflow: "hidden",
+          opacity: this.state.visibility ? 1 : 0
           }
         ]}
         onLayout={this._onLayout.bind(this)}
