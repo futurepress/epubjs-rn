@@ -29,6 +29,11 @@ gulp.task("copy", ["build"], function () {
 		.pipe(gulp.dest("./EpubReader/node_modules/epubjs-rn/components"));
 });
 
+gulp.task("copy:epubjs", function () {
+	return gulp.src(['../epub.js/lib/**/*.js'])
+		.pipe(gulp.dest("./EpubReader/node_modules/epubjs/lib"));
+});
+
 gulp.task("watch", function () {
 	return gulp.watch('./src/**/*.js', ['build', 'copy']);
 });
