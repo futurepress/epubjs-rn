@@ -62,7 +62,7 @@ class Epub extends Component {
 
   componentDidMount() {
 
-    Orientation.addOrientationListener(this._orientationDidChange.bind(this));
+    Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
 
     // fetch(EPUBJS_LOCATION)
     //   .then((response) => response.text())
@@ -80,7 +80,7 @@ class Epub extends Component {
   }
 
   componentWillUnmount() {
-    Orientation.removeOrientationListener(this._orientationDidChange);
+    Orientation.removeSpecificOrientationListener(this._orientationDidChange);
   }
 
   componentWillUpdate(nextProps) {
@@ -109,17 +109,13 @@ class Epub extends Component {
 
   _orientationDidChange(orientation) {
     var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
-    var bounds = Dimensions.get("window");
-    var width = bounds.width;
-    var height = bounds.height;
+    // LANDSCAPE-LEFT LANDSCAPE-RIGHT PORTRAIT UNKNOWN PORTRAITUPSIDEDOWN
 
     console.log("orientation", orientation, location);
 
-    this.setState({ width, height }, () => {
+    this.setState({ width: this.state.height, height: this.state.width }, () => {
       this.redisplay(location);
     });
-
-
   }
 
   redisplay(location) {
@@ -292,7 +288,7 @@ class Epub extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View ref="framer" style={styles.container}>
 
         <EpubViewManager
           ref="manager"
