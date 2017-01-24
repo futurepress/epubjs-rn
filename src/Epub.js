@@ -223,6 +223,20 @@ class Epub extends Component {
       this.rendition.display(0);
     }
 
+    // Disable Scrollbar for Android
+    /*
+    this.rendition.hooks.content.register((contents) => {
+      contents.addStylesheetRules([
+        ["html",
+          ["position", "fixed"],
+          ["overflow", "hidden"],
+          ["height", "100%"],
+          ["width", "100%"]
+        ]
+      ]);
+    });
+    */
+    
     this.rendition.on("locationChanged", (visibleLocation)=> {
 
       this._visibleLocation = visibleLocation;
