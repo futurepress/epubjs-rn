@@ -22,7 +22,7 @@ class EpubReader extends Component {
     return (
       <View style={styles.container}>
         <Epub style={styles.reader}
-              src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
+              src={"https://s3.amazonaws.com/epubjs/books/fixed.epub"}
               flow={this.state.flow}
               location={this.state.location}
               onLocationChange={(visibleLocation)=> {

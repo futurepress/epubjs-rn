@@ -38,6 +38,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-plumber": "^1.1.0",
+    "gulp-util": "^3.0.8",
     "jest": "17.0.3",
     "jest-react-native": "17.1.0",
     "react": "~15.4.1",

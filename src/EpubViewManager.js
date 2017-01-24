@@ -7,7 +7,8 @@ import {
   Dimensions,
   InteractionManager,
   NativeMethodsMixin,
-  NativeModules
+  NativeModules,
+  UIManager
 } from 'react-native';
 
 import ReactNative from 'react-native';
@@ -694,6 +695,11 @@ class EpubViewManager extends Component {
     if(this.state.horizontal) {
       moveTo = offset + x;
       this.refs.scrollview.scrollTo({x: moveTo, animated: false});
+      // UIManager.dispatchViewManagerCommand(
+      //   this.refs.scrollview.getScrollResponder().scrollResponderGetScrollableNode(),
+      //   UIManager.RCTScrollView.Commands.scrollTo,
+      //   [moveTo, 0, false],
+      // );
     } else {
       moveTo = offset + y;
       this.refs.scrollview.scrollTo({y: moveTo, animated: false});
@@ -756,40 +762,27 @@ class EpubViewManager extends Component {
 
   _willResize(section, e) {
 
-    // if (this._needsCounter(section)) {
-    //   console.log("_needsCounter", section.index, Date.now());
-    //
-    //   this.queuedMove = e;
-    // }
+    // Not ideal, but need to delay check layout is done
+    setImmediate(() => {
+      let needsCounter = this._needsCounter(section);
+
+      if (needsCounter === true) {
+        if(this.state.horizontal) {
+          this.scrollTo(e.widthDelta, 0, true);
+        } else {
+          this.scrollTo(0, e.heightDelta, true);
+        }
+      }
+    });
 
   }
 
   _onResize(section, e) {
-    // Not ideal, but need to delay check until counter and layout is done
-    let needsCounter = this._needsCounter(section);
 
-    if (needsCounter === true) {
-      if(this.state.horizontal) {
-        this.scrollTo(e.widthDelta, 0, true);
-      } else {
-        this.scrollTo(0, e.heightDelta, true);
-      }
-
-      requestAnimationFrame(() => {
-        this.loading = false;
-        section.expanded = true;
-      })
-      // this._updateVisible();
-
-   } else {
-
-     requestAnimationFrame(() => {
-       this.loading = false;
-       section.expanded = true;
-     })
-   }
-
-
+   setTimeout(() => {
+     this.loading = false;
+     section.expanded = true;
+   }, 10);
 
   }
 
