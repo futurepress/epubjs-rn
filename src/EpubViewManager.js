@@ -126,7 +126,7 @@ class EpubViewManager extends Component {
 
     for (var i = 0; i < this.state.sections.length; i++) {
       if (section.index === this.state.sections[i].index) {
-        console.log("displaying already shown section", section.index);
+        // console.log("displaying already shown section", section.index);
         shownView = this.getView(section.index);
         // View is already shown, just move to correct location
         if(target) {
@@ -153,7 +153,7 @@ class EpubViewManager extends Component {
 
     this.props.onShow && this.props.onShow(false);
 
-    console.log("displaying", section.index);
+    // console.log("displaying", section.index);
 
     this.setState({
         sections: [section],
@@ -206,7 +206,7 @@ class EpubViewManager extends Component {
       return;
     }
 
-    console.log("append", section.index);
+    // console.log("append", section.index);
 
     this.setState({
         sections: this.state.sections.concat([section]),
@@ -218,7 +218,7 @@ class EpubViewManager extends Component {
             .then(displaying.resolve, displaying.reject)
             .then(() => this.afterDisplayed(view));
         } else {
-          console.log("Missing View for", section.index);
+          // console.log("Missing View for", section.index);
 
 
           displaying.resolve();
@@ -243,7 +243,7 @@ class EpubViewManager extends Component {
       return;
     }
 
-    console.log("prepend", section.index);
+    // console.log("prepend", section.index);
     this.setState({
         sections: [section].concat(this.state.sections),
       },
@@ -763,7 +763,7 @@ class EpubViewManager extends Component {
   _willResize(section, e) {
 
     // Not ideal, but need to delay check layout is done
-    setImmediate(() => {
+    setTimeout(() => {
       let needsCounter = this._needsCounter(section);
 
       if (needsCounter === true) {
