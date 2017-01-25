@@ -62,25 +62,17 @@ class Epub extends Component {
 
   componentDidMount() {
 
-    Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
+    Orientation.addOrientationListener(this._orientationDidChange.bind(this));
+    this.orientation = Orientation.getInitialOrientation();
+    if (this.orientation === "PORTRAITUPSIDEDOWN" || this.orientation === "UNKNOWN") {
+      this.orientation = "PORTRAIT";
+    }
 
-    // fetch(EPUBJS_LOCATION)
-    //   .then((response) => response.text())
-    //   .then((text) => {
-    //     this._epubjsLib = text;
-
-        this._loadBook(this.book_url);
-
-
-      //   return text;
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      // });
+    this._loadBook(this.book_url);
   }
 
   componentWillUnmount() {
-    Orientation.removeSpecificOrientationListener(this._orientationDidChange);
+    Orientation.removeOrientationListener(this._orientationDidChange);
   }
 
   componentWillUpdate(nextProps) {
@@ -107,13 +99,49 @@ class Epub extends Component {
     }
   }
 
+  // LANDSCAPE PORTRAIT UNKNOWN PORTRAITUPSIDEDOWN
   _orientationDidChange(orientation) {
     var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
-    // LANDSCAPE-LEFT LANDSCAPE-RIGHT PORTRAIT UNKNOWN PORTRAITUPSIDEDOWN
+    var width, height;
+    var bounds = Dimensions.get('window');
+    var _width = bounds.width, _height = bounds.height;
 
-    console.log("orientation", orientation, location);
+    __DEV__ && console.log("orientation", orientation, location, bounds.width, bounds.height);
 
-    this.setState({ width: this.state.height, height: this.state.width }, () => {
+    if (orientation === "UNKNOWN") {
+      orientation = "PORTRAIT";
+    }
+
+    if (orientation === "PORTRAITUPSIDEDOWN") {
+      orientation = "PORTRAIT";
+      // _width = bounds.height;
+      // _height = bounds.width;
+    }
+
+    if (this.orientation === orientation) {
+      return;
+    }
+
+    switch (orientation) {
+      case "PORTRAIT":
+        width = this.props.width || _width;
+        height = this.props.height || _height;
+        break;
+      case "LANDSCAPE":
+        width = this.props.height || _width;
+        height = this.props.width || _height;
+        break;
+      default:
+        width = this.props.width || _width;
+        height = this.props.height || _height;
+    }
+
+
+    this.orientation = orientation;
+    console.log("setting orientation to", width, height);
+
+    this.setState({ width, height}, () => {
+      console.log("orientation to", location);
       this.redisplay(location);
     });
   }
@@ -133,7 +161,8 @@ class Epub extends Component {
   }
 
   _loadBook(bookUrl) {
-    console.log("loading book: ", bookUrl);
+    var loadTimer = Date.now();
+    __DEV__ && console.log("loading book: ", bookUrl);
     var type = this.book.determineType(bookUrl);
 
     global.book = this.book;
@@ -152,6 +181,7 @@ class Epub extends Component {
       .then((res) => {
 
         return res.base64().then((content) => {
+          __DEV__ && console.log("loaded book", Date.now() - loadTimer);
           // new_zip.loadAsync(content, {"base64" : true });
           this._openBook(content, true);
 
@@ -169,7 +199,11 @@ class Epub extends Component {
 
   _openBook(bookArrayBuffer, useBase64) {
     var type = useBase64 ? "base64" : null;
+    var unzipTimer = Date.now();
     this.book.open(bookArrayBuffer, type)
+      .then(() => {
+        __DEV__ && console.log("book unzipped", Date.now() - unzipTimer);
+      })
       .catch((err) => {
         console.error(err);
       })
@@ -217,12 +251,11 @@ class Epub extends Component {
       this.rendition.themes.fontSize(this.props.fontSize);
     }
 
-    if (this.props.location) {
-      this.rendition.display(this.props.location);
-    } else {
-      this.rendition.display(0);
-    }
-
+    this.rendition.display(this.props.location || 0).then(() => {
+      if (this.props.generateLocations != false) {
+        requestAnimationFrame(() => this.loadLocations());
+      }
+    });
     // Disable Scrollbar for Android
     /*
     this.rendition.hooks.content.register((contents) => {
@@ -236,7 +269,7 @@ class Epub extends Component {
       ]);
     });
     */
-    
+
     this.rendition.on("locationChanged", (visibleLocation)=> {
 
       this._visibleLocation = visibleLocation;
@@ -255,7 +288,6 @@ class Epub extends Component {
       this.props.onNavigationReady && this.props.onNavigationReady(nav.toc);
     });
 
-    this.loadLocations();
   }
 
   loadLocations() {
@@ -264,10 +296,12 @@ class Epub extends Component {
       var key = this.book.key()+"-locations";
 
       return AsyncStorage.getItem(key).then((stored) => {
-        if (stored !== null){
+        if (this.props.regenerateLocations != true && stored !== null){
           return this.book.locations.load(stored);
         } else {
+          var locationsTimer = Date.now();
           return this.book.locations.generate(600).then((locations) => {
+            __DEV__ && console.log("locations generated", Date.now() - locationsTimer);
             // Save out the generated locations to JSON
             AsyncStorage.setItem(key, this.book.locations.save());
           });

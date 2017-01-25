@@ -38,4 +38,8 @@ gulp.task("watch", function () {
 	return gulp.watch('./src/**/*.js', ['build', 'copy']);
 });
 
+gulp.task("watch:epubjs", function () {
+	return gulp.watch('../epub.js/lib/**/*.js', ['copy:epubjs']);
+});
+
 gulp.task("default", ["build"]);

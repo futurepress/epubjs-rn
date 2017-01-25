@@ -12,6 +12,67 @@ import {
 import WebViewBridge from 'react-native-webview-bridge';
 import EventEmitter from 'event-emitter'
 const core = require("epubjs/lib/utils/core");
+const INJECTED_SCRIPT = `
+  (function () {
+
+    function _ready() {
+      var bridge = WebViewBridge;
+      var contents;
+
+      if (typeof EPUBJSContents === "undefined") {
+        return bridge.send(JSON.stringify({
+          method: "error",
+          value: "EPUB.js is not loaded"
+        }));
+      }
+
+      contents = new EPUBJSContents(document);
+      window.contents = contents;
+      bridge.onMessage = function (message) {
+        var decoded = JSON.parse(message);
+        var response;
+        var result;
+
+        if (decoded.method in contents) {
+          result = contents[decoded.method].apply(contents, decoded.args);
+
+          response = JSON.stringify({
+            method: decoded.method,
+            promise: decoded.promise,
+            value: result
+          });
+
+          bridge.send(response);
+
+        }
+      };
+
+      contents.on("resize", function (size) {
+        bridge.send(JSON.stringify({method:"resize", value: size }));
+      });
+
+      contents.on("expand", function () {
+        bridge.send(JSON.stringify({method:"expand", value: true}));
+      });
+
+      contents.on("link", function (href) {
+        bridge.send(JSON.stringify({method:"link", value: href}));
+      });
+
+      bridge.send(JSON.stringify({method:"loaded", value: true}));
+
+    }
+
+    if (WebViewBridge) {
+      if ( document.readyState === 'complete'  ) {
+        return _ready();
+      } else {
+        document.addEventListener( 'interactive', _ready, false );
+      }
+    }
+
+  }());
+`;
 
 class EpubView extends Component {
 
@@ -37,7 +98,6 @@ class EpubView extends Component {
 
     this.baseUrl = this.props.baseUrl || "http://futurepress.org";
 
-    this._injectedJavaScript = this._injectScript();
     this.contents = {
       width: (w) => this.ask("width", [w]),
       height: (h) => this.ask("height", [h]),
@@ -87,78 +147,16 @@ class EpubView extends Component {
     this.bridge = this.refs.webviewbridge;
   }
 
+  componentWillUnmount() {
+    this.props.section.unload();
+  }
+
   reset() {
     // this.rendering = new RSVP.defer();
     // this.rendered = this.rendering.promise;
     this.waiting = {};
 
     this.loading = true;
-  }
-
-
-  _injectScript() {
-
-    return `
-      (function () {
-
-        function _ready() {
-          var bridge = WebViewBridge;
-          var contents;
-
-          if (typeof EPUBJSContents === "undefined") {
-            return bridge.send(JSON.stringify({
-              method: "error",
-              value: "EPUB.js is not loaded"
-            }));
-          }
-
-          contents = new EPUBJSContents(document);
-          window.contents = contents;
-          bridge.onMessage = function (message) {
-            var decoded = JSON.parse(message);
-            var response;
-            var result;
-
-            if (decoded.method in contents) {
-              result = contents[decoded.method].apply(contents, decoded.args);
-
-              response = JSON.stringify({
-                method: decoded.method,
-                promise: decoded.promise,
-                value: result
-              });
-
-              bridge.send(response);
-
-            }
-          };
-
-          contents.on("resize", function (size) {
-            bridge.send(JSON.stringify({method:"resize", value: size }));
-          });
-
-          contents.on("expand", function () {
-            bridge.send(JSON.stringify({method:"expand", value: true}));
-          });
-
-          contents.on("link", function (href) {
-            bridge.send(JSON.stringify({method:"link", value: href}));
-          });
-
-          bridge.send(JSON.stringify({method:"loaded", value: true}));
-
-        }
-
-        if (WebViewBridge) {
-          if ( document.readyState === 'complete'  ) {
-            return _ready();
-          } else {
-            document.addEventListener( 'interactive', _ready, false );
-          }
-        }
-
-      }());
-    `;
   }
 
   sendToBridge(method, args, promiseId) {
@@ -301,7 +299,7 @@ class EpubView extends Component {
     // console.log("msg", decoded);
 
     if (decoded.method === "log") {
-      console.log("msg", decoded.value);
+      __DEV__ && console.log("msg", decoded.value);
     }
 
     if (decoded.method === "error") {
@@ -488,7 +486,7 @@ class EpubView extends Component {
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}
           onBridgeMessage={this._onBridgeMessage.bind(this)}
-          injectedJavaScript={this._injectedJavaScript}
+          injectedJavaScript={INJECTED_SCRIPT}
           javaScriptEnabled={true}
         />
         </TouchableWithoutFeedback>

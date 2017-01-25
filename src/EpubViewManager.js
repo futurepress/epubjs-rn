@@ -110,6 +110,7 @@ class EpubViewManager extends Component {
 
   componentWillUnmount() {
     // destroy
+    this.clear();
   }
 
   start(stage) {
@@ -206,7 +207,7 @@ class EpubViewManager extends Component {
       return;
     }
 
-    // console.log("append", section.index);
+    __DEV__ && console.log("append", section.index);
 
     this.setState({
         sections: this.state.sections.concat([section]),
@@ -243,7 +244,7 @@ class EpubViewManager extends Component {
       return;
     }
 
-    // console.log("prepend", section.index);
+    __DEV__ && console.log("prepend", section.index);
     this.setState({
         sections: [section].concat(this.state.sections),
       },
@@ -763,7 +764,7 @@ class EpubViewManager extends Component {
   _willResize(section, e) {
 
     // Not ideal, but need to delay check layout is done
-    setTimeout(() => {
+    this.resizeTimeout = setTimeout(() => {
       let needsCounter = this._needsCounter(section);
 
       if (needsCounter === true) {
@@ -779,7 +780,7 @@ class EpubViewManager extends Component {
 
   _onResize(section, e) {
 
-   setTimeout(() => {
+   this.resizedTimeout = setTimeout(() => {
      this.loading = false;
      section.expanded = true;
    }, 10);
@@ -793,6 +794,11 @@ class EpubViewManager extends Component {
   }
 
   clear(cb) {
+    clearTimeout(this.scrollTimeout);
+    clearTimeout(this.resizeTimeout);
+    clearTimeout(this.resizedTimeout);
+
+    this.loading = false;
     return this.setState({ sections : [] }, () => {
       cb && cb();
     });

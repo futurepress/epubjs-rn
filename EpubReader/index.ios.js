@@ -22,17 +22,21 @@ class EpubReader extends Component {
     return (
       <View style={styles.container}>
         <Epub style={styles.reader}
-              src={"https://s3.amazonaws.com/epubjs/books/moby-dick/OPS/package.opf"}
+              src={"https://s3.amazonaws.com/epubjs/books/moby-dick.epub"}
               flow={this.state.flow}
               location={this.state.location}
               onLocationChange={(visibleLocation)=> {
                 // console.log("locationChanged", visibleLocation)
               }}
-              onLocationsReady={(locations)=> { console.log("location total", locations.total) }}
+              onLocationsReady={(locations)=> {
+                // console.log("location total", locations.total);
+              }}
               onReady={(book)=> {
                 // console.log("Metadata", book.package.metadata)
                 // console.log("Table of Contents", book.toc)
               }}
+              regenerateLocations={true}
+              generateLocations={true}
             />
       </View>
 
