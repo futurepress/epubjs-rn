@@ -9,14 +9,15 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import WebViewBridge from 'react-native-webview-bridge';
+// import WebViewBridge from 'react-native-webview-bridge';
 import EventEmitter from 'event-emitter'
 const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
   (function () {
 
     function _ready() {
-      var bridge = WebViewBridge;
+      // var bridge = WebViewBridge;
+      var bridge = { send: window.postMessage };
       var contents;
 
       if (typeof EPUBJSContents === "undefined") {
@@ -28,7 +29,8 @@ const INJECTED_SCRIPT = `
 
       contents = new EPUBJSContents(document);
       window.contents = contents;
-      bridge.onMessage = function (message) {
+      document.addEventListener("message", function (e) {
+        var message = e.data;
         var decoded = JSON.parse(message);
         var response;
         var result;
@@ -45,7 +47,7 @@ const INJECTED_SCRIPT = `
           bridge.send(response);
 
         }
-      };
+      });
 
       contents.on("resize", function (size) {
         bridge.send(JSON.stringify({method:"resize", value: size }));
@@ -63,12 +65,10 @@ const INJECTED_SCRIPT = `
 
     }
 
-    if (WebViewBridge) {
-      if ( document.readyState === 'complete'  ) {
-        return _ready();
-      } else {
-        document.addEventListener( 'interactive', _ready, false );
-      }
+    if ( document.readyState === 'complete'  ) {
+      return _ready();
+    } else {
+      document.addEventListener( 'interactive', _ready, false );
     }
 
   }());
@@ -144,6 +144,7 @@ class EpubView extends Component {
   }
 
   componentDidMount() {
+    // this.bridge = this.refs.webviewbridge;
     this.bridge = this.refs.webviewbridge;
   }
 
@@ -170,7 +171,7 @@ class EpubView extends Component {
       return;
     }
 
-    this.bridge.sendToBridge(str);
+    this.bridge.postMessage(str);
   }
 
   ask(method, args) {
@@ -292,8 +293,8 @@ class EpubView extends Component {
 
   }
 
-  _onBridgeMessage(msg) {
-
+  _onBridgeMessage(e) {
+    var msg = e.nativeEvent.data;
     var decoded = JSON.parse(msg);
     var p;
     // console.log("msg", decoded);
@@ -472,7 +473,7 @@ class EpubView extends Component {
         collapsable={false}
         >
         <TouchableWithoutFeedback onPress={this.props.onPress}>
-        <WebViewBridge
+        <WebView
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
           style={[this.props.style, {
@@ -485,7 +486,7 @@ class EpubView extends Component {
           scalesPageToFit={false}
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}
-          onBridgeMessage={this._onBridgeMessage.bind(this)}
+          onMessage={this._onBridgeMessage.bind(this)}
           injectedJavaScript={INJECTED_SCRIPT}
           javaScriptEnabled={true}
         />
