@@ -16,19 +16,17 @@ const INJECTED_SCRIPT = `
   (function () {
 
     function _ready() {
-      // var bridge = WebViewBridge;
-      var bridge = { send: window.postMessage };
       var contents;
 
       if (typeof EPUBJSContents === "undefined") {
-        return bridge.send(JSON.stringify({
+        return window.postMessage(JSON.stringify({
           method: "error",
           value: "EPUB.js is not loaded"
         }));
       }
 
       contents = new EPUBJSContents(document);
-      window.contents = contents;
+
       document.addEventListener("message", function (e) {
         var message = e.data;
         var decoded = JSON.parse(message);
@@ -44,29 +42,28 @@ const INJECTED_SCRIPT = `
             value: result
           });
 
-          bridge.send(response);
+          window.postMessage(response);
 
         }
       });
 
       contents.on("resize", function (size) {
-        bridge.send(JSON.stringify({method:"resize", value: size }));
+        window.postMessage(JSON.stringify({method:"resize", value: size }));
       });
 
       contents.on("expand", function () {
-        bridge.send(JSON.stringify({method:"expand", value: true}));
+        window.postMessage(JSON.stringify({method:"expand", value: true}));
       });
 
       contents.on("link", function (href) {
-        bridge.send(JSON.stringify({method:"link", value: href}));
+        window.postMessage(JSON.stringify({method:"link", value: href}));
       });
 
-      bridge.send(JSON.stringify({method:"loaded", value: true}));
-
+      window.postMessage(JSON.stringify({method:"loaded", value: true}));
     }
 
     if ( document.readyState === 'complete'  ) {
-      return _ready();
+      _ready();
     } else {
       document.addEventListener( 'interactive', _ready, false );
     }
@@ -84,8 +81,8 @@ class EpubView extends Component {
     var width = horizontal ? 0 : this.props.bounds.width;
 
     this.state = {
-      visibility: false,
-      opacity: 0,
+      visibility: true,
+      opacity: 1,
       margin: 0,
       height: height,
       width: width,
@@ -297,7 +294,7 @@ class EpubView extends Component {
     var msg = e.nativeEvent.data;
     var decoded = JSON.parse(msg);
     var p;
-    // console.log("msg", decoded);
+    // console.log("msg", this.props.section.index, decoded);
 
     if (decoded.method === "log") {
       __DEV__ && console.log("msg", decoded.value);

@@ -29,8 +29,8 @@ const DEFAULT_END_REACHED_THRESHOLD = 1000;
 const DEFAULT_SCROLL_CALLBACK_THROTTLE = 16;
 const SCROLLVIEW_REF = "scrollview";
 
-const VERT_SCROLLRATE = 200;
-const HORZ_SCROLLRATE = 400;
+const VERT_SCROLLRATE = 20;
+const HORZ_SCROLLRATE = 60;
 
 class EpubViewManager extends Component {
   constructor(props) {
@@ -570,6 +570,7 @@ class EpubViewManager extends Component {
         resolve();
       });
     }
+    console.log("CHECK", this.scrollProperties.offset);
 
     var offset = this.scrollProperties.offset;
     var visibleLength = this.scrollProperties.visibleLength;
