@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-visible-scrollview')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-orientation')
     compile fileTree(dir: "libs", include: ["*.jar"])
