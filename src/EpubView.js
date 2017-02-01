@@ -15,7 +15,7 @@ const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
   (function () {
 
-    var _ready = function() {
+    function _ready() {
       var contents;
 
       if (typeof EPUBJSContents === "undefined") {
@@ -67,8 +67,6 @@ const INJECTED_SCRIPT = `
     } else {
       document.addEventListener( 'interactive', _ready, false );
     }
-
-    window._ready = _ready;
 
   }());
 `;
