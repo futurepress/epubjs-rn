@@ -125,6 +125,8 @@ class EpubViewManager extends Component {
     var displaying = new core.defer();
     var shownView;
 
+    this.displaying = displaying;
+
     for (var i = 0; i < this.state.sections.length; i++) {
       if (section.index === this.state.sections[i].index) {
         // console.log("displaying already shown section", section.index);
@@ -154,7 +156,7 @@ class EpubViewManager extends Component {
 
     this.props.onShow && this.props.onShow(false);
 
-    // console.log("displaying", section.index);
+    __DEV__ && console.log("displaying", section.index);
 
     this.setState({
         sections: [section],
@@ -570,7 +572,6 @@ class EpubViewManager extends Component {
         resolve();
       });
     }
-    console.log("CHECK", this.scrollProperties.offset);
 
     var offset = this.scrollProperties.offset;
     var visibleLength = this.scrollProperties.visibleLength;
@@ -800,6 +801,9 @@ class EpubViewManager extends Component {
     clearTimeout(this.resizedTimeout);
 
     this.loading = false;
+
+    this.displaying && this.displaying.resolve();
+
     return this.setState({ sections : [] }, () => {
       cb && cb();
     });

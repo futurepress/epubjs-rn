@@ -68,6 +68,12 @@ class Epub extends Component {
       this.orientation = "PORTRAIT";
     }
 
+    // Android starts as null
+    if (this.orientation === null) {
+      this.orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
+    }
+    __DEV__ && console.log("orientation", this.orientation, this.state.width, this.state.height)
+
     this._loadBook(this.book_url);
   }
 
@@ -101,48 +107,45 @@ class Epub extends Component {
 
   // LANDSCAPE PORTRAIT UNKNOWN PORTRAITUPSIDEDOWN
   _orientationDidChange(orientation) {
-    var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
-    var width, height;
-    var bounds = Dimensions.get('window');
-    var _width = bounds.width, _height = bounds.height;
 
-    __DEV__ && console.log("orientation", orientation, location, bounds.width, bounds.height);
-
-    if (orientation === "UNKNOWN") {
-      orientation = "PORTRAIT";
-    }
-
-    if (orientation === "PORTRAITUPSIDEDOWN") {
-      orientation = "PORTRAIT";
-      // _width = bounds.height;
-      // _height = bounds.width;
-    }
-
-    if (this.orientation === orientation) {
+    if (orientation === "UNKNOWN" || this.orientation === orientation) {
       return;
     }
 
-    switch (orientation) {
-      case "PORTRAIT":
-        width = this.props.width || _width;
-        height = this.props.height || _height;
-        break;
-      case "LANDSCAPE":
-        width = this.props.height || _width;
-        height = this.props.width || _height;
-        break;
-      default:
-        width = this.props.width || _width;
-        height = this.props.height || _height;
-    }
+    this.rendition.manager.clear();
+
+    requestAnimationFrame(()=> {
+      var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
+      var width, height;
+      var bounds = Dimensions.get('window');
+      var _width = bounds.width, _height = bounds.height;
+
+      __DEV__ && console.log("orientation", orientation, bounds.width, bounds.height);
+
+      switch (orientation) {
+        case "PORTRAIT":
+          width = this.props.width || _width;
+          height = this.props.height || _height;
+          break;
+        case "PORTRAITUPSIDEDOWN":
+          width = this.props.width || _width;
+          height = this.props.height || _height;
+          break;
+        case "LANDSCAPE":
+          width = this.props.height || _width;
+          height = this.props.width || _height;
+          break;
+        default:
+          width = this.props.width || _width;
+          height = this.props.height || _height;
+      }
 
 
-    this.orientation = orientation;
-    console.log("setting orientation to", width, height);
+      this.orientation = orientation;
 
-    this.setState({ width, height}, () => {
-      console.log("orientation to", location);
-      this.redisplay(location);
+      this.setState({ width, height}, () => {
+        this.redisplay(location);
+      });
     });
   }
 
