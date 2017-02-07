@@ -17,7 +17,7 @@ import ReactNative from 'react-native';
 import EventEmitter from 'event-emitter'
 import {throttle, debounce} from 'lodash';
 import merge from 'merge';
-import VisibleScrollView from 'react-native-visible-scrollview';
+
 const core = require("epubjs/lib/utils/core");
 
 import EpubView from './EpubView';
@@ -864,7 +864,7 @@ class EpubViewManager extends Component {
 
   render() {
     return (
-      <VisibleScrollView
+      <ScrollView
         ref={SCROLLVIEW_REF}
         automaticallyAdjustContentInsets={false}
         horizontal={this.state.horizontal}
@@ -901,7 +901,7 @@ class EpubViewManager extends Component {
           onLayout={(l) => { this._onChildLayout(index, l) }}
           loaderSize={this.state.displayed ? 100 : 0}
           />})}
-      </VisibleScrollView>
+      </ScrollView>
     );
   }
 
