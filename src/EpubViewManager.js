@@ -23,8 +23,8 @@ const core = require("epubjs/lib/utils/core");
 import EpubView from './EpubView';
 
 // const RCTScrollViewManager = require('NativeModules').ScrollViewManager;
-// const RCTScrollViewManager = NativeModules.ScrollViewManager;
-const FPVisibleScrollViewManager = NativeModules.FPVisibleScrollViewManager;
+const RCTScrollViewManager = NativeModules.ScrollViewManager;
+//const FPVisibleScrollViewManager = NativeModules.FPVisibleScrollViewManager;
 
 const DEFAULT_SCROLL_RENDER_AHEAD = 1000;
 const DEFAULT_END_REACHED_THRESHOLD = 1000;
@@ -474,8 +474,8 @@ class EpubViewManager extends Component {
 
     // RCTScrollViewManager.calculateChildFrames is not available on
     // every platform
-    FPVisibleScrollViewManager && FPVisibleScrollViewManager.calculateChildFrames &&
-    FPVisibleScrollViewManager.calculateChildFrames(
+    RCTScrollViewManager && RCTScrollViewManager.calculateChildFrames &&
+    RCTScrollViewManager.calculateChildFrames(
       ReactNative.findNodeHandle(scrollComponent),
       this._updateVisible.bind(this),
     );
@@ -573,7 +573,7 @@ class EpubViewManager extends Component {
 
   _onChildLayout(index, layout) {
     //Dont update on iOS
-    if (FPVisibleScrollViewManager && FPVisibleScrollViewManager.calculateChildFrames) {
+    if (RCTScrollViewManager && RCTScrollViewManager.calculateChildFrames) {
       return;
     }
     let frame = merge(layout);
