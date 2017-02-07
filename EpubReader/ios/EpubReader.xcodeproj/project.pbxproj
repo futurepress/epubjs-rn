@@ -24,7 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6EAB93FAC98242AE805539CA /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C562C21C604746108475B302 /* libRCTOrientation.a */; };
-		7B88158949D54CA3BC24E6C2 /* libRNVisibleScrollView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F6DF22A9E136495C9EA6A056 /* libRNVisibleScrollView.a */; };
+		6FBE48FC91C6435B915A9FFE /* libFPReactNativeVisibleScrollview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E9445F1E31674D5A8087D4C2 /* libFPReactNativeVisibleScrollview.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9EAD09C079654939900BE5B7 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 692AD330DD4741D8BD854896 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
@@ -107,12 +107,12 @@
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
 		};
-		33436B411E413FF600352A10 /* PBXContainerItemProxy */ = {
+		337FEC3E1E42C067003B92EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 63FC2C2C8E54480FA95296B1 /* RNVisibleScrollView.xcodeproj */;
+			containerPortal = A7DCE201FF3840B382825D83 /* FPReactNativeVisibleScrollview.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNVisibleScrollView;
+			remoteInfo = FPReactNativeVisibleScrollview;
 		};
 		3DAD3E831DF850E9000B6D8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -256,14 +256,14 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = EpubReader/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
-		63FC2C2C8E54480FA95296B1 /* RNVisibleScrollView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVisibleScrollView.xcodeproj; path = "../node_modules/react-native-visible-scrollview/ios/RNVisibleScrollView.xcodeproj"; sourceTree = "<group>"; };
 		692AD330DD4741D8BD854896 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		A7DCE201FF3840B382825D83 /* FPReactNativeVisibleScrollview.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FPReactNativeVisibleScrollview.xcodeproj; path = "../node_modules/react-native-visible-scrollview/ios/FPReactNativeVisibleScrollview.xcodeproj"; sourceTree = "<group>"; };
 		C030C82D8A0D4164ADDAA4C8 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		C562C21C604746108475B302 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		CA4F4EA277384D788B8201F1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		F6DF22A9E136495C9EA6A056 /* libRNVisibleScrollView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVisibleScrollView.a; sourceTree = "<group>"; };
+		E9445F1E31674D5A8087D4C2 /* libFPReactNativeVisibleScrollview.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFPReactNativeVisibleScrollview.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,7 +292,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				6EAB93FAC98242AE805539CA /* libRCTOrientation.a in Frameworks */,
 				9EAD09C079654939900BE5B7 /* libRNFetchBlob.a in Frameworks */,
-				7B88158949D54CA3BC24E6C2 /* libRNVisibleScrollView.a in Frameworks */,
+				6FBE48FC91C6435B915A9FFE /* libFPReactNativeVisibleScrollview.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,10 +421,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33436B231E413FF600352A10 /* Products */ = {
+		337FEC3B1E42C067003B92EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33436B421E413FF600352A10 /* libRNVisibleScrollView.a */,
+				337FEC3F1E42C067003B92EC /* libFPReactNativeVisibleScrollview.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -463,7 +463,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				C030C82D8A0D4164ADDAA4C8 /* RCTOrientation.xcodeproj */,
 				CA4F4EA277384D788B8201F1 /* RNFetchBlob.xcodeproj */,
-				63FC2C2C8E54480FA95296B1 /* RNVisibleScrollView.xcodeproj */,
+				A7DCE201FF3840B382825D83 /* FPReactNativeVisibleScrollview.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -569,6 +569,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 337FEC3B1E42C067003B92EC /* Products */;
+					ProjectRef = A7DCE201FF3840B382825D83 /* FPReactNativeVisibleScrollview.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -619,10 +623,6 @@
 				{
 					ProductGroup = 330A3DF21E3BFD6400C5F656 /* Products */;
 					ProjectRef = CA4F4EA277384D788B8201F1 /* RNFetchBlob.xcodeproj */;
-				},
-				{
-					ProductGroup = 33436B231E413FF600352A10 /* Products */;
-					ProjectRef = 63FC2C2C8E54480FA95296B1 /* RNVisibleScrollView.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -704,11 +704,11 @@
 			remoteRef = 330A3E0F1E3BFD6400C5F656 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		33436B421E413FF600352A10 /* libRNVisibleScrollView.a */ = {
+		337FEC3F1E42C067003B92EC /* libFPReactNativeVisibleScrollview.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRNVisibleScrollView.a;
-			remoteRef = 33436B411E413FF600352A10 /* PBXContainerItemProxy */;
+			path = libFPReactNativeVisibleScrollview.a;
+			remoteRef = 337FEC3E1E42C067003B92EC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
@@ -926,6 +926,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
@@ -943,6 +944,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -978,6 +980,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = S9PLTSRA52;
 				INFOPLIST_FILE = EpubReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

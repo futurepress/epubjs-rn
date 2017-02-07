@@ -5,7 +5,8 @@ import {
   View,
   ActivityIndicator,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from "react-native";
 
 import Orientation from "react-native-orientation";
@@ -62,7 +63,7 @@ class Epub extends Component {
 
   componentDidMount() {
 
-    Orientation.addOrientationListener(this._orientationDidChange.bind(this));
+    Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
     this.orientation = Orientation.getInitialOrientation();
     if (this.orientation === "PORTRAITUPSIDEDOWN" || this.orientation === "UNKNOWN") {
       this.orientation = "PORTRAIT";
@@ -72,13 +73,15 @@ class Epub extends Component {
     if (this.orientation === null) {
       this.orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
     }
-    __DEV__ && console.log("orientation", this.orientation, this.state.width, this.state.height)
+    console.log("inital orientation", this.orientation, this.state.width, this.state.height)
 
     this._loadBook(this.book_url);
   }
 
   componentWillUnmount() {
-    Orientation.removeOrientationListener(this._orientationDidChange);
+    Orientation.removeSpecificOrientationListener(this._orientationDidChange);
+    clearTimeout(this.orientationTimeout);
+    // this.book.destroy();
   }
 
   componentWillUpdate(nextProps) {
@@ -107,46 +110,71 @@ class Epub extends Component {
 
   // LANDSCAPE PORTRAIT UNKNOWN PORTRAITUPSIDEDOWN
   _orientationDidChange(orientation) {
-
-    if (orientation === "UNKNOWN" || this.orientation === orientation) {
+    var wait = 10;
+    if (orientation === "UNKNOWN" || orientation == "PORTRAITUPSIDEDOWN" || this.orientation === orientation) {
       return;
     }
 
-    this.rendition.manager.clear();
-
-    requestAnimationFrame(()=> {
-      var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
-      var width, height;
-      var bounds = Dimensions.get('window');
-      var _width = bounds.width, _height = bounds.height;
-
-      __DEV__ && console.log("orientation", orientation, bounds.width, bounds.height);
-
-      switch (orientation) {
-        case "PORTRAIT":
-          width = this.props.width || _width;
-          height = this.props.height || _height;
-          break;
-        case "PORTRAITUPSIDEDOWN":
-          width = this.props.width || _width;
-          height = this.props.height || _height;
-          break;
-        case "LANDSCAPE":
-          width = this.props.height || _width;
-          height = this.props.width || _height;
-          break;
-        default:
-          width = this.props.width || _width;
-          height = this.props.height || _height;
-      }
-
-
-      this.orientation = orientation;
-
-      this.setState({ width, height}, () => {
-        this.redisplay(location);
+    if (this.rendition) {
+      this.rendition.manager.clear(() => {
+        this.orientationTimeout = setTimeout(()=> {
+          this._updateOrientation(orientation);
+        }, wait);
       });
+    } else {
+      this.orientationTimeout = setTimeout(()=> {
+          this._updateOrientation(orientation);
+      }, wait);
+    }
+
+  }
+
+  _updateOrientation(orientation) {
+    var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
+    var width, height;
+    var bounds = Dimensions.get('window');
+    var _width = bounds.width, _height = bounds.height;
+    var reversed = false;
+
+    console.log("orientation", orientation, bounds.width, bounds.height);
+
+    switch (orientation) {
+      case "PORTRAIT":
+        if (_width > _height) { reversed = true };
+        break;
+      case "LANDSCAPE":
+        width = this.props.height || _width;
+        height = this.props.width || _height;
+        break;
+      case "LANDSCAPE-RIGHT":
+        if (_height > _width) { reversed = true };
+        break;
+      case "LANDSCAPE-LEFT":
+        if (_height > _width) { reversed = true };
+        break;
+      default:
+        reversed = false;
+    }
+
+
+    this.orientation = orientation;
+
+
+    if (reversed) {
+      width = this.props.width || _height;
+      height = this.props.height || _width;
+    } else {
+      width = this.props.width || _width;
+      height = this.props.height || _height;
+    }
+
+    this.setState({ width, height}, () => {
+      if (this.rendition) {
+        this.redisplay(location);
+      }
     });
+
+    this.props.onOrientationChanged && this.props.onOrientationChanged();
   }
 
   redisplay(location) {
@@ -236,7 +264,7 @@ class Epub extends Component {
 
     this.rendition = new Rendition(this.book, {
       flow: this.props.flow || "paginated",
-      minSpreadWidth: 600,
+      minSpreadWidth: 550,
       manager: this.manager
     });
 
@@ -340,7 +368,7 @@ class Epub extends Component {
 
     return (
       <View ref="framer" style={styles.container}>
-
+        <StatusBar hidden={true}/>
         <EpubViewManager
           ref="manager"
           style={styles.manager}

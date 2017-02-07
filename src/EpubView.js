@@ -15,14 +15,15 @@ const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
   (function () {
 
-    var _ready = function() {
+    function _ready() {
       var contents;
+      var targetOrigin = "*";
 
       if (typeof EPUBJSContents === "undefined") {
         return window.postMessage(JSON.stringify({
           method: "error",
           value: "EPUB.js is not loaded"
-        }));
+        }), targetOrigin);
       }
 
       contents = new EPUBJSContents(document);
@@ -42,24 +43,24 @@ const INJECTED_SCRIPT = `
             value: result
           });
 
-          window.postMessage(response);
+          window.postMessage(response, targetOrigin);
 
         }
       });
 
       contents.on("resize", function (size) {
-        window.postMessage(JSON.stringify({method:"resize", value: size }));
+        window.postMessage(JSON.stringify({method:"resize", value: size }), targetOrigin);
       });
 
       contents.on("expand", function () {
-        window.postMessage(JSON.stringify({method:"expand", value: true}));
+        window.postMessage(JSON.stringify({method:"expand", value: true}), targetOrigin);
       });
 
       contents.on("link", function (href) {
-        window.postMessage(JSON.stringify({method:"link", value: href}));
+        window.postMessage(JSON.stringify({method:"link", value: href}), targetOrigin);
       });
 
-      window.postMessage(JSON.stringify({method:"loaded", value: true}));
+      window.postMessage(JSON.stringify({method:"loaded", value: true}), targetOrigin);
     }
 
     if ( document.readyState === 'complete'  ) {
@@ -67,8 +68,6 @@ const INJECTED_SCRIPT = `
     } else {
       document.addEventListener( 'interactive', _ready, false );
     }
-
-    window._ready = _ready;
 
   }());
 `;
@@ -133,21 +132,36 @@ class EpubView extends Component {
   }
 
   componentWillMount() {
-
-    this.props.section.render(this.props.request)
-      .then((contents) => {
-        this.setState({ contents }, function () {
-          // console.log("done setting", contents.length);
-        });
-      });
+    this.sectionRendering = this.props.section.render(this.props.request);
+      // .then((contents) => {
+      //   console.log("Still mounted?", this.mounted, this.props.section.index);
+      //   if (!this.mounted) {
+      //     return; // Prevent updating an unmounted component
+      //   }
+      //   this.setState({ contents }, function () {
+      //     // console.log("done setting", contents.length);
+      //   });
+      // });
   }
 
   componentDidMount() {
     // this.bridge = this.refs.webviewbridge;
     this.bridge = this.refs.webviewbridge;
+
+    this.mounted = true;
+
+    this.sectionRendering.then((contents) => {
+        if (!this.mounted) {
+          return; // Prevent updating an unmounted component
+        }
+        this.setState({ contents }, function () {
+          // console.log("done setting", this.props.section.index, contents.length);
+        });
+      });
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     this.props.section.unload();
   }
 
@@ -193,9 +207,9 @@ class EpubView extends Component {
     var expanded;
     var expanding;
 
-    if (this.expanding || this.loading) {
-      return;
-    }
+    // if (this.expanding || this.loading) {
+    //   return;
+    // }
     this.expanding = true;
 
     if (this.props.layout === "pre-paginated") {
