@@ -60,6 +60,27 @@ const INJECTED_SCRIPT = `
         window.postMessage(JSON.stringify({method:"link", value: href}), targetOrigin);
       });
 
+      var startPosition = { x: -1, y: -1 };
+      var currentPosition = { x: -1, y: -1 };
+      document.getElementsByTagName('body')[0].addEventListener("touchstart", function (e) {
+        startPosition.x = e.targetTouches[0].pageX;
+        startPosition.y = e.targetTouches[0].pageY;
+        currentPosition.x = e.targetTouches[0].pageX;
+        currentPosition.y = e.targetTouches[0].pageY;
+      }, false);
+
+      document.getElementsByTagName('body')[0].addEventListener("touchmove", function (e) {
+        currentPosition.x = e.targetTouches[0].pageX;
+        currentPosition.y = e.targetTouches[0].pageY;
+      }, false);
+
+      document.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
+        if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
+           Math.abs(startPosition.y - currentPosition.y) < 2) {
+          window.postMessage(JSON.stringify({method:"press", value: true}), targetOrigin);
+        }
+      }, false);
+
       window.postMessage(JSON.stringify({method:"loaded", value: true}), targetOrigin);
     }
 
@@ -328,6 +349,10 @@ class EpubView extends Component {
       this.contents.emit("link", decoded.value);
     }
 
+    if (decoded.method === "press") {
+      this.props.onPress && this.props.onPress();
+    }
+
     if (decoded.promise in this.waiting) {
       p = this.waiting[decoded.promise].shift();
       p.resolve(decoded.value);
@@ -352,13 +377,12 @@ class EpubView extends Component {
     }
 
     if (this.props.onResize && this.bounds.width && this.bounds.height) {
-      this.props.onResize({
+      this.props.onResize && this.props.onResize({
         width: this.bounds.width,
         height: this.bounds.height,
         widthDelta: this.prevBounds ? this.bounds.width - this.prevBounds.width : this.bounds.width,
         heightDelta: this.prevBounds ? this.bounds.height - this.prevBounds.height : this.bounds.height,
       });
-
     }
 
   }
@@ -369,7 +393,7 @@ class EpubView extends Component {
         nextState.height &&
        (this.state.width !== nextState.width || this.state.height !== nextState.height)) {
 
-      this.props.willResize({
+      this.props.willResize && this.props.willResize({
         width: nextState.width,
         height: nextState.height,
         widthDelta: nextState.width - this.state.width,

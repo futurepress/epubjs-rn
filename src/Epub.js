@@ -174,7 +174,7 @@ class Epub extends Component {
       }
     });
 
-    this.props.onOrientationChanged && this.props.onOrientationChanged();
+    this.props.onOrientationChanged && this.props.onOrientationChanged(orientation);
   }
 
   redisplay(location) {

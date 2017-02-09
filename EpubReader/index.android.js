@@ -32,7 +32,11 @@ class EpubReader extends Component {
               onReady={(book)=> {
                 // console.log("Metadata", book.package.metadata)
                 // console.log("Table of Contents", book.toc)
-              }} />
+              }}
+              onPress={(book)=> {
+                console.log("Pressed")
+              }}
+              />
       </View>
 
     );

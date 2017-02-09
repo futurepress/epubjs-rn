@@ -35,6 +35,9 @@ class EpubReader extends Component {
                 // console.log("Metadata", book.package.metadata)
                 // console.log("Table of Contents", book.toc)
               }}
+              onPress={(book)=> {
+                console.log("Pressed")
+              }}
               regenerateLocations={true}
               generateLocations={true}
             />

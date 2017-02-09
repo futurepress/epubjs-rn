@@ -17,22 +17,22 @@ import ReactNative from 'react-native';
 import EventEmitter from 'event-emitter'
 import {throttle, debounce} from 'lodash';
 import merge from 'merge';
-
+import VisibleScrollView from 'react-native-visible-scrollview';
 const core = require("epubjs/lib/utils/core");
 
 import EpubView from './EpubView';
 
 // const RCTScrollViewManager = require('NativeModules').ScrollViewManager;
-const RCTScrollViewManager = NativeModules.ScrollViewManager;
-//const FPVisibleScrollViewManager = NativeModules.FPVisibleScrollViewManager;
+// const RCTScrollViewManager = NativeModules.ScrollViewManager;
+const FPVisibleScrollViewManager = NativeModules.FPVisibleScrollViewManager;
 
 const DEFAULT_SCROLL_RENDER_AHEAD = 1000;
 const DEFAULT_END_REACHED_THRESHOLD = 1000;
 const DEFAULT_SCROLL_CALLBACK_THROTTLE = 16;
 const SCROLLVIEW_REF = "scrollview";
 
-const VERT_SCROLLRATE = 20;
-const HORZ_SCROLLRATE = 60;
+const VERT_SCROLLRATE = 80;
+const HORZ_SCROLLRATE = 100;
 
 class EpubViewManager extends Component {
   constructor(props) {
@@ -63,7 +63,6 @@ class EpubViewManager extends Component {
     this.addingQ = [];
 
     this.scrolling = false;
-    this.check = throttle(this._check.bind(this), this.state.rate, { 'trailing': true });
     this.afterScrolled = debounce(this._afterScrolled.bind(this), 250);
     // this.updateVisible = _.throttle(this._updateVisible.bind(this), this.state.rate, { 'trailing': true });
   }
@@ -192,7 +191,7 @@ class EpubViewManager extends Component {
 
           })
           .then(() => this.afterDisplayed(view))
-          .then(() => this._check());
+          // .then(() => this._check());
 
 
           // this.getScrollResponder().scrollTo({x: 0, y: 0})
@@ -474,8 +473,8 @@ class EpubViewManager extends Component {
 
     // RCTScrollViewManager.calculateChildFrames is not available on
     // every platform
-    RCTScrollViewManager && RCTScrollViewManager.calculateChildFrames &&
-    RCTScrollViewManager.calculateChildFrames(
+    FPVisibleScrollViewManager && FPVisibleScrollViewManager.calculateChildFrames &&
+    FPVisibleScrollViewManager.calculateChildFrames(
       ReactNative.findNodeHandle(scrollComponent),
       this._updateVisible.bind(this),
     );
@@ -573,7 +572,7 @@ class EpubViewManager extends Component {
 
   _onChildLayout(index, layout) {
     //Dont update on iOS
-    if (RCTScrollViewManager && RCTScrollViewManager.calculateChildFrames) {
+    if (FPVisibleScrollViewManager && FPVisibleScrollViewManager.calculateChildFrames) {
       return;
     }
     let frame = merge(layout);
@@ -617,6 +616,7 @@ class EpubViewManager extends Component {
         added.push(this.append(section));
       }
     }
+
     if (offset - (delta * this.lookBehind) < 0 ) {
       current = this.state.sections[0];
       view = this.getView(current.index);
@@ -703,13 +703,26 @@ class EpubViewManager extends Component {
       } else {
         distX = pos.left + Math.floor(offset.left / this.state.layout.delta) * this.state.layout.delta;
       }
-      // return this._check(offset.left, offset.top).then(() => {
-        this.scrollTo(distX, distY, true);
-      // });
 
+      this.scrollTo(distX, distY, true);
   }
 
   scrollTo(x, y, silent) {
+
+    if (silent) {
+      this.silentScroll = true;
+    }
+
+    this.refs.scrollview.scrollTo({x: x, y: y, animated: false});
+
+    if(this.state.horizontal) {
+      this.scrollProperties.offset = x;
+    } else {
+      this.scrollProperties.offset = y;
+    }
+  }
+
+  scrollBy(x, y, silent) {
     var moveTo;
     var offset = this.scrollProperties.offset;
     // if(this.state.horizontal) {
@@ -750,9 +763,13 @@ class EpubViewManager extends Component {
 
     this._updateVisible();
 
-    requestAnimationFrame(() => {
+    // requestAnimationFrame(() => {
+    //   InteractionManager.runAfterInteractions(this._check.bind(this));
+    // });
+
+    this.resizedTimeout = setTimeout(()=> {
       InteractionManager.runAfterInteractions(this._check.bind(this));
-    });
+    }, 20);
 
   }
 
@@ -775,7 +792,7 @@ class EpubViewManager extends Component {
     if (visibleLength !== this.scrollProperties.visibleLength) {
       this.scrollProperties.visibleLength = visibleLength;
       this._updateVisible();
-      InteractionManager.runAfterInteractions(this._check.bind(this));
+      // InteractionManager.runAfterInteractions(this._check.bind(this));
     }
 
   }
@@ -816,7 +833,7 @@ class EpubViewManager extends Component {
       var section = this.state.sections[i];
       var view = this.getView(section.index);
 
-      if (!view.expanded) {
+      if (!view.expanded || view.state.width === 0 || view.state.height === 0) {
         loading = true;
         break;
       }
@@ -864,7 +881,7 @@ class EpubViewManager extends Component {
 
   render() {
     return (
-      <ScrollView
+      <VisibleScrollView
         ref={SCROLLVIEW_REF}
         automaticallyAdjustContentInsets={false}
         horizontal={this.state.horizontal}
@@ -875,7 +892,7 @@ class EpubViewManager extends Component {
         onLayout={this._onLayout.bind(this)}
         onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={DEFAULT_SCROLL_CALLBACK_THROTTLE}
-        removeClippedSubviews={true}
+        removeClippedSubviews={(this.props.removeClippedSubviews === false) ? false : true}
         scrollsToTop={false}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -894,14 +911,13 @@ class EpubViewManager extends Component {
           gap={ this.state.horizontal ? this.state.layout.gap : this.minGap}
           afterLoad={this._afterLoad.bind(this)}
           onResize={(e)=> this._onResize(section, e)}
-          willResize={(e)=> this._willResize(section, e)}
+          // willResize={(e)=> this._willResize(section, e)}
           bounds={this.props.bounds || this._bounds}
           request={this.props.request}
           baseUrl={this.props.baseUrl}
           onLayout={(l) => { this._onChildLayout(index, l) }}
-          loaderSize={this.state.displayed ? 100 : 0}
           />})}
-      </ScrollView>
+      </VisibleScrollView>
     );
   }
 
