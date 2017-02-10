@@ -278,15 +278,25 @@ class EpubViewManager extends Component {
   }
 
   position() {
+    var result = {
+      'top': 0,
+      'bottom': 0,
+      'left': 0,
+      'right': 0
+    };
     var pos = this._position;
     var bounds = this._bounds;
 
-    return {
-      'top': pos.y,
-      'bottom': pos.y + bounds.height,
-      'left': pos.x,
-      'right': pos.x + bounds.width
+    if (pos && bounds) {
+      result = {
+        'top': pos.y,
+        'bottom': pos.y + bounds.height,
+        'left': pos.x,
+        'right': pos.x + bounds.width
+      }
     }
+
+    return result;
   }
 
   visible() {
