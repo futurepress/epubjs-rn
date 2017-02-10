@@ -63,7 +63,8 @@ class EpubViewManager extends Component {
     this.addingQ = [];
 
     this.scrolling = false;
-    this.afterScrolled = debounce(this._afterScrolled.bind(this), 250);
+    this.afterScrolled = debounce(this._afterScrolled.bind(this), this.state.rate);
+    this.check = throttle(this._check.bind(this), this.state.rate, { 'trailing': true });
     // this.updateVisible = _.throttle(this._updateVisible.bind(this), this.state.rate, { 'trailing': true });
   }
 
@@ -191,7 +192,7 @@ class EpubViewManager extends Component {
 
           })
           .then(() => this.afterDisplayed(view))
-          // .then(() => this._check());
+          .then(() => this.check());
 
 
           // this.getScrollResponder().scrollTo({x: 0, y: 0})
@@ -432,9 +433,8 @@ class EpubViewManager extends Component {
       this.props.onScroll && this.props.onScroll(e);
 
 
-      clearTimeout(this.scrollTimeout);
-      this.scrollTimeout = setTimeout(this._afterScrolled.bind(this),
-        this.state.rate);
+      this.check();
+      this.afterScrolled();
 
       this.scrolling = true;
 
@@ -444,7 +444,7 @@ class EpubViewManager extends Component {
 
   _afterScrolled() {
     this.scrolling = false;
-    InteractionManager.runAfterInteractions(this._check.bind(this));
+    // InteractionManager.runAfterInteractions(this.check.bind(this));
     this.emit("scroll");
   }
 
@@ -587,13 +587,12 @@ class EpubViewManager extends Component {
     var added = [];
     var ahead = 0;
 
-    if (!this.state.sections.length) {
-    //if (!this.state.sections.length) {
+    if (this._loading() || !this.state.sections.length) {
       return new Promise((resolve, reject) => {
         resolve();
       });
     }
-
+    console.log("check", Date.now());
     var offset = this.scrollProperties.offset;
     var visibleLength = this.scrollProperties.visibleLength;
     var contentLength = this.scrollProperties.contentLength;
@@ -761,15 +760,13 @@ class EpubViewManager extends Component {
       this.scrollProperties.contentLength = contentLength;
     }
 
-    this._updateVisible();
 
-    // requestAnimationFrame(() => {
-    //   InteractionManager.runAfterInteractions(this._check.bind(this));
-    // });
 
     this.resizedTimeout = setTimeout(()=> {
-      InteractionManager.runAfterInteractions(this._check.bind(this));
+      this._updateVisible();
+      InteractionManager.runAfterInteractions(this.check.bind(this));
     }, 20);
+
 
   }
 

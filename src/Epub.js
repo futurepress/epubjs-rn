@@ -13,8 +13,13 @@ import Orientation from "react-native-orientation";
 
 import RNFetchBlob from "react-native-fetch-blob"
 
+import { zip, unzip, unzipAssets, subscribe } from 'react-native-zip-archive'
+
+
 import { readFileSync } from "fs";
 import { join } from "path";
+
+let Dirs = RNFetchBlob.fs.dirs
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob
@@ -31,6 +36,8 @@ if (!global.btoa) {
 import ePub, { Rendition, Layout } from "epubjs";
 
 const core = require("epubjs/lib/utils/core");
+const Uri = require("epubjs/lib/utils/url");
+const Path = require("epubjs/lib/utils/path");
 
 const EpubViewManager = require("./EpubViewManager");
 
@@ -196,6 +203,8 @@ class Epub extends Component {
     __DEV__ && console.log("loading book: ", bookUrl);
     var type = this.book.determineType(bookUrl);
 
+    var uri = new Uri(bookUrl);
+
     global.book = this.book;
 
     if ((type === "directory") || (type === "opf")) {
@@ -211,14 +220,73 @@ class Epub extends Component {
       .fetch("GET", bookUrl)
       .then((res) => {
 
-        return res.base64().then((content) => {
-          __DEV__ && console.log("loaded book", Date.now() - loadTimer);
-          // new_zip.loadAsync(content, {"base64" : true });
-          this._openBook(content, true);
+        const sourcePath = res.path();
+        const targetPath = `${Dirs.DocumentDir}/books/${uri.filename.replace(".epub", "")}`
 
-          // remove the temp file
+        this.book.request = function RNRequest(url, type, withCredentials, headers) {
+
+          var handleResponse = function(response, type){
+        		var r;
+
+        		if(type == "json") {
+        			r = JSON.parse(response);
+        		}
+        		else
+        		if( core.isXml(type)) {
+        			r = core.parse(response, "text/xml");
+        		}
+        		else
+        		if(type == "xhtml") {
+        			r = core.parse(response, "application/xhtml+xml");
+        		}
+        		else
+        		if(type == "html" || type == "htm") {
+        			r = core.parse(response, "text/html");
+        		 } else {
+        			 r = response;
+        		 }
+
+        		return r;
+        	}
+
+          console.log("Requested", url);
+          var url = url.replace("file://", ""); // need to fix URL parser to handle file
+
+          var path = new Path(url);
+
+      		// If type isn't set, determine it from the file extension
+      		if(!type) {
+      			type = path.extension;
+      		}
+
+          return RNFetchBlob.fs
+            .readFile(url, 'utf8')
+            .then((res) => {
+              var r = handleResponse(res, type);
+              return r;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        };
+        return unzip(sourcePath, targetPath)
+        .then((path) => {
+          __DEV__ && console.log(`unzipped book at ${path}`, Date.now() - loadTimer);
+          this._openBook("file://" + path + "/", null);
           res.flush();
-        });
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+
+        // return res.base64().then((content) => {
+        //   __DEV__ && console.log("loaded book", Date.now() - loadTimer);
+        //   // new_zip.loadAsync(content, {"base64" : true });
+        //   this._openBook(content, true);
+        //
+        //   // remove the temp file
+        //   res.flush();
+        // });
 
       })
       .catch((err) => {

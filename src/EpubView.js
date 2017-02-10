@@ -519,7 +519,8 @@ class EpubView extends Component {
             marginLeft: this.state.margin,
             marginTop: (this.state.margin/2),
             overflow: "hidden" }]}
-          source={{html: this.state.contents, baseUrl: this.baseUrl }}
+          // source={{html: this.state.contents, baseUrl: this.baseUrl }}
+          source={{html: this.state.contents }}
           scalesPageToFit={false}
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}

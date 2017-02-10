@@ -17,9 +17,11 @@
     "lodash": "^4.14.0",
     "path-webpack": "0.0.2",
     "react-native-fetch-blob": "0.10.2-beta.8",
+    "react-native-fs": "^2.1.0-rc.1",
     "react-native-orientation": "8fit/react-native-orientation",
-    "react-native-visible-scrollview": "0.0.1",
+    "react-native-visible-scrollview": "0.0.2",
     "react-native-webview-bridge": "^0.33.0",
+    "react-native-zip-archive": "plrthink/react-native-zip-archive#next",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
     "util": "^0.10.3"

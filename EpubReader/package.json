@@ -1,21 +1,20 @@
 {
   "name": "EpubReader",
   "version": "0.0.1",
-  "description" : "Demo of Epubjs React Native components",
+  "description": "Demo of Epubjs React Native components",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "components/index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "clean" : "watchman watch-del-all",
-    "reset" : "npm run clean && node node_modules/react-native/local-cli/cli.js start -- --resetCache"
+    "clean": "watchman watch-del-all",
+    "reset": "npm run clean && node node_modules/react-native/local-cli/cli.js start -- --resetCache"
   },
   "license": "BSD-2-Clause",
   "dependencies": {
+    "epubjs-rn": "0.0.33",
     "react": "~15.4.1",
-    "react-native": "0.40.0",
-    "epubjs-rn": "0.0.29",
-    "react-native-visible-scrollview": "0.0.1"
+    "react-native": "0.40.0"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",
