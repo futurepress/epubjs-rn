@@ -18,7 +18,7 @@
     "path-webpack": "0.0.2",
     "react-native-fetch-blob": "0.10.2-beta.8",
     "react-native-orientation": "8fit/react-native-orientation",
-    "react-native-visible-scrollview": "0.0.1",
+    "react-native-visible-scrollview": "0.0.2",
     "react-native-webview-bridge": "^0.33.0",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
