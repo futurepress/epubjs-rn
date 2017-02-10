@@ -486,7 +486,7 @@ class EpubViewManager extends Component {
     FPVisibleScrollViewManager && FPVisibleScrollViewManager.calculateChildFrames &&
     FPVisibleScrollViewManager.calculateChildFrames(
       ReactNative.findNodeHandle(scrollComponent),
-      this._updateVisible.bind(this),
+      this._updateVisible.bind(this)
     );
   }
 
