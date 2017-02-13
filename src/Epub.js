@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
-  StatusBar
+  StatusBar,
+  Platform
 } from "react-native";
 
 import Orientation from "react-native-orientation";
@@ -18,6 +19,12 @@ import { zip, unzip, unzipAssets, subscribe } from 'react-native-zip-archive'
 
 import { readFileSync } from "fs";
 import { join } from "path";
+
+if (Platform.OS === 'ios') {
+  let httpServer = require('react-native-httpserver');
+} else {
+  let httpServer = require('react-native-http-server');
+}
 
 let Dirs = RNFetchBlob.fs.dirs
 

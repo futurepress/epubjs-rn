@@ -13,6 +13,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* EpubReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EpubReaderTests.m */; };
+		027E053D721740BAA65C04DE /* libRNHTTPServer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B049D2199F47D7B19A1EBB /* libRNHTTPServer.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -109,6 +110,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
+		};
+		331239161E523A2000559EB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4B985BA41BFA6E160082EAF3;
+			remoteInfo = RNHTTPServer;
 		};
 		332D757B1E4CFA0500FADBB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -275,6 +283,7 @@
 		14220E01F5B84DA5B32213EC /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		21C70ABF9AE244FDBE58BF24 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
+		34B049D2199F47D7B19A1EBB /* libRNHTTPServer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNHTTPServer.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		692AD330DD4741D8BD854896 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -285,6 +294,7 @@
 		C030C82D8A0D4164ADDAA4C8 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		C562C21C604746108475B302 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		CA4F4EA277384D788B8201F1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
+		DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNHTTPServer.xcodeproj; path = "../node_modules/react-native-httpserver/ios/RNHTTPServer.xcodeproj"; sourceTree = "<group>"; };
 		FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -318,6 +328,7 @@
 				E578D81E466D4AB48DF520F7 /* libRNZipArchive.a in Frameworks */,
 				1BCF91D746D74069A23F2CAC /* libz.tbd in Frameworks */,
 				481C985B0C0C4BBF8EDDDA7E /* libRNFS.a in Frameworks */,
+				027E053D721740BAA65C04DE /* libRNHTTPServer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +457,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		331238F61E523A2000559EB0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				331239171E523A2000559EB0 /* libRNHTTPServer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		332D75781E4CFA0400FADBB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -515,6 +534,7 @@
 				8CBBB6A88FFC4A5EA52D9DB1 /* FPReactNativeVisibleScrollview.xcodeproj */,
 				21C70ABF9AE244FDBE58BF24 /* RNZipArchive.xcodeproj */,
 				FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */,
+				DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -681,6 +701,10 @@
 					ProjectRef = FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */;
 				},
 				{
+					ProductGroup = 331238F61E523A2000559EB0 /* Products */;
+					ProjectRef = DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */;
+				},
+				{
 					ProductGroup = 332D75A61E4D2AB300FADBB4 /* Products */;
 					ProjectRef = 21C70ABF9AE244FDBE58BF24 /* RNZipArchive.xcodeproj */;
 				},
@@ -762,6 +786,13 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = 330A3E0F1E3BFD6400C5F656 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		331239171E523A2000559EB0 /* libRNHTTPServer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNHTTPServer.a;
+			remoteRef = 331239161E523A2000559EB0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		332D757C1E4CFA0500FADBB4 /* libFPReactNativeVisibleScrollview.a */ = {
@@ -1000,6 +1031,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
@@ -1017,6 +1049,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
