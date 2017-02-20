@@ -602,7 +602,7 @@ class EpubViewManager extends Component {
         resolve();
       });
     }
-    console.log("check", Date.now());
+    // console.log("check", Date.now());
     var offset = this.scrollProperties.offset;
     var visibleLength = this.scrollProperties.visibleLength;
     var contentLength = this.scrollProperties.contentLength;
@@ -922,6 +922,7 @@ class EpubViewManager extends Component {
           bounds={this.props.bounds || this._bounds}
           request={this.props.request}
           baseUrl={this.props.baseUrl}
+          origin={this.props.origin}
           onLayout={(l) => { this._onChildLayout(index, l) }}
           />})}
       </VisibleScrollView>

@@ -14,10 +14,17 @@ import EventEmitter from 'event-emitter'
 const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
   (function () {
+    var waitForReactNativePostMessageReady;
 
     function _ready() {
       var contents;
       var targetOrigin = "*";
+
+      var isReactNativePostMessageReady = !!window.originalPostMessage;
+      clearTimeout(waitForReactNativePostMessageReady);
+      if(!isReactNativePostMessageReady) {
+        waitForReactNativePostMessageReady = setTimeout(_ready, 1);
+      }
 
       if (typeof EPUBJSContents === "undefined") {
         return window.postMessage(JSON.stringify({
@@ -81,17 +88,18 @@ const INJECTED_SCRIPT = `
         }
       }, false);
 
-      window.postMessage(JSON.stringify({method:"loaded", value: true}), targetOrigin);
+      window.postMessage(JSON.stringify({method:"ready", value: true}), targetOrigin);
     }
 
-    if ( document.readyState === 'complete'  ) {
+    if ( document.readyState === 'complete' ) {
       _ready();
     } else {
-      document.addEventListener( 'interactive', _ready, false );
+      window.addEventListener("load", _ready, false);
     }
-
   }());
 `;
+
+const DOMAIN = "http://futurepress.org";
 
 class EpubView extends Component {
 
@@ -114,8 +122,6 @@ class EpubView extends Component {
     this.visible = this.state.visibility;
 
     this.waiting = {};
-
-    this.baseUrl = this.props.baseUrl || "http://futurepress.org";
 
     this.contents = {
       width: (w) => this.ask("width", [w]),
@@ -166,8 +172,6 @@ class EpubView extends Component {
   }
 
   componentDidMount() {
-    // this.bridge = this.refs.webviewbridge;
-    this.bridge = this.refs.webviewbridge;
 
     this.mounted = true;
 
@@ -176,6 +180,7 @@ class EpubView extends Component {
           return; // Prevent updating an unmounted component
         }
         this.setState({ contents }, function () {
+          this.bridge = this.refs.webviewbridge;
           // console.log("done setting", this.props.section.index, contents.length);
         });
       });
@@ -204,6 +209,7 @@ class EpubView extends Component {
     if (!this.bridge) {
       return;
     }
+    // console.log("send", this.props.section.index, method);
 
     this.bridge.postMessage(str);
   }
@@ -295,9 +301,11 @@ class EpubView extends Component {
   }
 
   _onLoad(e) {
-    var format;
+    console.log("Loaded", this.props.section.index, this.props.origin);
+  }
 
-    this.bridge = this.refs.webviewbridge;
+  _onReady(isReady) {
+    var format;
 
     if (this.props.layout === "pre-paginated") {
       format = this.props.format(this.contents);
@@ -324,7 +332,6 @@ class EpubView extends Component {
 
     });
 
-
   }
 
   _onBridgeMessage(e) {
@@ -345,6 +352,10 @@ class EpubView extends Component {
       this.expand();
     }
 
+    if (decoded.method === "ready") {
+      this._onReady();
+    }
+
     if (decoded.method === "link") {
       this.contents.emit("link", decoded.value);
     }
@@ -355,7 +366,9 @@ class EpubView extends Component {
 
     if (decoded.promise in this.waiting) {
       p = this.waiting[decoded.promise].shift();
-      p.resolve(decoded.value);
+      if (p) {
+        p.resolve(decoded.value);
+      }
     }
 
   }
@@ -519,8 +532,7 @@ class EpubView extends Component {
             marginLeft: this.state.margin,
             marginTop: (this.state.margin/2),
             overflow: "hidden" }]}
-          // source={{html: this.state.contents, baseUrl: this.baseUrl }}
-          source={{html: this.state.contents }}
+          source={{html: this.state.contents, baseUrl: this.props.origin || DOMAIN }}
           scalesPageToFit={false}
           scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}

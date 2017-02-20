@@ -1,6 +1,6 @@
 rootProject.name = 'EpubReader'
-include ':react-native-http-server'
-project(':react-native-http-server').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-http-server/android')
+include ':react-native-static-server'
+project(':react-native-static-server').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-static-server/android')
 include ':react-native-fs'
 project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
 include ':react-native-zip-archive'
