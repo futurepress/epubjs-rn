@@ -126,6 +126,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-static-server')
+    compile project(':react-native-fs')
+    compile project(':react-native-zip-archive')
     compile project(':react-native-visible-scrollview')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-orientation')

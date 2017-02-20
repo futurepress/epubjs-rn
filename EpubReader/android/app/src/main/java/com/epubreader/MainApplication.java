@@ -4,6 +4,9 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.futurepress.staticserver.FPStaticServerPackage;
+import com.rnfs.RNFSPackage;
+import com.rnziparchive.RNZipArchivePackage;
 import com.futurepress.visiblescroll.FPVisibleScrollViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.github.yamill.orientation.OrientationPackage;
@@ -28,6 +31,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FPStaticServerPackage(),
+            new RNFSPackage(),
+            new RNZipArchivePackage(),
             new FPVisibleScrollViewPackage(),
             new RNFetchBlobPackage(),
             new OrientationPackage()
