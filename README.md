@@ -12,6 +12,19 @@ To use the components in your own app install via npm
 npm install --save futurepress/epubjs-rn
 ```
 
+It may be necessary to include the following dependencies to your `package.json`
+to allow link to work automatically
+```
+{
+	"react-native-fetch-blob": "0.10.2",
+	"react-native-fs": "^2.1.0-rc.1",
+	"react-native-orientation": "8fit/react-native-orientation",
+	"react-native-visible-scrollview": "0.0.2",
+	"react-native-zip-archive": "0.1.0",
+	"react-native-static-server": "0.1.3"
+}
+```
+
 then install and link the required libraries with
 ```bash
 npm install
@@ -42,6 +55,29 @@ Then you can add the reader element in your code:
 * `themes`: Link to css stylesheet containing themes
 * `theme`: Name of the theme to apply, such as `light`
 * `fontSize`: CSS override for font size of theme
+
+Using a local file server
+-------------------------
+
+To unzip compressed epubs locally and use http to stream them to epubjs,
+you will want to use the `Streamer` class to manage the files and start a [StaticServer](https://github.com/futurepress/react-native-static-server).
+
+An example of this method is provided in the example app.
+
+```
+import { Epub, Streamer } from "epubjs-rn";
+let streamer = new Streamer();
+
+streamer.start("8899")
+	.then((origin) => {
+		console.log("Served from:", origin)
+		return this.streamer.get("https://s3.amazonaws.com/epubjs/books/moby-dick.epub");
+	})
+	.then((src) => {
+		console.log("Loading from:", src);
+		return this.setState({src});
+	});
+```
 
 Running the example app
 -------------------------

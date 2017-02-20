@@ -18,7 +18,7 @@
     "lodash": "^4.14.0",
     "npm": "^4.2.0",
     "path-webpack": "0.0.3",
-    "react-native-fetch-blob": "0.10.2-beta.8",
+    "react-native-fetch-blob": "0.10.2",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-orientation": "8fit/react-native-orientation",
     "react-native-visible-scrollview": "0.0.2",
