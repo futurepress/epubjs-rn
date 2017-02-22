@@ -79,9 +79,9 @@ class Epub extends Component {
     if (this.orientation === null) {
       this.orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
     }
-    console.log("inital orientation", this.orientation, this.state.width, this.state.height)
+    __DEV__ && console.log("inital orientation", this.orientation, this.state.width, this.state.height)
 
-    if (this.bookUrl) {
+    if (this.book_url) {
       this._loadBook(this.book_url);
     }
   }
@@ -153,7 +153,7 @@ class Epub extends Component {
     var _width = bounds.width, _height = bounds.height;
     var reversed = false;
 
-    console.log("orientation", orientation, bounds.width, bounds.height);
+    __DEV__ && console.log("orientation", orientation, bounds.width, bounds.height);
 
     switch (orientation) {
       case "PORTRAIT":
