@@ -923,6 +923,7 @@ class EpubViewManager extends Component {
           request={this.props.request}
           baseUrl={this.props.baseUrl}
           origin={this.props.origin}
+          backgroundColor={this.props.backgroundColor}
           onLayout={(l) => { this._onChildLayout(index, l) }}
           />})}
       </VisibleScrollView>

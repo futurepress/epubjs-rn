@@ -266,7 +266,6 @@ class EpubView extends Component {
         return this.contents.scrollWidth();
       }).then((w) => {
         var defered = new core.defer();
-
         width = (this.props.delta) * Math.ceil(w / this.props.delta);
         // console.log("Pages", Math.ceil(w / this.props.delta) );
 
@@ -301,7 +300,7 @@ class EpubView extends Component {
   }
 
   _onLoad(e) {
-    console.log("Loaded", this.props.section.index, this.props.origin);
+    // console.log("Loaded", this.props.section.index, this.props.origin);
   }
 
   _onReady(isReady) {
@@ -503,7 +502,12 @@ class EpubView extends Component {
       return (
         <View
           ref="wrapper"
-          style={[this.props.style, {width: this.state.width, height: this.state.height, overflow: "hidden"}]}
+          style={[this.props.style, {
+            width: this.state.width,
+            height: this.state.height,
+            backgroundColor: this.props.backgroundColor || "#FFFFFF",
+            overflow: "hidden"
+          }]}
           collapsable={false}
           ></View>
       );
@@ -513,10 +517,11 @@ class EpubView extends Component {
       <View
         ref="wrapper"
         style={[this.props.style, {
-          width: this.state.width,
-          height: this.state.height,
-          overflow: "hidden",
-          opacity: this.state.opacity
+            width: this.state.width,
+            height: this.state.height,
+            overflow: "hidden",
+            opacity: this.state.opacity,
+            backgroundColor: this.props.backgroundColor || "#FFFFFF"
           }
         ]}
         onLayout={this._onLayout.bind(this)}
@@ -531,6 +536,7 @@ class EpubView extends Component {
             height: this.state.height,
             marginLeft: this.state.margin,
             marginTop: (this.state.margin/2),
+            backgroundColor: this.props.backgroundColor || "#FFFFFF",
             overflow: "hidden" }]}
           source={{html: this.state.contents, baseUrl: this.props.origin || DOMAIN }}
           scalesPageToFit={false}

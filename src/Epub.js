@@ -19,8 +19,6 @@ import { readFileSync } from "fs";
 
 import Streamer from './Streamer';
 
-// const Dirs = RNFetchBlob.fs.dirs
-
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
 }
@@ -95,6 +93,15 @@ class Epub extends Component {
   }
 
   componentWillUpdate(nextProps) {
+
+    if (nextProps.theme !== this.props.theme) {
+      this.rendition.themes.apply(nextProps.theme);
+    }
+
+    if (nextProps.fontSize !== this.props.fontSize) {
+      this.rendition.themes.fontSize(nextProps.fontSize);
+    }
+
     if (nextProps.src !== this.props.src) {
       this.destroy();
       this.book_url = nextProps.src;
@@ -111,14 +118,6 @@ class Epub extends Component {
 
     if (nextProps.location !== this.props.location) {
       this.rendition.display(nextProps.location);
-    }
-
-    if (nextProps.theme !== this.props.theme) {
-      this.rendition.themes.apply(nextProps.theme);
-    }
-
-    if (nextProps.fontSize !== this.props.fontSize) {
-      this.rendition.themes.fontSize(nextProps.fontSize);
     }
   }
 
@@ -270,13 +269,13 @@ class Epub extends Component {
       doc.getElementsByTagName("head")[0].appendChild(script);
     }.bind(this));
 
-
     this.manager = this.refs["manager"];
 
     this.rendition = new Rendition(this.book, {
       flow: this.props.flow || "paginated",
       minSpreadWidth: 550,
-      manager: this.manager
+      manager: this.manager,
+      stylesheet: this.props.stylesheet
     });
 
     // this.rendition.setManager(this.manager);
@@ -388,7 +387,9 @@ class Epub extends Component {
     var loader;
     if (!this.state.show) {
       loader = (
-        <View style={styles.loadScreen}>
+        <View style={[styles.loadScreen, {
+            backgroundColor: this.props.backgroundColor || "#FFFFFF"
+          }]}>
           <ActivityIndicator
               color={this.props.color || "black"}
               size={this.props.size || "large"}
@@ -402,12 +403,15 @@ class Epub extends Component {
         <StatusBar hidden={true}/>
         <EpubViewManager
           ref="manager"
-          style={styles.manager}
+          style={[styles.manager, {
+            backgroundColor: this.props.backgroundColor || "#FFFFFF"
+          }]}
           flow={this.props.flow || "paginated"}
           request={this.book && this.book.load.bind(this.book)}
           onPress={this.props.onPress}
           onShow={this._onShown.bind(this)}
           origin={this.props.origin}
+          backgroundColor={this.props.backgroundColor}
           bounds={{ width: this.props.width || this.state.width,
                     height: this.props.height || this.state.height }}
         />

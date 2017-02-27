@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
   reader: {
     flex: 1,
     alignSelf: 'stretch',
+    backgroundColor: '#3F3F3C'
   },
 });
 
 export default EpubReader;
-// AppRegistry.registerComponent('EpubReader', () => EpubReader);
