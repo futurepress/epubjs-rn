@@ -80,9 +80,9 @@ class EpubStreamer {
             this.locals.push(url);
             this.paths.push(path);
 
-            return url;
-
             res.flush();
+
+            return url;
           })
       });
   }
