@@ -4,10 +4,16 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Animated,
+  Modal
 } from 'react-native';
 
 import { Epub, Streamer } from "epubjs-rn";
+
+import TopBar from './app/TopBar'
+import BottomBar from './app/BottomBar'
+import Nav from './app/Nav'
 
 class EpubReader extends Component {
   constructor(props) {
@@ -15,12 +21,18 @@ class EpubReader extends Component {
     this.state = {
       flow: "paginated", // paginated || scrolled-continuous
       location: 0,
-      url: "http://localhost:8080/books/1842.epub",
+      url: "https://s3.amazonaws.com/epubjs/books/moby-dick.epub",
       src: "",
-      origin: ""
+      origin: "",
+      title: "",
+      toc: [],
+      showBars: false,
+      showNav: false
     };
 
     this.streamer = new Streamer();
+
+    this.barsShown = false;
   }
 
   componentDidMount() {
@@ -39,6 +51,18 @@ class EpubReader extends Component {
     this.streamer.stop();
   }
 
+  toggleBars() {
+
+    if (this.barsShown) {
+      this.setState({ showBars: false });
+    } else {
+      this.setState({ showBars: true });
+    }
+
+    this.barsShown = !this.barsShown;
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -49,6 +73,7 @@ class EpubReader extends Component {
               location={this.state.location}
               onLocationChange={(visibleLocation)=> {
                 // console.log("locationChanged", visibleLocation)
+                this.setState({visibleLocation});
               }}
               onLocationsReady={(locations)=> {
                 // console.log("location total", locations.total);
@@ -56,14 +81,47 @@ class EpubReader extends Component {
               onReady={(book)=> {
                 // console.log("Metadata", book.package.metadata)
                 // console.log("Table of Contents", book.toc)
+                this.setState({
+                  title : book.package.metadata.title,
+                  toc: book.toc
+                });
               }}
               onPress={(book)=> {
-                console.log("Pressed")
+                this.toggleBars();
               }}
               // regenerateLocations={false}
               // generateLocations={true}
               origin={this.state.origin}
             />
+            <View
+              style={[styles.bar, { top:0 }]}>
+              <TopBar
+                title={this.state.title}
+                shown={this.state.showBars}
+                onLeftButtonPressed={() => this.refs.nav.show()}
+               />
+            </View>
+            <View
+              style={[styles.bar, { bottom:0 }]}>
+              <BottomBar
+                disabled= {this.state.sliderDisabled}
+                value={this.state.visibleLocation ? this.state.visibleLocation.percentage : 0}
+                shown={this.state.showBars}
+                onSlidingComplete={
+                  (value) => {
+                    this.setState({location: value})
+                  }
+                }/>
+            </View>
+            <View>
+              <Nav ref="nav"
+                display={(loc) => {
+                  this.setState({ location: loc });
+                }}
+                toc={this.state.toc}
+              />
+
+            </View>
       </View>
 
     );
@@ -79,6 +137,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     backgroundColor: '#3F3F3C'
   },
+  bar: {
+    position:"absolute",
+    left:0,
+    right:0,
+    height:55
+  }
 });
 
 export default EpubReader;
