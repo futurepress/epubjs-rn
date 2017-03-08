@@ -275,7 +275,8 @@ class Epub extends Component {
       flow: this.props.flow || "paginated",
       minSpreadWidth: 550,
       manager: this.manager,
-      stylesheet: this.props.stylesheet
+      stylesheet: this.props.stylesheet,
+      script: this.props.script
     });
 
     // this.rendition.setManager(this.manager);

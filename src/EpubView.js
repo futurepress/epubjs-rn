@@ -13,6 +13,7 @@ import {
 import EventEmitter from 'event-emitter'
 const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
+  window.epubContents = undefined;
   (function () {
     var waitForReactNativePostMessageReady;
 
@@ -89,6 +90,8 @@ const INJECTED_SCRIPT = `
       }, false);
 
       window.postMessage(JSON.stringify({method:"ready", value: true}), targetOrigin);
+
+      window.epubContents = contents;
     }
 
     if ( document.readyState === 'complete' ) {
@@ -197,6 +200,10 @@ class EpubView extends Component {
     this.waiting = {};
 
     this.loading = true;
+  }
+
+  postMessage(str) {
+    return this.bridge.postMessage(str);
   }
 
   sendToBridge(method, args, promiseId) {
@@ -369,6 +376,8 @@ class EpubView extends Component {
         p.resolve(decoded.value);
       }
     }
+
+    this.props.onMessage && this.props.onMessage(msg);
 
   }
 

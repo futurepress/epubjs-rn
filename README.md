@@ -56,6 +56,7 @@ Then you can add the reader element in your code:
 * `theme`: Name of the theme to apply, such as `light`
 * `fontSize`: CSS override for font size of theme
 * `stylesheet`: Link to css stylesheet containing themes
+* `script`: Url for a javascript file to be injected into the view
 * `backgroundColor`: backgroundColor for the views
 
 Using a local file server
