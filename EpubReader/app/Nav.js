@@ -6,12 +6,14 @@ import {
   View,
   ListView,
   TouchableHighlight,
-  Modal
+  Modal,
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 
 // import NavigationBar from 'react-native-navbar';
 
-const Icon = require('react-native-vector-icons/EvilIcons');
+import Icon from 'react-native-vector-icons/EvilIcons'
 
 
 class Nav extends Component {
@@ -91,6 +93,14 @@ class Nav extends Component {
         <Modal
           animationType={"slide"}
           visible={this.state.modalVisible}>
+          <View
+            style={styles.header}>
+            <Text style={styles.headerTitle}>Table of Contents</Text>
+            <TouchableOpacity style={styles.backButton}
+              onPress={() => this.hide()}>
+              <Icon name="close" size={34} />
+            </TouchableOpacity>
+          </View>
           <ListView
             style={styles.container}
             dataSource={this.state.dataSource}
@@ -157,6 +167,54 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
+  headerTitle: {
+    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '400',
+    color: '#000',
+    position: 'absolute',
+    top: 20,
+    left: 0,
+    right: 0,
+    ...Platform.select({
+      ios: {
+        fontFamily: "Baskerville",
+      },
+      android: {
+        fontFamily: "serif"
+      },
+    }),
+  },
+  header: {
+    backgroundColor: "#cdcdcd",
+    paddingTop: 0,
+    top: 0,
+    ...Platform.select({
+      ios: {
+        height: 64,
+      },
+      android: {
+        height: 54,
+      },
+    }),
+    right: 0,
+    left: 0,
+    borderBottomWidth: 1,
+    borderBottomColor:"#000",
+  },
+  backButton: {
+    width: 130,
+    height: 30,
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    padding: 0,
+    flexDirection: 'row',
+  },
+  backButtonImage: {
+    width: 30,
+    height: 30,
+  }
 });
 
 export default Nav;
