@@ -391,10 +391,16 @@ class EpubViewManager extends Component {
       endA = startA + this.state.layout.delta;
 
       // return this.mapping.page(visible[0].contents, visible[0].section.cfiBase, startA, endA);
-      return visible[0].mapPage(startA, endA);
+      return visible[0].mapPage(startA, endA).then((location) => {
+        location.index = visible[0].section.index;
+        location.href = visible[0].section.href;
+        return location;
+      });
     }
 
     if(visible.length > 1) {
+
+      let last = visible.length - 1;
 
       // Left Col
       startA = (container.left + this.scrollProperties.offset) - visible[0].position().left;
@@ -405,11 +411,13 @@ class EpubViewManager extends Component {
       endB = startB + this.state.layout.columnWidth;
 
       pageLeft = visible[0].mapPage(startA, endA);
-      pageRight = visible[visible.length-1].mapPage(startB, endB);
+      pageRight = visible[last].mapPage(startB, endB);
 
       return Promise.all([pageLeft, pageRight]).then((results) => {
 
         return {
+          index : visible[last].section.index,
+          href : visible[last].section.href,
           start: results[0].start,
           end: results[1].end
         };

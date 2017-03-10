@@ -487,6 +487,10 @@ class EpubView extends Component {
     return position;
   }
 
+  get section() {
+    return this.props.section;
+  }
+
   mapPage(start, end) {
     return this.contents.mapPage(this.props.section.cfiBase, start, end);
   }
