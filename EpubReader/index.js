@@ -21,13 +21,14 @@ class EpubReader extends Component {
     this.state = {
       flow: "paginated", // paginated || scrolled-continuous
       location: 0,
-      url: "https://s3.amazonaws.com/epubjs/books/moby-dick.epub",
+      url: "http://localhost:8080/books/Never_Ending_Journey.epub",
       src: "",
       origin: "",
       title: "",
       toc: [],
       showBars: false,
-      showNav: false
+      showNav: false,
+      sliderDisabled: true
     };
 
     this.streamer = new Streamer();
@@ -77,6 +78,7 @@ class EpubReader extends Component {
               }}
               onLocationsReady={(locations)=> {
                 // console.log("location total", locations.total);
+                this.setState({sliderDisabled : false});
               }}
               onReady={(book)=> {
                 // console.log("Metadata", book.package.metadata)
@@ -89,7 +91,7 @@ class EpubReader extends Component {
               onPress={(book)=> {
                 this.toggleBars();
               }}
-              // regenerateLocations={false}
+              // regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
             />

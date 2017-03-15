@@ -360,17 +360,24 @@ class EpubViewManager extends Component {
     var container = this.position();
 
     if(visible.length === 1) {
-      return visible[0].mapPage(0, 0);
+      return visible[0].mapPage(0, 0).then((location) => {
+        location.index = visible[0].section.index;
+        location.href = visible[0].section.href;
+        return location;
+      });
     }
 
     if(visible.length > 1) {
+      let last = visible.length - 1;
 
       startPage = visible[0].mapPage(0, 0);
-      endPage =  visible[visible.length-1].mapPage(0, 0);
+      endPage =  visible[last].mapPage(0, 0);
 
       return Promise.all([startPage, endPage]).then((results) => {
 
         return {
+          index : visible[last].section.index,
+          href : visible[last].section.href,
           start: results[0].start,
           end: results[1].end
         };
