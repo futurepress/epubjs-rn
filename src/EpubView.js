@@ -7,6 +7,7 @@ import {
   Text,
   Dimensions,
   TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
 
 // import WebViewBridge from 'react-native-webview-bridge';
@@ -110,13 +111,27 @@ class EpubView extends Component {
     super(props);
     var horizontal = this.props.horizontal;
 
-    var height = horizontal ? this.props.bounds.height : 0;
-    var width = horizontal ? 0 : this.props.bounds.width;
+    let height = horizontal ? this.props.bounds.height : 100;
+    let width = 0;
+
+    if (this.props.layout === "pre-paginated") {
+      width = horizontal ? this.props.columnWidth : this.props.bounds.width;
+
+      if (this.props.spreads &&
+          this.props.section.index === this.props.lastSectionIndex &&
+          this.props.section.index % 2 > 0 ) {
+        width = horizontal ? this.props.columnWidth * 2 : this.props.bounds.width;
+      }
+
+    } else {
+      width = horizontal ? this.props.delta : this.props.bounds.width;
+    }
 
     this.state = {
-      visibility: true,
-      opacity: 1,
-      margin: 0,
+      visibility: false,
+      opacity: 0,
+      marginLeft: 0,
+      marginTop: 0,
       height: height,
       width: width,
       contents: '',
@@ -162,7 +177,7 @@ class EpubView extends Component {
   }
 
   componentWillMount() {
-    this.sectionRendering = this.props.section.render(this.props.request);
+    // this.sectionRendering = this.props.section.render(this.props.request);
       // .then((contents) => {
       //   console.log("Still mounted?", this.mounted, this.props.section.index);
       //   if (!this.mounted) {
@@ -178,20 +193,35 @@ class EpubView extends Component {
 
     this.mounted = true;
 
-    this.sectionRendering.then((contents) => {
-        if (!this.mounted) {
-          return; // Prevent updating an unmounted component
-        }
-        this.setState({ contents }, function () {
-          this.bridge = this.refs.webviewbridge;
-          // console.log("done setting", this.props.section.index, contents.length);
-        });
-      });
+
   }
 
   componentWillUnmount() {
     this.mounted = false;
     this.props.section.unload();
+  }
+
+  load() {
+    if (!this.sectionRendering) {
+      this.sectionRendering = this.props.section.render(this.props.request);
+    }
+
+    // console.log("loading", this.props.section.index);
+
+    if (!this.state.contents) {
+      this.sectionRendering.then((contents) => {
+          if (!this.mounted) {
+            return; // Prevent updating an unmounted component
+          }
+          this.setState({ contents }, () => {
+
+            this.rendering.resolve();
+            // console.log("done setting", this.props.section.index, contents.length);
+          });
+        });
+    }
+
+    return this.sectionRendering;
   }
 
   reset() {
@@ -203,7 +233,9 @@ class EpubView extends Component {
   }
 
   postMessage(str) {
-    return this.bridge.postMessage(str);
+    if (this.refs.webviewbridge) {
+      return this.refs.webviewbridge.postMessage(str);
+    }
   }
 
   sendToBridge(method, args, promiseId) {
@@ -213,12 +245,12 @@ class EpubView extends Component {
       promise: promiseId
     });
 
-    if (!this.bridge) {
+    if (!this.refs.webviewbridge) {
       return;
     }
     // console.log("send", this.props.section.index, method);
 
-    this.bridge.postMessage(str);
+    this.refs.webviewbridge.postMessage(str);
   }
 
   ask(method, args) {
@@ -249,12 +281,31 @@ class EpubView extends Component {
     if (this.props.layout === "pre-paginated") {
       // this.expanding = false;
         var defered = new core.defer();
+        let width = this.props.columnWidth;
+        let marginLeft = 0;
 
-        this.setState({ width: this.props.columnWidth  }, () => {
+        if (this.props.spreads && this.props.section.index === 0) {
+          width = this.props.columnWidth * 2;
+          marginLeft = this.props.columnWidth;
+        }
+
+        if (this.props.spreads &&
+            this.props.section.index === this.props.lastSectionIndex &&
+            this.props.section.index % 2 > 0 ) {
+          width = this.props.columnWidth * 2;
+        }
+
+        this.setState({
+          width,
+          marginLeft
+        }, () => {
           this.expanding = false;
 
           expanded = this.contents.size(this.props.columnWidth, this.state.height).then((w) => {
             this.expanding = false;
+            this.expanded = true;
+            this.setState({opacity: 1});
+            this.props.onExpanded && this.props.onExpanded(this);
 
             defered.resolve();
 
@@ -270,14 +321,21 @@ class EpubView extends Component {
       var margin = this.props.gap / 2;
 
       expanded = this.contents.height(this.state.height-margin).then((h) => {
-        return this.contents.scrollWidth();
+        return this.contents.textWidth();
       }).then((w) => {
         var defered = new core.defer();
         width = (this.props.delta) * Math.ceil(w / this.props.delta);
-        // console.log("Pages", Math.ceil(w / this.props.delta) );
 
-        this.setState({ width, margin }, () => {
+        this.setState({
+          width: width,
+          marginLeft: margin,
+          marginTop: margin/2
+        }, () => {
           this.expanding = false;
+          this.expanded = true;
+          this.setState({opacity: 1});
+          this.props.onExpanded && this.props.onExpanded(this);
+
           defered.resolve();
         });
 
@@ -294,8 +352,15 @@ class EpubView extends Component {
         height = h;
         // console.log("Height", height);
 
-        this.setState({ height, margin }, () => {
+        this.setState({
+          width: width,
+          marginLeft: margin,
+          marginTop: margin/2
+        }, () => {
           this.expanding = false;
+          this.expanded = true;
+          this.setState({opacity: 1});
+          this.props.onExpanded && this.props.onExpanded(this);
           defered.resolve();
         });
 
@@ -308,6 +373,7 @@ class EpubView extends Component {
 
   _onLoad(e) {
     // console.log("Loaded", this.props.section.index, this.props.origin);
+    this.bridge = this.refs.webviewbridge;
   }
 
   _onReady(isReady) {
@@ -330,7 +396,7 @@ class EpubView extends Component {
 
       return this.expand().then(() => {
 
-        this.rendering.resolve();
+        // this.rendering.resolve();
 
         this.props.afterLoad(this.props.section.index);
 
@@ -389,6 +455,7 @@ class EpubView extends Component {
     }
 
     this.bounds = e.nativeEvent.layout;
+
     this.props.onLayout && this.props.onLayout(e.nativeEvent.layout);
 
     if (this.prevBounds &&
@@ -438,8 +505,11 @@ class EpubView extends Component {
 
     this.visible = visibility;
 
+    __DEV__ && console.log("visibility", this.props.section.index, visibility);
+
     if (visibility == true) {
-      this.setState({visibility: true, opacity: 1});
+      this.setState({visibility: true });
+      this.load();
     } else {
       this.setState({visibility: false, opacity: 0});
       // this.setState({visibility: false}, this.reset.bind(this));
@@ -510,8 +580,7 @@ class EpubView extends Component {
   };
 
   render() {
-
-    if (!this.state.contents) {
+    if (!this.state.contents || !this.state.visibility) {
       return (
         <View
           ref="wrapper"
@@ -522,7 +591,14 @@ class EpubView extends Component {
             overflow: "hidden"
           }]}
           collapsable={false}
-          ></View>
+          onLayout={this._onLayout.bind(this)}
+          >
+          <ActivityIndicator
+              color={this.props.color || "black"}
+              size={this.props.size || "large"}
+              style={{ flex: 1 }}
+            />
+        </View>
       );
     }
 
@@ -533,7 +609,6 @@ class EpubView extends Component {
             width: this.state.width,
             height: this.state.height,
             overflow: "hidden",
-            opacity: this.state.opacity,
             backgroundColor: this.props.backgroundColor || "#FFFFFF"
           }
         ]}
@@ -544,13 +619,14 @@ class EpubView extends Component {
         <WebView
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
-          style={[this.props.style, {
+          style={{
             width: this.state.width,
             height: this.state.height,
-            marginLeft: this.state.margin,
-            marginTop: (this.state.margin/2),
+            marginLeft: this.state.marginLeft,
+            marginTop: this.state.marginTop,
             backgroundColor: this.props.backgroundColor || "#FFFFFF",
-            overflow: "hidden" }]}
+            opacity: this.state.opacity,
+            overflow: "hidden" }}
           source={{html: this.state.contents, baseUrl: this.props.origin || DOMAIN }}
           scalesPageToFit={false}
           scrollEnabled={false}
@@ -560,7 +636,6 @@ class EpubView extends Component {
           javaScriptEnabled={true}
         />
         </TouchableWithoutFeedback>
-
       </View>
     );
   }
