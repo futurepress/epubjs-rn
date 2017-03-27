@@ -111,7 +111,7 @@ class EpubView extends Component {
     super(props);
     var horizontal = this.props.horizontal;
 
-    let height = horizontal ? this.props.bounds.height : 100;
+    let height = this.props.bounds.height;
     let width = 0;
 
     if (this.props.layout === "pre-paginated") {
@@ -202,6 +202,8 @@ class EpubView extends Component {
   }
 
   load() {
+    var loaded = new core.defer();
+
     if (!this.sectionRendering) {
       this.sectionRendering = this.props.section.render(this.props.request);
     }
@@ -216,12 +218,15 @@ class EpubView extends Component {
           this.setState({ contents }, () => {
 
             this.rendering.resolve();
+            loaded.resolve();
             // console.log("done setting", this.props.section.index, contents.length);
           });
         });
+    } else {
+      loaded.resolve();
     }
 
-    return this.sectionRendering;
+    return loaded.promise;
   }
 
   reset() {
@@ -353,9 +358,9 @@ class EpubView extends Component {
         // console.log("Height", height);
 
         this.setState({
-          width: width,
-          marginLeft: margin,
-          marginTop: margin/2
+          height: height,
+          marginLeft: 0,
+          marginTop: 0
         }, () => {
           this.expanding = false;
           this.expanded = true;
@@ -378,6 +383,8 @@ class EpubView extends Component {
 
   _onReady(isReady) {
     var format;
+
+    this.emit("displayed");
 
     if (this.props.layout === "pre-paginated") {
       format = this.props.format(this.contents);
@@ -492,7 +499,7 @@ class EpubView extends Component {
 
   }
 
-  setVisibility(visibility) {
+  setVisibility(visibility, cb) {
 
     // if (visibility && (this.expanded === false)) {
     //   console.log("caught unexpanded");
@@ -509,9 +516,11 @@ class EpubView extends Component {
 
     if (visibility == true) {
       this.setState({visibility: true });
-      this.load();
+      this.load().then(() => {
+        cb && cb();
+      });
     } else {
-      this.setState({visibility: false, opacity: 0});
+      this.setState({visibility: false, opacity: 0}, cb);
       // this.setState({visibility: false}, this.reset.bind(this));
     }
   }
@@ -641,5 +650,7 @@ class EpubView extends Component {
   }
 
 }
+
+EventEmitter(EpubView.prototype);
 
 module.exports = EpubView;

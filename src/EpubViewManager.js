@@ -207,6 +207,7 @@ class EpubViewManager extends Component {
         sections.forEach((sect) => {
           let view = this.getView(sect.index);
           view.setVisibility(true);
+          view.on("displayed", () => this.afterDisplayed(view));
           renderedPromises.push(view.rendered);
         });
 
@@ -220,11 +221,11 @@ class EpubViewManager extends Component {
 
                 this.moveTo(targetView, offset);
 
-                this.afterDisplayed(targetView);
+                // this.afterDisplayed(targetView);
                 this._check();
               });
             } else {
-              this.afterDisplayed(targetView);
+              // this.afterDisplayed(targetView);
               this._check();
             }
 
@@ -260,9 +261,11 @@ class EpubViewManager extends Component {
         var view = this.getView(section.index);
         // console.log("View:", section.index);
         if (view) {
+          view.on("displayed", () => this.afterDisplayed(view));
+
           view.rendered
             .then(displaying.resolve, displaying.reject)
-            .then(() => this.afterDisplayed(view))
+            // .then(() => this.afterDisplayed(view))
             .then(() => this._check());
         } else {
           // console.log("Missing View for", section.index);
@@ -302,10 +305,11 @@ class EpubViewManager extends Component {
       },
       (r) => {
         var view = this.getView(section.index);
+        view.on("displayed", () => this.afterDisplayed(view));
 
         view.rendered
           .then(displaying.resolve, displaying.reject)
-          .then(() => this.afterDisplayed(view))
+          // .then(() => this.afterDisplayed(view))
           .then(() => this._check());
 
       }
@@ -635,7 +639,9 @@ class EpubViewManager extends Component {
 
       if (view.state.visibility === false) {
         __DEV__ && console.log("showing", section.index);
-        view.setVisibility(true);
+        view.setVisibility(true, () => {
+          // this.afterDisplayed(view);
+        });
       }
 
       return true;
