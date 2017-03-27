@@ -92,7 +92,9 @@ class Nav extends Component {
       <View style={styles.container}>
         <Modal
           animationType={"slide"}
-          visible={this.state.modalVisible}>
+          visible={this.state.modalVisible}
+          onRequestClose={() => console.log("close requested")}
+          >
           <View
             style={styles.header}>
             <Text style={styles.headerTitle}>Table of Contents</Text>

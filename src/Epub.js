@@ -322,6 +322,7 @@ class Epub extends Component {
     });
 
     this.book.ready.then(() => {
+      this.setState({show: true});
       this.props.onReady && this.props.onReady(this.book);
     });
 
@@ -413,6 +414,7 @@ class Epub extends Component {
           onShow={this._onShown.bind(this)}
           origin={this.props.origin}
           backgroundColor={this.props.backgroundColor}
+          lastSectionIndex={this.book && (this.book.spine.length - 1)}
           bounds={{ width: this.props.width || this.state.width,
                     height: this.props.height || this.state.height }}
         />

@@ -36,14 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#cdcdcd",
     paddingTop: 0,
     top: 0,
-    ...Platform.select({
-      ios: {
-        height: 64,
-      },
-      android: {
-        height: 54,
-      },
-    }),
+    height: 64,
     right: 0,
     left: 0,
     borderBottomWidth: 1,
@@ -126,15 +119,12 @@ class TopBar extends Component {
 
   render() {
     return (
-      <Animated.View style={[styles.wrapper, { opacity: this.state.fadeAnim }]}>
-        <View
-          style={styles.header}>
-          <Text style={styles.title}>{this.props.title}</Text>
-          <TouchableOpacity style={styles.backButton}
-            onPress={this.props.onLeftButtonPressed}>
-            <Icon name="navicon" size={34} />
-          </TouchableOpacity>
-        </View>
+      <Animated.View style={[styles.header, { opacity: this.state.fadeAnim }]}>
+        <Text style={styles.title}>{this.props.title}</Text>
+        <TouchableOpacity style={styles.backButton}
+          onPress={this.props.onLeftButtonPressed}>
+          <Icon name="navicon" size={34} />
+        </TouchableOpacity>
       </Animated.View>
     );
   }

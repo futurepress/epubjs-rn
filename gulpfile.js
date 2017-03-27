@@ -39,6 +39,16 @@ gulp.task("copy:epubjs", function () {
 		.pipe(gulp.dest("./EpubReader/node_modules/epubjs/lib"));
 });
 
+gulp.task("copy:epubjs-src", function () {
+	return gulp.src(['../epub.js/src/**/*.js'])
+		.pipe(gulp.dest("./node_modules/epubjs/src"));
+});
+
+gulp.task("copy:contents", function () {
+	return gulp.src(['./contents/contents.js','./contents/contents.min.js'])
+		.pipe(gulp.dest("./EpubReader/node_modules/epubjs-rn/contents"));
+});
+
 gulp.task("watch", function () {
 	return gulp.watch('./src/**/*.js', ['build', 'copy', 'copy:package']);
 });
