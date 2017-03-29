@@ -94,6 +94,10 @@ class Epub extends Component {
 
   componentWillUpdate(nextProps) {
 
+    if (nextProps.themes !== this.props.themes) {
+      this.rendition.themes.register(this.props.themes);
+    }
+
     if (nextProps.theme !== this.props.theme) {
       this.rendition.themes.apply(nextProps.theme);
     }
