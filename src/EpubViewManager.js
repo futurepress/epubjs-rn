@@ -407,11 +407,19 @@ class EpubViewManager extends Component {
 
     var visible = this.visible();
     var startPage, endPage;
+    var startA, startB, endA, endB;
 
     var container = this.position();
 
+    var bounds = this.props.bounds || this._bounds;
+
+
     if(visible.length === 1) {
-      return visible[0].mapPage(0, 0).then((location) => {
+
+      startA = (container.top + this.scrollProperties.offset) - visible[0].position().top;
+      endA = startA + bounds.height;
+
+      return visible[0].mapPage(startA, endA).then((location) => {
         location.index = visible[0].section.index;
         location.href = visible[0].section.href;
         return location;
@@ -421,8 +429,14 @@ class EpubViewManager extends Component {
     if(visible.length > 1) {
       let last = visible.length - 1;
 
-      startPage = visible[0].mapPage(0, 0);
-      endPage =  visible[last].mapPage(0, 0);
+      startA = (container.top + this.scrollProperties.offset) - visible[0].position().top;
+      endA = startA + visible[0].position().bottom;
+
+      startB = (container.top + this.scrollProperties.offset) - visible[last].position().top;
+      endB = bounds.height - startB;
+
+      startPage = visible[0].mapPage(startA, endA);
+      endPage = visible[last].mapPage(startB, endB);
 
       return Promise.all([startPage, endPage]).then((results) => {
 
@@ -525,6 +539,8 @@ class EpubViewManager extends Component {
 
       // this.check();
       // this.afterScrolled();
+      //this.emit("scroll");
+
       clearTimeout(this.scrolledTimeout);
       this.scrolledTimeout = setTimeout(()=> {
         this.afterScrolled();
@@ -541,7 +557,7 @@ class EpubViewManager extends Component {
     this._updateVisibleChildren();
     // this.check();
     InteractionManager.runAfterInteractions(this.preload.bind(this));
-    this.emit("scroll");
+    this.emit("scrolled");
     this.prevOffset = this.scrollProperties.offset;
   }
 
@@ -1062,7 +1078,7 @@ class EpubViewManager extends Component {
           horizontal={this.state.horizontal}
           onPress={this.props.onPress}
           format={this.state.layout.format.bind(this.state.layout)}
-          layout={this.state.layout.name}
+          layout={this.state.layout.props}
           delta={this.state.layout.delta}
           columnWidth={this.state.layout.columnWidth}
           spreads={this.state.layout.divisor > 1}

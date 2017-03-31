@@ -5,6 +5,7 @@ var plumber = require('gulp-plumber');
 var onError = function (err) {
 	gutil.log(err);
 };
+
 gulp.task("build", function () {
 	return gulp.src(["./src/**/*.js"])
 	.pipe(plumber({ errorHandler: onError }))

@@ -114,7 +114,7 @@ class EpubView extends Component {
     let height = this.props.bounds.height;
     let width = 0;
 
-    if (this.props.layout === "pre-paginated") {
+    if (this.props.layout.name === "pre-paginated") {
       width = horizontal ? this.props.columnWidth : this.props.bounds.width;
 
       if (this.props.spreads &&
@@ -163,7 +163,7 @@ class EpubView extends Component {
       columns: (width, height, columnWidth, gap) => this.ask("columns", [width, height, columnWidth, gap]),
       fit: (width, height) => this.ask("fit", [width, height]),
       size: (width, height) => this.ask("size", [width, height]),
-      mapPage: (cfiBase, start, end) => this.ask("mapPage", [cfiBase, start, end]),
+      mapPage: (cfiBase, layout, start, end, dev) => this.ask("mapPage", [cfiBase, layout, start, end, dev]),
       locationOf: (target) => this.ask("locationOf", [target]),
     }
 
@@ -283,7 +283,7 @@ class EpubView extends Component {
     // }
     this.expanding = true;
 
-    if (this.props.layout === "pre-paginated") {
+    if (this.props.layout.name === "pre-paginated") {
       // this.expanding = false;
         var defered = new core.defer();
         let width = this.props.columnWidth;
@@ -386,7 +386,7 @@ class EpubView extends Component {
 
     this.emit("displayed");
 
-    if (this.props.layout === "pre-paginated") {
+    if (this.props.layout.name === "pre-paginated") {
       format = this.props.format(this.contents);
     } else if (this.props.horizontal) {
       // format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap/2}px`).then( () => {
@@ -571,7 +571,7 @@ class EpubView extends Component {
   }
 
   mapPage(start, end) {
-    return this.contents.mapPage(this.props.section.cfiBase, start, end);
+    return this.contents.mapPage(this.props.section.cfiBase, this.props.layout, start, end);
   }
 
   locationOf(target) {
