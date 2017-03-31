@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
-  StatusBar,
   Platform,
   AppState
 } from "react-native";
@@ -408,7 +407,6 @@ class Epub extends Component {
 
     return (
       <View ref="framer" style={styles.container}>
-        <StatusBar hidden={true}/>
         <EpubViewManager
           ref="manager"
           style={[styles.manager, {

@@ -6,7 +6,8 @@ import {
   Text,
   View,
   Animated,
-  Modal
+  Modal,
+  StatusBar
 } from 'react-native';
 
 import { Epub, Streamer } from "epubjs-rn";
@@ -67,6 +68,7 @@ class EpubReader extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar hidden={true}/>
         <Epub style={styles.reader}
               //src={"https://s3.amazonaws.com/epubjs/books/moby-dick.epub"}
               src={this.state.src}
