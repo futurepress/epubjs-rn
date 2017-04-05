@@ -91,6 +91,49 @@ class Epub extends Component {
     this.destroy();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+
+    if (nextProps.show != this.state.show) {
+      return true;
+    }
+
+    if ((nextProps.width !== this.props.width) ||
+        (nextProps.height !== this.props.height)) {
+      return true;
+    }
+
+    if ((nextState.width !== this.state.width) ||
+        (nextState.height !== this.state.height)) {
+      return true;
+    }
+
+    if (nextProps.color != this.props.color) {
+      return true;
+    }
+
+    if (nextProps.backgroundColor != this.props.backgroundColor) {
+      return true;
+    }
+
+    if (nextProps.size != this.props.size) {
+      return true;
+    }
+
+    if (nextProps.flow != this.props.flow) {
+      return true;
+    }
+
+    if (nextProps.origin != this.props.origin) {
+      return true;
+    }
+
+    if (nextProps.orientation != this.props.orientation) {
+      return true;
+    }
+
+    return false;
+  }
+
   componentWillUpdate(nextProps) {
     if (this.rendition &&
         nextProps.themes &&

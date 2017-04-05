@@ -85,20 +85,6 @@ class EpubViewManager extends Component {
   }
 
 
-  // getDefaultProps() {
-  // 	return {}
-  // }
-
-
-  // componentWillReceiveProps: function(nextProps) {
-  // 	// Check if book changed?
-  // }
-  //
-  // shouldComponentUpdate(nextProps, nextState) {
-  // 	console.log(book.url);
-  // 	return nextProps.book.url !== this.props.book.url;
-  // }
-  //
   componentWillMount() {
     // Reset vars
     this.scrollProperties = {
@@ -157,7 +143,7 @@ class EpubViewManager extends Component {
     for (var i = 0; i < visible.length; i++) {
 
       if (section.index === visible[i].props.section.index) {
-        // console.log("displaying already shown section", section.index);
+        console.log("displaying already shown section", section.index);
         shownView = this.getView(section.index);
         // View is already shown, just move to correct location
         if(target) {
@@ -208,7 +194,7 @@ class EpubViewManager extends Component {
           let view = this.getView(sect.index);
           view.setVisibility(true);
           view.on("displayed", () => this.afterDisplayed(view));
-          renderedPromises.push(view.rendered);
+          renderedPromises.push(view.displayed);
         });
 
         let rendered = Promise.all(renderedPromises)
@@ -263,7 +249,7 @@ class EpubViewManager extends Component {
         if (view) {
           view.on("displayed", () => this.afterDisplayed(view));
 
-          view.rendered
+          view.displayed
             .then(displaying.resolve, displaying.reject)
             // .then(() => this.afterDisplayed(view))
             .then(() => this._check());
@@ -307,7 +293,7 @@ class EpubViewManager extends Component {
         var view = this.getView(section.index);
         view.on("displayed", () => this.afterDisplayed(view));
 
-        view.rendered
+        view.displayed
           .then(displaying.resolve, displaying.reject)
           // .then(() => this.afterDisplayed(view))
           .then(() => this._check());

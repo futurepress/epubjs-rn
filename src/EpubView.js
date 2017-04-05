@@ -172,6 +172,9 @@ class EpubView extends Component {
     this.rendering = new core.defer();
     this.rendered = this.rendering.promise;
 
+    this.displaying = new core.defer();
+    this.displayed = this.displaying.promise;
+
     this.loading = true;
     this.expanded = false;
   }
@@ -403,7 +406,7 @@ class EpubView extends Component {
 
       return this.expand().then(() => {
 
-        // this.rendering.resolve();
+        this.displaying.resolve();
 
         this.props.afterLoad(this.props.section.index);
 
@@ -576,8 +579,8 @@ class EpubView extends Component {
 
   locationOf(target) {
     var parentPos = this.position();
-    return this.contents.locationOf(target).then((targetPos) => {
 
+    return this.contents.locationOf(target).then((targetPos) => {
       return {
         // "left": parentPos.left + targetPos.left,
         // "top":  parentPos.top + targetPos.top
