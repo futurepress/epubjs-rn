@@ -23,7 +23,7 @@
     "react-native-orientation": "8fit/react-native-orientation",
     "react-native-visible-scrollview": "0.0.2",
     "react-native-zip-archive": "0.1.0",
-    "react-native-static-server": "0.1.3",
+    "react-native-static-server": "0.1.5",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
     "util": "^0.10.3"

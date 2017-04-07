@@ -24,7 +24,7 @@ class EpubStreamer {
 
   constructor(opts) {
     opts = opts || {};
-    this.port = opts.port || '8899';
+    this.port = opts.port || 0;
     this.root = opts.root || "www";
     this.server = new StaticServer(this.port, this.root, {localOnly: true});
 
