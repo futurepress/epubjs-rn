@@ -16,8 +16,6 @@ import RNFetchBlob from "react-native-fetch-blob"
 
 import { readFileSync } from "fs";
 
-import Streamer from './Streamer';
-
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
 }
@@ -130,6 +128,7 @@ class Epub extends Component {
     if (nextProps.orientation != this.props.orientation) {
       return true;
     }
+
 
     return false;
   }
@@ -260,7 +259,7 @@ class Epub extends Component {
     __DEV__ && console.log("loading book: ", bookUrl);
 
     this.book = ePub({
-      replacements: "none"
+      replacements: this.props.base64 || "none"
     });
 
     return this._openBook(bookUrl);
@@ -324,7 +323,7 @@ class Epub extends Component {
       minSpreadWidth: 550,
       manager: this.manager,
       stylesheet: this.props.stylesheet,
-      script: this.props.script
+      script: this.props.script,
     });
 
     // this.rendition.setManager(this.manager);
