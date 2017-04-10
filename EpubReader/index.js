@@ -41,6 +41,7 @@ class EpubReader extends Component {
     this.streamer.start()
       .then((origin) => {
         this.setState({origin})
+        // console.log("origin", origin);
         return this.streamer.get(this.state.url);
       })
       .then((src) => {
