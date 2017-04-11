@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -21,9 +21,9 @@
     "react-native-fetch-blob": "0.10.4",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-orientation": "8fit/react-native-orientation",
-    "react-native-visible-scrollview": "0.0.4",
+    "react-native-visible-scrollview": "0.0.5",
     "react-native-zip-archive": "1.1.1",
-    "react-native-static-server": "0.1.6",
+    "react-native-static-server": "0.1.7",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
     "util": "^0.10.3"

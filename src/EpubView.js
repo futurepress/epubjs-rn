@@ -314,7 +314,7 @@ class EpubView extends Component {
             this.expanded = true;
             this.setState({opacity: 1});
             this.props.onExpanded && this.props.onExpanded(this);
-
+            this.emit("expanded");
             defered.resolve();
 
           });
@@ -343,7 +343,7 @@ class EpubView extends Component {
           this.expanded = true;
           this.setState({opacity: 1});
           this.props.onExpanded && this.props.onExpanded(this);
-
+          this.emit("expanded");
           defered.resolve();
         });
 
@@ -369,6 +369,7 @@ class EpubView extends Component {
           this.expanded = true;
           this.setState({opacity: 1});
           this.props.onExpanded && this.props.onExpanded(this);
+          this.emit("expanded");
           defered.resolve();
         });
 
@@ -510,6 +511,7 @@ class EpubView extends Component {
     // }
 
     if (this.state.visibility == visibility) {
+      cb && cb();
       return; // already have the passed in state, so return early
     }
 
@@ -526,6 +528,14 @@ class EpubView extends Component {
       this.setState({visibility: false, opacity: 0}, cb);
       // this.setState({visibility: false}, this.reset.bind(this));
     }
+  }
+
+  show () {
+    this.setState({opacity: 1});
+  }
+
+  hide () {
+    this.setState({opacity: 0});
   }
 
   /*

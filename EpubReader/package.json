@@ -18,9 +18,9 @@
     "react-native-fetch-blob": "0.10.4",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-orientation": "8fit/react-native-orientation",
-    "react-native-static-server": "0.1.6",
+    "react-native-static-server": "0.1.7",
     "react-native-vector-icons": "^4.0.0",
-    "react-native-visible-scrollview": "0.0.4",
+    "react-native-visible-scrollview": "0.0.5",
     "react-native-zip-archive": "1.1.1"
   },
   "devDependencies": {

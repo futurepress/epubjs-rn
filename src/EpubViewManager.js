@@ -144,25 +144,40 @@ class EpubViewManager extends Component {
 
     this.displaying = displaying;
 
-    for (var i = 0; i < visible.length; i++) {
+    for (var i = 0; i < this.state.sections.length; i++) {
 
-      if (section.index === visible[i].props.section.index) {
+      if (section.index === this.state.sections[i].index) {
         // console.log("displaying already shown section", section.index);
         shownView = this.getView(section.index);
-        // View is already shown, just move to correct location
-        if(target) {
-          return shownView.locationOf(target).then((offset) => {
-            // this.loading = false;
-            this.moveTo(shownView, offset);
-            this.props.onShow && this.props.onShow(true);
-          });
-        } else {
-          // this.loading = false;
-          this.props.onShow && this.props.onShow(true);
-          displaying.resolve();
-          return displaying.promise;
-        }
+        shownView.setVisibility(true);
+        shownView.once("expanded", () => {
+          let position = shownView.position();
+          this.scrollTo(position.left, position.top, true);
 
+          // View is already shown, just move to correct location
+          if(target) {
+            return shownView.locationOf(target).then((offset) => {
+              // this.loading = false;
+              this.moveTo(shownView, offset);
+
+              // Wait for scroll to complete
+              this.displayedTimeout = setTimeout(() => {
+                this.displayed = true;
+                this._check();
+                this.props.onShow && this.props.onShow(true);
+                displaying.resolve();
+              }, 10);
+
+            });
+          } else {
+            // this.loading = false;
+            this.displayed = true;
+            this.props.onShow && this.props.onShow(true);
+            displaying.resolve();
+            return displaying.promise;
+          }
+
+        });
       }
     }
 
@@ -863,7 +878,6 @@ class EpubViewManager extends Component {
       } else {
         distX = Math.floor(offset.left / this.state.layout.delta) * this.state.layout.delta;
       }
-      console.log(offset, distX);
 
       if (distY === 0 && distX === 0) {
         return; // No need to scroll
@@ -899,7 +913,7 @@ class EpubViewManager extends Component {
     // if(this.state.horizontal) {
     //   offset = Math.floor(this.scrollProperties.offset / this.state.layout.columnWidth) * (this.state.layout.delta / this.state.layout.divisor);
     // }
-    console.log("scroll BY", x, y);
+
     if (x === 0 &&
         y === 0) {
       return; // no change
@@ -911,7 +925,7 @@ class EpubViewManager extends Component {
 
     if(this.state.horizontal) {
       moveTo = offset + x;
-      console.log("Scrolling to", moveTo, offset);
+
       this.refs.scrollview.scrollTo({x: moveTo, animated: false});
       // UIManager.dispatchViewManagerCommand(
       //   this.refs.scrollview.getScrollResponder().scrollResponderGetScrollableNode(),
