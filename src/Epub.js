@@ -407,6 +407,9 @@ class Epub extends Component {
     return this._visibleLocation;
   }
 
+  getRange(cfi) {
+    return this.book.getRange(cfi);
+  }
   _onShown(shouldShow) {
     this.setState({show: shouldShow});
   }
