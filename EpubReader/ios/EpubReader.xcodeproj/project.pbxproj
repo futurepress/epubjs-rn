@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -12,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* EpubReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EpubReaderTests.m */; };
-		027E053D721740BAA65C04DE /* libRNHTTPServer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B049D2199F47D7B19A1EBB /* libRNHTTPServer.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -131,13 +131,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = A15C300E1CD25C330074CB35;
 			remoteInfo = RNFetchBlob;
-		};
-		331239161E523A2000559EB0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4B985BA41BFA6E160082EAF3;
-			remoteInfo = RNHTTPServer;
 		};
 		331239861E53643800559EB0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -332,7 +325,6 @@
 		333564E91E6B74FB00C6F3D6 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		333564EA1E6B74FB00C6F3D6 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		333564EB1E6B74FB00C6F3D6 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		34B049D2199F47D7B19A1EBB /* libRNHTTPServer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNHTTPServer.a; sourceTree = "<group>"; };
 		4EB11DE8782544888BFCD20C /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		50A125349CF04439A8C8E9A5 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -352,7 +344,6 @@
 		CA4F4EA277384D788B8201F1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		D79F973B78174BA387833411 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		DF0F73237CC7451CA6234E19 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNHTTPServer.xcodeproj; path = "../node_modules/react-native-httpserver/ios/RNHTTPServer.xcodeproj"; sourceTree = "<group>"; };
 		E0FD27F0687E4CD09C4565EC /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -387,7 +378,6 @@
 				E578D81E466D4AB48DF520F7 /* libRNZipArchive.a in Frameworks */,
 				1BCF91D746D74069A23F2CAC /* libz.tbd in Frameworks */,
 				481C985B0C0C4BBF8EDDDA7E /* libRNFS.a in Frameworks */,
-				027E053D721740BAA65C04DE /* libRNHTTPServer.a in Frameworks */,
 				7EFF0731C50C4E928FDCB6AF /* libFPStaticServer.a in Frameworks */,
 				DB42DF33DBE24185896651C7 /* libRNVectorIcons.a in Frameworks */,
 			);
@@ -519,14 +509,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		331238F61E523A2000559EB0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				331239171E523A2000559EB0 /* libRNHTTPServer.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		331239821E53643800559EB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -630,7 +612,6 @@
 				8CBBB6A88FFC4A5EA52D9DB1 /* FPReactNativeVisibleScrollview.xcodeproj */,
 				21C70ABF9AE244FDBE58BF24 /* RNZipArchive.xcodeproj */,
 				FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */,
-				DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */,
 				0E33C6176853488A92ABF75C /* FPStaticServer.xcodeproj */,
 				0315D6D409344FB197F5ED79 /* RNVectorIcons.xcodeproj */,
 			);
@@ -821,10 +802,6 @@
 					ProjectRef = FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */;
 				},
 				{
-					ProductGroup = 331238F61E523A2000559EB0 /* Products */;
-					ProjectRef = DF779A68E4C04B96A4076239 /* RNHTTPServer.xcodeproj */;
-				},
-				{
 					ProductGroup = 333564BC1E6B743500C6F3D6 /* Products */;
 					ProjectRef = 0315D6D409344FB197F5ED79 /* RNVectorIcons.xcodeproj */;
 				},
@@ -910,13 +887,6 @@
 			fileType = archive.ar;
 			path = libRNFetchBlob.a;
 			remoteRef = 330A3E0F1E3BFD6400C5F656 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		331239171E523A2000559EB0 /* libRNHTTPServer.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNHTTPServer.a;
-			remoteRef = 331239161E523A2000559EB0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		331239871E53643800559EB0 /* libFPStaticServer.a */ = {
@@ -1184,9 +1154,7 @@
 				INFOPLIST_FILE = EpubReaderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
 			};
@@ -1201,9 +1169,7 @@
 				INFOPLIST_FILE = EpubReaderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
 			};

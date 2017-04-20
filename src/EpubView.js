@@ -37,6 +37,27 @@ const INJECTED_SCRIPT = `
 
       contents = new EPUBJSContents(document);
 
+      contents.setCfiBase = function(cfiBase) {
+        contents.cfiBase = cfiBase;
+      };
+
+      var applier = rangy.createClassApplier("epubjs-highlight");
+
+      // highlights
+      contents.highlight = function(cfiRange) {
+        // Get the dom range of the selected text
+        console.log("cfiRange", cfiRange);
+        var range = contents.range(cfiRange);
+        console.log("range", range);
+        // Create an empty Rangy range
+        var rr = rangy.createRange();
+        // Set that range to equal the dom range
+        rr.setStart(range.startContainer, range.startOffset);
+        rr.setEnd(range.endContainer, range.endOffset);
+        // Add the class to that range
+        applier.applyToRange(rr);
+      };
+
       document.addEventListener("message", function (e) {
         var message = e.data;
         var decoded = JSON.parse(message);
@@ -67,6 +88,10 @@ const INJECTED_SCRIPT = `
 
       contents.on("link", function (href) {
         window.postMessage(JSON.stringify({method:"link", value: href}), targetOrigin);
+      });
+
+      contents.on("selected", function (sel) {
+        window.postMessage(JSON.stringify({method:"selected", value: sel}), targetOrigin);
       });
 
       var startPosition = { x: -1, y: -1 };
@@ -165,6 +190,8 @@ class EpubView extends Component {
       size: (width, height) => this.ask("size", [width, height]),
       mapPage: (cfiBase, layout, start, end, dev) => this.ask("mapPage", [cfiBase, layout, start, end, dev]),
       locationOf: (target) => this.ask("locationOf", [target]),
+      setCfiBase: (cfiBase) => this.ask("setCfiBase", [cfiBase]),
+      highlight: (cfiRange) => this.ask("highlight", [cfiRange])
     }
 
     EventEmitter(this.contents);
@@ -177,6 +204,8 @@ class EpubView extends Component {
 
     this.loading = true;
     this.expanded = false;
+
+    this.index = this.props.section && this.props.section.index;
   }
 
   componentWillMount() {
@@ -390,6 +419,8 @@ class EpubView extends Component {
 
     this.emit("displayed");
 
+    this.setCfiBase();
+
     if (this.props.layout.name === "pre-paginated") {
       format = this.props.format(this.contents);
     } else if (this.props.horizontal) {
@@ -441,6 +472,10 @@ class EpubView extends Component {
 
     if (decoded.method === "link") {
       this.contents.emit("link", decoded.value);
+    }
+
+    if (decoded.method === "selected") {
+      this.contents.emit("selected", decoded.value);
     }
 
     if (decoded.method === "press") {
@@ -585,6 +620,14 @@ class EpubView extends Component {
 
   mapPage(start, end) {
     return this.contents.mapPage(this.props.section.cfiBase, this.props.layout, start, end);
+  }
+
+  setCfiBase() {
+    this.contents.setCfiBase(this.props.section.cfiBase);
+  }
+
+  highlight(cfiRange) {
+    this.contents.highlight(cfiRange);
   }
 
   locationOf(target) {

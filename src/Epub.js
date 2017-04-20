@@ -28,7 +28,7 @@ if (!global.btoa) {
   global.btoa = require("base-64").encode;
 }
 
-import ePub, { Rendition, Layout } from "epubjs";
+import ePub, { Rendition, Layout, EpubCFI } from "epubjs";
 
 const core = require("epubjs/lib/utils/core");
 const Uri = require("epubjs/lib/utils/url");
@@ -310,6 +310,18 @@ class Epub extends Component {
 
     // Load the epubjs library into a hook for each webview
     this.book.spine.hooks.content.register(function(doc, section) {
+      ['https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-core.js',
+       'https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-classapplier.js'
+      ].forEach((src) => {
+        var script = doc.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        script.setAttribute("src", src);
+        doc.getElementsByTagName("head")[0].appendChild(script);
+      });
+    }.bind(this));
+
+    // Load the rangey library into a hook for each webview
+    this.book.spine.hooks.content.register(function(doc, section) {
       var script = doc.createElement("script");
       script.setAttribute("type", "text/javascript");
       script.textContent = EPUBJS;
@@ -324,6 +336,31 @@ class Epub extends Component {
       manager: this.manager,
       stylesheet: this.props.stylesheet,
       script: this.props.script,
+    });
+
+    this.rendition.on("selected", (cfiRange) => {
+      console.log('selected', cfiRange);
+      this.rendition.highlight(cfiRange);
+    });
+
+    this.rendition.themes.default({'.epubjs-highlight' : { 'text-decoration': 'underline', 'background-color' : 'yellow'}});
+    this.rendition.highlight = function(cfi) {
+      var _cfi = new EpubCFI(cfi);
+
+      var found = this.manager.visible().filter(function (view) {
+        if(_cfi.spinePos === view.index) return true;
+      });
+
+      // Should only every return 1 item
+      if (found.length) {
+        return found[0].contents.highlight(cfi);
+      }
+    }.bind(this.rendition);
+
+    this.rendition.manager.on("added", (view) => {
+      if (view.index === 6) {
+        view.contents.highlight('epubcfi(/6/14[xchapter_001]!/4/2/4/2[c001s0001],/1:0,/1:16)');
+      }
     });
 
     // this.rendition.setManager(this.manager);
