@@ -310,18 +310,6 @@ class Epub extends Component {
 
     // Load the epubjs library into a hook for each webview
     this.book.spine.hooks.content.register(function(doc, section) {
-      ['https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-core.js',
-       'https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-classapplier.js'
-      ].forEach((src) => {
-        var script = doc.createElement("script");
-        script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", src);
-        doc.getElementsByTagName("head")[0].appendChild(script);
-      });
-    }.bind(this));
-
-    // Load the rangey library into a hook for each webview
-    this.book.spine.hooks.content.register(function(doc, section) {
       var script = doc.createElement("script");
       script.setAttribute("type", "text/javascript");
       script.textContent = EPUBJS;
@@ -338,12 +326,34 @@ class Epub extends Component {
       script: this.props.script,
     });
 
-    this.rendition.on("selected", (cfiRange) => {
+    this.rendition.on("selected", (cfiRange, contents) => {
       console.log('selected', cfiRange);
-      this.rendition.highlight(cfiRange);
+      contents.mark(cfiRange);
     });
 
-    this.rendition.themes.default({'.epubjs-highlight' : { 'text-decoration': 'underline', 'background-color' : 'yellow'}});
+    this.rendition.themes.default({
+      '::selection': {
+        'background': 'rgba(255,255,0, 0.3)'
+      },
+      '.epubjs-hl' : {
+        'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
+      },
+      'p': {
+        'padding': '0 35px',
+        'position': 'relative'
+      },
+      '[ref="epubjs-mk"]::before' : {
+        'content': '""',
+        'background': 'url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPScxLjEnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZycgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgNzUgNzUnPjxnIGZpbGw9JyNCREJEQkQnIGlkPSdidWJibGUnPjxwYXRoIGNsYXNzPSdzdDAnIGQ9J00zNy41LDkuNEMxOS42LDkuNCw1LDIwLjUsNSwzNC4zYzAsNS45LDIuNywxMS4zLDcuMSwxNS42TDkuNiw2NS42bDE5LTcuM2MyLjgsMC42LDUuOCwwLjksOC45LDAuOSBDNTUuNSw1OS4yLDcwLDQ4LjEsNzAsMzQuM0M3MCwyMC41LDU1LjQsOS40LDM3LjUsOS40eicvPjwvZz48L3N2Zz4=") no-repeat',
+        'display': 'block',
+        'right' : '0',
+        'position' : 'absolute',
+        'width': '30px',
+        'height': '30px',
+        'cursor': 'pointer'
+      }
+    });
+
     this.rendition.highlight = function(cfi) {
       var _cfi = new EpubCFI(cfi);
 
@@ -359,7 +369,7 @@ class Epub extends Component {
 
     this.rendition.manager.on("added", (view) => {
       if (view.index === 6) {
-        view.contents.highlight('epubcfi(/6/14[xchapter_001]!/4/2/4/2[c001s0001],/1:0,/1:16)');
+        view.contents.mark('epubcfi(/6/14[xchapter_001]!/4/2/4/2[c001s0001],/1:0,/1:16)');
       }
     });
 

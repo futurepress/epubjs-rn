@@ -41,23 +41,6 @@ const INJECTED_SCRIPT = `
         contents.cfiBase = cfiBase;
       };
 
-      var applier = rangy.createClassApplier("epubjs-highlight");
-
-      // highlights
-      contents.highlight = function(cfiRange) {
-        // Get the dom range of the selected text
-        console.log("cfiRange", cfiRange);
-        var range = contents.range(cfiRange);
-        console.log("range", range);
-        // Create an empty Rangy range
-        var rr = rangy.createRange();
-        // Set that range to equal the dom range
-        rr.setStart(range.startContainer, range.startOffset);
-        rr.setEnd(range.endContainer, range.endOffset);
-        // Add the class to that range
-        applier.applyToRange(rr);
-      };
-
       document.addEventListener("message", function (e) {
         var message = e.data;
         var decoded = JSON.parse(message);
@@ -191,7 +174,9 @@ class EpubView extends Component {
       mapPage: (cfiBase, layout, start, end, dev) => this.ask("mapPage", [cfiBase, layout, start, end, dev]),
       locationOf: (target) => this.ask("locationOf", [target]),
       setCfiBase: (cfiBase) => this.ask("setCfiBase", [cfiBase]),
-      highlight: (cfiRange) => this.ask("highlight", [cfiRange])
+      highlight: (cfiRange) => this.ask("highlight", [cfiRange]),
+      underline: (cfiRange) => this.ask("underline", [cfiRange]),
+      mark: (cfiRange) => this.ask("mark", [cfiRange])
     }
 
     EventEmitter(this.contents);
