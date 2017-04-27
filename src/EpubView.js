@@ -41,6 +41,14 @@ const INJECTED_SCRIPT = `
         contents.cfiBase = cfiBase;
       };
 
+      var preventTap = false;
+      contents.mark = function(cfiRange, data) {
+        EPUBJSContents.prototype.mark.call(contents, cfiRange, data, function() {
+          preventTap = true;
+          window.postMessage(JSON.stringify({method:"markClicked", data: data, cfiRange: cfiRange }), targetOrigin);
+        }.bind(contents));
+      };
+
       document.addEventListener("message", function (e) {
         var message = e.data;
         var decoded = JSON.parse(message);
@@ -74,6 +82,7 @@ const INJECTED_SCRIPT = `
       });
 
       contents.on("selected", function (sel) {
+        preventTap = true;
         window.postMessage(JSON.stringify({method:"selected", value: sel}), targetOrigin);
       });
 
@@ -94,7 +103,13 @@ const INJECTED_SCRIPT = `
       document.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
         if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
            Math.abs(startPosition.y - currentPosition.y) < 2) {
-          window.postMessage(JSON.stringify({method:"press", value: true}), targetOrigin);
+          setTimeout(function() {
+            if(preventTap) {
+              preventTap = false;
+              return;
+            }
+            window.postMessage(JSON.stringify({method:"press", value: currentPosition}), targetOrigin);
+          }, 10);
         }
       }, false);
 
@@ -174,9 +189,9 @@ class EpubView extends Component {
       mapPage: (cfiBase, layout, start, end, dev) => this.ask("mapPage", [cfiBase, layout, start, end, dev]),
       locationOf: (target) => this.ask("locationOf", [target]),
       setCfiBase: (cfiBase) => this.ask("setCfiBase", [cfiBase]),
-      highlight: (cfiRange) => this.ask("highlight", [cfiRange]),
-      underline: (cfiRange) => this.ask("underline", [cfiRange]),
-      mark: (cfiRange) => this.ask("mark", [cfiRange])
+      highlight: (cfiRange, data) => this.ask("highlight", [cfiRange, data]),
+      underline: (cfiRange, data) => this.ask("underline", [cfiRange, data]),
+      mark: (cfiRange, data) => this.ask("mark", [cfiRange, data])
     }
 
     EventEmitter(this.contents);
@@ -461,6 +476,10 @@ class EpubView extends Component {
 
     if (decoded.method === "selected") {
       this.contents.emit("selected", decoded.value);
+    }
+
+    if (decoded.method === "markClicked") {
+      this.contents.emit("markClicked", decoded.cfiRange, decoded.data);
     }
 
     if (decoded.method === "press") {

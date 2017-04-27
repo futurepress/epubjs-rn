@@ -14,7 +14,7 @@
   "dependencies": {
     "epubjs-rn": "0.0.53",
     "react": "^16.0.0-alpha.6",
-    "react-native": "^0.43.3",
+    "react-native": "^0.43.4",
     "react-native-fetch-blob": "0.10.4",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-orientation": "8fit/react-native-orientation",
@@ -29,7 +29,7 @@
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",
     "jest-react-native": "18.0.0",
-    "react-test-renderer": "~15.4.1"
+    "react-test-renderer": "~15.5.4"
   },
   "jest": {
     "preset": "jest-react-native"

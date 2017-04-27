@@ -326,10 +326,22 @@ class Epub extends Component {
       script: this.props.script,
     });
 
-    this.rendition.on("selected", (cfiRange, contents) => {
-      console.log('selected', cfiRange);
-      contents.mark(cfiRange);
+    // Pass marks along
+    this.rendition.hooks.content.register((contents) => {
+      contents.on("markClicked", (cfiRange, data) => this.rendition.emit("markClicked", cfiRange, data, contents));
     });
+
+
+    this.rendition.on("selected", (cfiRange, contents) => {
+      console.log('selected', cfiRange, contents);
+      contents.mark(cfiRange, { "commentID": 2 });
+    });
+
+    this.rendition.on("markClicked", (cfiRange, data) => {
+      console.log('clicked', cfiRange, data);
+    });
+
+
 
     this.rendition.themes.default({
       '::selection': {
@@ -339,37 +351,25 @@ class Epub extends Component {
         'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
       },
       'p': {
-        'padding': '0 35px',
+        'padding': '0 15px',
         'position': 'relative'
       },
       '[ref="epubjs-mk"]::before' : {
         'content': '""',
         'background': 'url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPScxLjEnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZycgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgNzUgNzUnPjxnIGZpbGw9JyNCREJEQkQnIGlkPSdidWJibGUnPjxwYXRoIGNsYXNzPSdzdDAnIGQ9J00zNy41LDkuNEMxOS42LDkuNCw1LDIwLjUsNSwzNC4zYzAsNS45LDIuNywxMS4zLDcuMSwxNS42TDkuNiw2NS42bDE5LTcuM2MyLjgsMC42LDUuOCwwLjksOC45LDAuOSBDNTUuNSw1OS4yLDcwLDQ4LjEsNzAsMzQuM0M3MCwyMC41LDU1LjQsOS40LDM3LjUsOS40eicvPjwvZz48L3N2Zz4=") no-repeat',
         'display': 'block',
-        'right' : '0',
+        'right' : '-5px',
         'position' : 'absolute',
-        'width': '30px',
-        'height': '30px',
+        'width': '15px',
+        'height': '15px',
+        'margin': '5px 0 0 0',
         'cursor': 'pointer'
       }
     });
 
-    this.rendition.highlight = function(cfi) {
-      var _cfi = new EpubCFI(cfi);
-
-      var found = this.manager.visible().filter(function (view) {
-        if(_cfi.spinePos === view.index) return true;
-      });
-
-      // Should only every return 1 item
-      if (found.length) {
-        return found[0].contents.highlight(cfi);
-      }
-    }.bind(this.rendition);
-
     this.rendition.manager.on("added", (view) => {
       if (view.index === 6) {
-        view.contents.mark('epubcfi(/6/14[xchapter_001]!/4/2/4/2[c001s0001],/1:0,/1:16)');
+        view.contents.mark('epubcfi(/6/14[xchapter_001]!/4/2/4/2[c001s0001],/1:0,/1:16)', {"commentID": 1 });
       }
     });
 

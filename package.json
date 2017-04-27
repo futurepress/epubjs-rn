@@ -51,7 +51,7 @@
     "webpack": "^2.3.3"
   },
   "peerDependencies": {
-    "react-native": "^0.43.2"
+    "react-native": "^0.43.3"
   },
   "jest": {
     "preset": "jest-react-native"
