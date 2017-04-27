@@ -43,10 +43,16 @@ const INJECTED_SCRIPT = `
 
       var preventTap = false;
       contents.mark = function(cfiRange, data) {
-        EPUBJSContents.prototype.mark.call(contents, cfiRange, data, function() {
-          preventTap = true;
-          window.postMessage(JSON.stringify({method:"markClicked", data: data, cfiRange: cfiRange }), targetOrigin);
-        }.bind(contents));
+        var m = EPUBJSContents.prototype.mark.call(contents, cfiRange, data);
+        m.addEventListener("touchstart", function (e) {
+          var bounds = e.target.getBoundingClientRect();
+          var clientX = e.targetTouches[0].pageX;
+          if (clientX > bounds.right) {
+            preventTap = true;
+            window.postMessage(JSON.stringify({method:"markClicked", data: data, cfiRange: cfiRange }), targetOrigin);
+          }
+        });
+        return m;
       };
 
       document.addEventListener("message", function (e) {

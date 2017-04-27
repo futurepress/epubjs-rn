@@ -351,18 +351,19 @@ class Epub extends Component {
         'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
       },
       'p': {
-        'padding': '0 15px',
+        'padding': '0 20px 0 0',
+        'text-align': 'left',
         'position': 'relative'
       },
       '[ref="epubjs-mk"]::before' : {
         'content': '""',
         'background': 'url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPScxLjEnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZycgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnIHg9JzBweCcgeT0nMHB4JyB2aWV3Qm94PScwIDAgNzUgNzUnPjxnIGZpbGw9JyNCREJEQkQnIGlkPSdidWJibGUnPjxwYXRoIGNsYXNzPSdzdDAnIGQ9J00zNy41LDkuNEMxOS42LDkuNCw1LDIwLjUsNSwzNC4zYzAsNS45LDIuNywxMS4zLDcuMSwxNS42TDkuNiw2NS42bDE5LTcuM2MyLjgsMC42LDUuOCwwLjksOC45LDAuOSBDNTUuNSw1OS4yLDcwLDQ4LjEsNzAsMzQuM0M3MCwyMC41LDU1LjQsOS40LDM3LjUsOS40eicvPjwvZz48L3N2Zz4=") no-repeat',
         'display': 'block',
-        'right' : '-5px',
+        'right' : '0',
         'position' : 'absolute',
-        'width': '15px',
-        'height': '15px',
-        'margin': '5px 0 0 0',
+        'width': '20px',
+        'height': '20px',
+        'margin': '0',
         'cursor': 'pointer'
       }
     });
