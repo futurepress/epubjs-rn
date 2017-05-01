@@ -332,16 +332,17 @@ class Epub extends Component {
     });
 
     if (this.props.onSelected) {
-      this.rendition.on("onSelected", (cfiRange, contents) => {
+      this.rendition.on("selected", (cfiRange, contents) => {
         this.props.onSelected(cfiRange, contents);
       });
     }
 
-    if (this.props.markonMarkClickedClicked) {
-      this.rendition.on("onMarkClicked", (cfiRange, data, contents) => {
+    if (this.props.onMarkClicked) {
+      this.rendition.on("markClicked", (cfiRange, data, contents) => {
         this.props.onMarkClicked(cfiRange, data, contents);
       });
     }
+
 
     if (this.props.onViewAdded) {
       this.rendition.manager.on("added", (view) => {
