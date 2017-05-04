@@ -216,7 +216,10 @@ class EpubView extends Component {
       setCfiBase: (cfiBase) => this.ask("setCfiBase", [cfiBase]),
       highlight: (cfiRange, data) => this.ask("highlight", [cfiRange, data]),
       underline: (cfiRange, data) => this.ask("underline", [cfiRange, data]),
-      mark: (cfiRange, data) => this.ask("mark", [cfiRange, data])
+      mark: (cfiRange, data) => this.ask("mark", [cfiRange, data]),
+      unhighlight: (cfiRange) => this.ask("unhighlight", [cfiRange]),
+      ununderline: (cfiRange) => this.ask("ununderline", [cfiRange]),
+      unmark: (cfiRange) => this.ask("unmark", [cfiRange])
     }
 
     EventEmitter(this.contents);
@@ -508,11 +511,11 @@ class EpubView extends Component {
     }
 
     if (decoded.method === "press") {
-      this.props.onPress && this.props.onPress(decoded.cfi, decoded.position);
+      this.props.onPress && this.props.onPress(decoded.cfi, decoded.position, this.contents);
     }
 
     if (decoded.method === "longpress") {
-      this.props.onLongPress && this.props.onLongPress(decoded.cfi, decoded.position);
+      this.props.onLongPress && this.props.onLongPress(decoded.cfi, decoded.position, this.contents);
     }
 
     if (decoded.promise in this.waiting) {
