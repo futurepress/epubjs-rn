@@ -1105,6 +1105,7 @@ class EpubViewManager extends Component {
           section={section}
           horizontal={this.state.horizontal}
           onPress={this.props.onPress}
+          onLongPress={this.props.onLongPress}
           format={this.state.layout.format.bind(this.state.layout)}
           layout={this.state.layout.props}
           delta={this.state.layout.delta}

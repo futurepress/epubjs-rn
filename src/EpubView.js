@@ -94,27 +94,46 @@ const INJECTED_SCRIPT = `
 
       var startPosition = { x: -1, y: -1 };
       var currentPosition = { x: -1, y: -1 };
+      var isLongPress = false;
+      var longPressTimer;
+      var touchduration = 300;
+
       document.getElementsByTagName('body')[0].addEventListener("touchstart", function (e) {
         startPosition.x = e.targetTouches[0].pageX;
         startPosition.y = e.targetTouches[0].pageY;
         currentPosition.x = e.targetTouches[0].pageX;
         currentPosition.y = e.targetTouches[0].pageY;
+        isLongPress = false;
+        longPressTimer = setTimeout(function() {
+          var cfi;
+          if (!preventTap) {
+            isLongPress = true;
+            cfi = contents.cfiFromNode(e.targetTouches[0].target);
+            window.postMessage(JSON.stringify({method:"longpress", position: currentPosition, cfi: cfi}), targetOrigin);
+          }
+        }, touchduration);
       }, false);
 
       document.getElementsByTagName('body')[0].addEventListener("touchmove", function (e) {
         currentPosition.x = e.targetTouches[0].pageX;
         currentPosition.y = e.targetTouches[0].pageY;
+        clearTimeout(longPressTimer);
       }, false);
 
       document.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
+        clearTimeout(longPressTimer);
         if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
            Math.abs(startPosition.y - currentPosition.y) < 2) {
           setTimeout(function() {
-            if(preventTap) {
+            var cfi;
+            console.log(e)
+            if(preventTap || isLongPress) {
               preventTap = false;
+              isLongPress = false;
               return;
             }
-            window.postMessage(JSON.stringify({method:"press", value: currentPosition}), targetOrigin);
+            cfi = contents.cfiFromNode(e.changedTouches[0].target);
+            window.postMessage(JSON.stringify({method:"press", position: currentPosition, cfi: cfi}), targetOrigin);
           }, 10);
         }
       }, false);
@@ -489,7 +508,11 @@ class EpubView extends Component {
     }
 
     if (decoded.method === "press") {
-      this.props.onPress && this.props.onPress();
+      this.props.onPress && this.props.onPress(decoded.cfi, decoded.position);
+    }
+
+    if (decoded.method === "longpress") {
+      this.props.onLongPress && this.props.onLongPress(decoded.cfi, decoded.position);
     }
 
     if (decoded.promise in this.waiting) {
@@ -633,6 +656,7 @@ class EpubView extends Component {
   }
 
   setCfiBase() {
+    this.contents.cfiBase = this.props.section.cfiBase;
     this.contents.setCfiBase(this.props.section.cfiBase);
   }
 

@@ -486,6 +486,7 @@ class Epub extends Component {
           flow={this.props.flow || "paginated"}
           request={this.book && this.book.load.bind(this.book)}
           onPress={this.props.onPress}
+          onLongPress={this.props.onLongPress}
           onShow={this._onShown.bind(this)}
           origin={this.props.origin}
           backgroundColor={this.props.backgroundColor}

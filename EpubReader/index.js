@@ -93,6 +93,18 @@ class EpubReader extends Component {
               onPress={(book)=> {
                 this.toggleBars();
               }}
+              onViewAdded={(view, contents) => {
+                // Attach any markers for this view
+                console.log("added", view.index)
+                if (view.index === 6) {
+                  //contents.mark("epubcfi(/6/8[chapter-idm140212780594544]!/4/2/2[d1e297]/6,/1:0,/1:6)", {});
+                }
+              }}
+              onSelected={(cfiRange, contents) => {
+                console.log("selected", cfiRange, contents)
+                // Add marker
+                contents.mark(cfiRange, {});
+              }}
               // regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
