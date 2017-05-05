@@ -126,7 +126,6 @@ const INJECTED_SCRIPT = `
            Math.abs(startPosition.y - currentPosition.y) < 2) {
           setTimeout(function() {
             var cfi;
-            console.log(e)
             if(preventTap || isLongPress) {
               preventTap = false;
               isLongPress = false;
@@ -182,6 +181,7 @@ class EpubView extends Component {
       marginTop: 0,
       height: height,
       width: width,
+      innerHeight: height,
       contents: '',
     }
 
@@ -384,8 +384,8 @@ class EpubView extends Component {
 
     } else if (this.props.horizontal) {
       var margin = this.props.gap / 2;
-
-      expanded = this.contents.height(this.state.height-margin).then((h) => {
+      var innerHeight = this.state.height - margin;
+      expanded = this.contents.height(innerHeight).then((h) => {
         return this.contents.textWidth();
       }).then((w) => {
         var defered = new core.defer();
@@ -394,7 +394,8 @@ class EpubView extends Component {
         this.setState({
           width: width,
           marginLeft: margin,
-          marginTop: margin/2
+          marginTop: margin/2,
+          innerHeight: innerHeight
         }, () => {
           this.expanding = false;
           this.expanded = true;
@@ -419,6 +420,7 @@ class EpubView extends Component {
 
         this.setState({
           height: height,
+          innerHeight: height,
           marginLeft: 0,
           marginTop: 0
         }, () => {
@@ -723,7 +725,7 @@ class EpubView extends Component {
           key={`EpubViewSection:${this.props.section.index}`}
           style={{
             width: this.state.width,
-            height: this.state.height,
+            height: this.state.innerHeight,
             marginLeft: this.state.marginLeft,
             marginTop: this.state.marginTop,
             backgroundColor: this.props.backgroundColor || "#FFFFFF",
