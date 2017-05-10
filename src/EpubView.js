@@ -590,7 +590,7 @@ class EpubView extends Component {
 
     this.visible = visibility;
 
-    __DEV__ && console.log("visibility", this.props.section.index, visibility);
+    // __DEV__ && console.log("visibility", this.props.section.index, visibility);
 
     if (visibility == true) {
       this.setState({visibility: true });

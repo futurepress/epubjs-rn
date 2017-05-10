@@ -256,7 +256,7 @@ class Epub extends Component {
 
   _loadBook(bookUrl) {
 
-    __DEV__ && console.log("loading book: ", bookUrl);
+    // __DEV__ && console.log("loading book: ", bookUrl);
 
     this.book = ePub({
       replacements: this.props.base64 || "none"
@@ -289,7 +289,7 @@ class Epub extends Component {
 
     this.book.open(bookUrl)
       .then(() => {
-        __DEV__ && console.log("book opened", Date.now() - unzipTimer);
+        // __DEV__ && console.log("book opened", Date.now() - unzipTimer);
       })
       .catch((err) => {
         console.error(err);
@@ -350,6 +350,11 @@ class Epub extends Component {
       });
     }
 
+    if (this.props.beforeViewRemoved) {
+      this.rendition.manager.on("hidden", (view) => {
+        this.props.beforeViewRemoved(view, view.contents);
+      });
+    }
 
     // this.rendition.setManager(this.manager);
 
@@ -416,7 +421,7 @@ class Epub extends Component {
         } else {
           var locationsTimer = Date.now();
           return this.book.locations.generate(600).then((locations) => {
-            __DEV__ && console.log("locations generated", Date.now() - locationsTimer);
+            // __DEV__ && console.log("locations generated", Date.now() - locationsTimer);
             // Save out the generated locations to JSON
             AsyncStorage.setItem(key, this.book.locations.save());
           });

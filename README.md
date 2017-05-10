@@ -50,6 +50,7 @@ Then you can add the reader element in your code:
 * `onLocationChange`: Function called on every page change, reports current CFI
 * `onLocationsReady`: Function called once the locations has been generated. Returns the locations object.
 * `onViewAdded`: Function called once a view has been added to the screen.
+* `beforeViewRemoved`: Function called before a view will be removed from the screen.
 * `width`: width (int) of the Epub Rendition
 * `height`: height (int) of the Epub Rendition
 * `onReady`: Function called once book has been opened. Returns the book object

@@ -199,7 +199,8 @@ class EpubViewManager extends Component {
       sections.push(section.next());
     }
 
-    __DEV__ && console.log("displaying", section.index);
+    // __DEV__ && console.log("displaying", section.index);
+
     this.displayed = false;
 
     this.setState({
@@ -265,7 +266,7 @@ class EpubViewManager extends Component {
       nextSection && sections.push(nextSection);
     }
 
-    __DEV__ && console.log("append", section.index);
+    // __DEV__ && console.log("append", section.index);
 
     this.setState({
         sections: this.state.sections.concat(sections),
@@ -312,7 +313,7 @@ class EpubViewManager extends Component {
       prevSection && sections.unshift(prevSection);
     }
 
-    __DEV__ && console.log("prepend", section.index);
+    // __DEV__ && console.log("prepend", section.index);
     this.setState({
         sections: sections.concat(this.state.sections),
       },
@@ -657,7 +658,8 @@ class EpubViewManager extends Component {
     if (min - lookAhead >= visibleMax || max + lookBehind <= visibleMin) {
 
       if (view.state.visibility === true) {
-        __DEV__ && console.log("hiding", section.index);
+        // __DEV__ && console.log("hiding", section.index);
+        this.emit("hidden", view);
         view.setVisibility(false);
       }
 
@@ -666,7 +668,7 @@ class EpubViewManager extends Component {
     } else {
 
       if (view.state.visibility === false) {
-        __DEV__ && console.log("showing", section.index);
+        // __DEV__ && console.log("showing", section.index);
         view.setVisibility(true, () => {
           // this.afterDisplayed(view);
         });
