@@ -46,8 +46,9 @@ const INJECTED_SCRIPT = `
         var m = EPUBJSContents.prototype.mark.call(contents, cfiRange, data);
         m.addEventListener("touchstart", function (e) {
           var bounds = e.target.getBoundingClientRect();
+          var padding = parseFloat(window.getComputedStyle(e.target)["paddingRight"]);
           var clientX = e.targetTouches[0].pageX;
-          if (clientX > bounds.right) {
+          if (clientX > bounds.right - (padding || 0)) {
             preventTap = true;
             window.postMessage(JSON.stringify({method:"markClicked", data: data, cfiRange: cfiRange }), targetOrigin);
           }
