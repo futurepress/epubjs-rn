@@ -22,33 +22,23 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		1A867092A9F642E085086FA2 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 233FA3BE67474FC58DC64A1A /* Foundation.ttf */; };
 		1BCF91D746D74069A23F2CAC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 058000CA49B04BBA986142E8 /* libz.tbd */; };
 		1CDAC62ECC5F4FB1B0C1B2EF /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50A125349CF04439A8C8E9A5 /* FontAwesome.ttf */; };
 		29494ED044E8482B9578ADA6 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 817F90463BC94BE88A8F3299 /* MaterialCommunityIcons.ttf */; };
-		333564EC1E6B74FB00C6F3D6 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E21E6B74FB00C6F3D6 /* Entypo.ttf */; };
 		333564ED1E6B74FB00C6F3D6 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E31E6B74FB00C6F3D6 /* EvilIcons.ttf */; };
-		333564EE1E6B74FB00C6F3D6 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E41E6B74FB00C6F3D6 /* FontAwesome.ttf */; };
 		333564EF1E6B74FB00C6F3D6 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E51E6B74FB00C6F3D6 /* Foundation.ttf */; };
 		333564F01E6B74FB00C6F3D6 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E61E6B74FB00C6F3D6 /* Ionicons.ttf */; };
-		333564F11E6B74FB00C6F3D6 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E71E6B74FB00C6F3D6 /* MaterialCommunityIcons.ttf */; };
 		333564F21E6B74FB00C6F3D6 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E81E6B74FB00C6F3D6 /* MaterialIcons.ttf */; };
 		333564F31E6B74FB00C6F3D6 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564E91E6B74FB00C6F3D6 /* Octicons.ttf */; };
 		333564F41E6B74FB00C6F3D6 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564EA1E6B74FB00C6F3D6 /* SimpleLineIcons.ttf */; };
 		333564F51E6B74FB00C6F3D6 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333564EB1E6B74FB00C6F3D6 /* Zocial.ttf */; };
 		481C985B0C0C4BBF8EDDDA7E /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14220E01F5B84DA5B32213EC /* libRNFS.a */; };
-		5D974CC3EDBD4443852B18CE /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF0F73237CC7451CA6234E19 /* Zocial.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6EAB93FAC98242AE805539CA /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C562C21C604746108475B302 /* libRCTOrientation.a */; };
 		7EFF0731C50C4E928FDCB6AF /* libFPStaticServer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 948EDEED792E4C568B147058 /* libFPStaticServer.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		93D65DF2B6E64D9E861EEF7C /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7F7FEC787924AE0AEF2C6C4 /* EvilIcons.ttf */; };
-		968B324BC31B4722BD9AB274 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC027A2AD4124C41BFD8D9F8 /* SimpleLineIcons.ttf */; };
 		999294ABB2944DFAA1248F12 /* libFPReactNativeVisibleScrollview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902BEEF4D0E44D378C533A00 /* libFPReactNativeVisibleScrollview.a */; };
 		9EAD09C079654939900BE5B7 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 692AD330DD4741D8BD854896 /* libRNFetchBlob.a */; };
-		AB6C8F0C7EA24B54A9150233 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0FD27F0687E4CD09C4565EC /* Ionicons.ttf */; };
-		B95A3DE309BC4249B264A9C2 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76F3FB47ACE247089F6A20AD /* Octicons.ttf */; };
-		CA4F12D80EF74BB99C280E57 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EB11DE8782544888BFCD20C /* MaterialIcons.ttf */; };
 		D7C7B772CBEE4F11866C431C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09199817DDB54B9EBEF3416B /* Entypo.ttf */; };
 		DB42DF33DBE24185896651C7 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D79F973B78174BA387833411 /* libRNVectorIcons.a */; };
 		E578D81E466D4AB48DF520F7 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF14E8E964047EA89B063FA /* libRNZipArchive.a */; };
@@ -571,7 +561,7 @@
 			isa = PBXGroup;
 			children = (
 				5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */,
-				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */,
+				5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -712,7 +702,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 610;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -1022,10 +1012,10 @@
 			remoteRef = 5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation-tvOS.a */ = {
+		5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libRCTAnimation-tvOS.a";
+			path = libRCTAnimation.a;
 			remoteRef = 5E9157341DD0AC6500FF2AA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1066,19 +1056,9 @@
 				333564F51E6B74FB00C6F3D6 /* Zocial.ttf in Resources */,
 				333564F01E6B74FB00C6F3D6 /* Ionicons.ttf in Resources */,
 				333564ED1E6B74FB00C6F3D6 /* EvilIcons.ttf in Resources */,
-				93D65DF2B6E64D9E861EEF7C /* EvilIcons.ttf in Resources */,
 				1CDAC62ECC5F4FB1B0C1B2EF /* FontAwesome.ttf in Resources */,
-				1A867092A9F642E085086FA2 /* Foundation.ttf in Resources */,
 				333564F31E6B74FB00C6F3D6 /* Octicons.ttf in Resources */,
-				AB6C8F0C7EA24B54A9150233 /* Ionicons.ttf in Resources */,
-				333564EC1E6B74FB00C6F3D6 /* Entypo.ttf in Resources */,
 				29494ED044E8482B9578ADA6 /* MaterialCommunityIcons.ttf in Resources */,
-				CA4F12D80EF74BB99C280E57 /* MaterialIcons.ttf in Resources */,
-				333564EE1E6B74FB00C6F3D6 /* FontAwesome.ttf in Resources */,
-				B95A3DE309BC4249B264A9C2 /* Octicons.ttf in Resources */,
-				968B324BC31B4722BD9AB274 /* SimpleLineIcons.ttf in Resources */,
-				333564F11E6B74FB00C6F3D6 /* MaterialCommunityIcons.ttf in Resources */,
-				5D974CC3EDBD4443852B18CE /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1155,6 +1135,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
 			};
@@ -1170,6 +1151,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
 			};
@@ -1190,6 +1172,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = EpubReader;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1211,6 +1194,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = EpubReader;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1230,15 +1214,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1271,8 +1259,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1280,6 +1270,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
