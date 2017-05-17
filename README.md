@@ -9,7 +9,7 @@ Getting Started
 To use the components in your own app install via npm
 
 ```bash
-npm install --save futurepress/epubjs-rn
+npm install --save epubjs-rn
 ```
 
 It may be necessary to include the following dependencies to your `package.json`
