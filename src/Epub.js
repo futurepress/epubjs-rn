@@ -47,10 +47,7 @@ class Epub extends Component {
 
     this.book_url = this.props.src;
     this.state = {
-      title: "",
-      modalVisible: false,
       toc: [],
-      page: 0,
       show: false,
       width : bounds.width,
       height : bounds.height
@@ -91,7 +88,7 @@ class Epub extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
 
-    if (nextProps.show != this.state.show) {
+    if (nextState.show !== this.state.show) {
       return true;
     }
 
@@ -104,6 +101,7 @@ class Epub extends Component {
         (nextState.height !== this.state.height)) {
       return true;
     }
+
 
     if (nextProps.color != this.props.color) {
       return true;
@@ -129,42 +127,57 @@ class Epub extends Component {
       return true;
     }
 
+    if (nextProps.src != this.props.src) {
+      return true;
+    }
+
+    if (nextProps.onPress != this.props.onPress) {
+      return true;
+    }
+
+    if (nextProps.onLongPress != this.props.onLongPress) {
+      return true;
+    }
 
     return false;
   }
 
   componentWillUpdate(nextProps) {
-    if (this.rendition &&
-        nextProps.themes &&
-        JSON.stringify(nextProps.themes) !== JSON.stringify(this.props.themes)) {
-      this.rendition.themes.register(nextProps.themes);
-      this.rendition.themes.apply(nextProps.theme);
-    }
-
-    if (this.rendition && nextProps.theme !== this.props.theme) {
-      this.rendition.themes.apply(nextProps.theme);
-    }
-
-    if (this.rendition && nextProps.fontSize !== this.props.fontSize) {
-      this.rendition.themes.fontSize(nextProps.fontSize);
-    }
-
     if (nextProps.src !== this.props.src) {
       this.destroy();
-      this.book_url = nextProps.src;
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.rendition &&
+        this.props.themes &&
+        JSON.stringify(prevProps.themes) !== JSON.stringify(this.props.themes)) {
+      this.rendition.themes.register(this.props.themes);
+      this.rendition.themes.apply(this.props.theme);
+    }
+
+    if (this.rendition && prevProps.theme !== this.props.theme) {
+      this.rendition.themes.apply(this.props.theme);
+    }
+
+    if (this.rendition && prevProps.fontSize !== this.props.fontSize) {
+      this.rendition.themes.fontSize(this.props.fontSize);
+    }
+
+    if (prevProps.src !== this.props.src) {
+      this.book_url = this.props.src;
       this._loadBook(this.book_url);
-    } else if (nextProps.orientation !== this.props.orientation) {
-      _orientationDidChange(nextProps.orientation);
-    } else if (nextProps.width !== this.props.width ||
-        nextProps.height !== this.props.height) {
+    } else if (prevProps.orientation !== this.props.orientation) {
+      _orientationDidChange(this.props.orientation);
+    } else if (prevProps.width !== this.props.width || prevProps.height !== this.props.height) {
       this.redisplay();
-    } else if (nextProps.flow !== this.props.flow) {
-      this.rendition.flow(nextProps.flow || "paginated");
+    } else if (prevProps.flow !== this.props.flow) {
+      this.rendition.flow(this.props.flow || "paginated");
       this.redisplay();
     }
 
-    if (nextProps.location !== this.props.location) {
-      this.rendition.display(nextProps.location);
+    if (prevProps.location !== this.props.location) {
+      this.rendition.display(this.props.location);
     }
   }
 
@@ -179,11 +192,9 @@ class Epub extends Component {
     }
 
     if (this.rendition) {
-      this.rendition.manager.clear(() => {
-        this.orientationTimeout = setTimeout(()=> {
-          this._updateOrientation(orientation);
-        }, wait);
-      });
+      this.orientationTimeout = setTimeout(()=> {
+        this._updateOrientation(orientation);
+      }, wait);
     } else {
       this.orientationTimeout = setTimeout(()=> {
           this._updateOrientation(orientation);
@@ -231,8 +242,8 @@ class Epub extends Component {
       height = this.props.height || _height;
     }
 
-    this.setState({ width, height}, () => {
-      if (this.rendition) {
+    this.setState({ width, height }, () => {
+      if ((!this.props.width || !this.props.height) && this.rendition) {
         this.redisplay(location);
       }
     });
@@ -247,6 +258,7 @@ class Epub extends Component {
     }
 
     if (this.rendition) {
+
       this.rendition.manager.clear(() => {
         this.rendition.layout(this.rendition.settings.globalLayoutProperties);
         this.rendition.display(_location);
@@ -400,6 +412,7 @@ class Epub extends Component {
 
     this.book.ready.then(() => {
       this.setState({show: true});
+
       this.props.onReady && this.props.onReady(this.book);
     });
 
@@ -442,6 +455,7 @@ class Epub extends Component {
   }
 
   _onShown(shouldShow) {
+    console.log("s", shouldShow);
     this.setState({show: shouldShow});
   }
 

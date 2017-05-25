@@ -109,7 +109,6 @@ class EpubViewManager extends Component {
   }
 
   componentDidUpdate() {
-    // console.log("updated", arguments);
     requestAnimationFrame(() => {
       this._measureAndUpdateScrollProps();
     });
@@ -832,9 +831,11 @@ class EpubViewManager extends Component {
     this.setState({ horizontal, rate });
   }
 
-  applyLayout(layout) {
+  applyLayout(layout, cb) {
+    this.updateLayout(layout);
+
     this.setState({ layout }, () => {
-      this.updateLayout(layout);
+
     });
 
     // this.mapping = new Mapping(this.layout);
@@ -842,21 +843,21 @@ class EpubViewManager extends Component {
 
   updateLayout(layout) {
     var bounds = this.props.bounds || this._bounds;
-    var fixed = (this.state.layout.name === "pre-paginated");
+    var fixed = (layout.name === "pre-paginated");
     var margin = fixed ? 0 : this.state.margin;
 
     if(this.state.horizontal) {
-      this.state.layout.calculate(
+      layout.calculate(
         bounds.width-margin,
         bounds.height,
         margin
       );
     } else {
-      this.state.layout.calculate(bounds.width, bounds.height);
+      layout.calculate(bounds.width, bounds.height);
     }
 
     this.fixed = fixed;
-    this.spreads = (this.state.layout.divisor > 1);
+    this.spreads = (layout.divisor > 1);
 
     // this.lookAhead = fixed ? 2 : 3;
     // this.lookBehind = fixed ? 2 : 2;
@@ -1118,7 +1119,8 @@ class EpubViewManager extends Component {
           onResize={(e)=> this._onResize(section, e)}
           onExpanded={(e)=> this._onExpanded(section, e)}
           // willResize={(e)=> this._willResize(section, e)}
-          bounds={this.props.bounds || this._bounds}
+          boundsHeight={this.props.bounds.height || this._bounds.height}
+          boundsWidth={this.props.bounds.width || this._bounds.width}
           request={this.props.request}
           baseUrl={this.props.baseUrl}
           origin={this.props.origin}

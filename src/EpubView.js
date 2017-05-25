@@ -10,7 +10,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-// import WebViewBridge from 'react-native-webview-bridge';
 import EventEmitter from 'event-emitter'
 const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
@@ -48,7 +47,7 @@ const INJECTED_SCRIPT = `
           var bounds = e.target.getBoundingClientRect();
           var padding = parseFloat(window.getComputedStyle(e.target)["paddingRight"]);
           var clientX = e.targetTouches[0].pageX;
-          if (clientX > bounds.right - (padding || 0)) {
+          if (clientX >= bounds.right - (padding || 0)) {
             preventTap = true;
             window.postMessage(JSON.stringify({method:"markClicked", data: data, cfiRange: cfiRange }), targetOrigin);
           }
@@ -106,12 +105,7 @@ const INJECTED_SCRIPT = `
         currentPosition.y = e.targetTouches[0].pageY;
         isLongPress = false;
         longPressTimer = setTimeout(function() {
-          var cfi;
-          if (!preventTap) {
-            isLongPress = true;
-            cfi = contents.cfiFromNode(e.targetTouches[0].target);
-            window.postMessage(JSON.stringify({method:"longpress", position: currentPosition, cfi: cfi}), targetOrigin);
-          }
+          isLongPress = true;
         }, touchduration);
       }, false);
 
@@ -122,19 +116,28 @@ const INJECTED_SCRIPT = `
       }, false);
 
       document.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
+        var cfi;
         clearTimeout(longPressTimer);
         if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
            Math.abs(startPosition.y - currentPosition.y) < 2) {
-          setTimeout(function() {
-            var cfi;
-            if(preventTap || isLongPress) {
-              preventTap = false;
-              isLongPress = false;
-              return;
-            }
-            cfi = contents.cfiFromNode(e.changedTouches[0].target);
-            window.postMessage(JSON.stringify({method:"press", position: currentPosition, cfi: cfi}), targetOrigin);
-          }, 10);
+
+          cfi = contents.cfiFromNode(e.changedTouches[0].target).toString();
+
+          if(preventTap) {
+            preventTap = false;
+          } else if(isLongPress) {
+            window.postMessage(JSON.stringify({method:"longpress", position: currentPosition, cfi: cfi}), targetOrigin);
+            isLongPress = false;
+          } else {
+            setTimeout(function() {
+              if(preventTap) {
+                preventTap = false;
+                isLongPress = false;
+                return;
+              }
+              window.postMessage(JSON.stringify({method:"press", position: currentPosition, cfi: cfi}), targetOrigin);
+            }, 10);
+          }
         }
       }, false);
 
@@ -157,23 +160,8 @@ class EpubView extends Component {
 
   constructor(props) {
     super(props);
-    var horizontal = this.props.horizontal;
 
-    let height = this.props.bounds.height;
-    let width = 0;
-
-    if (this.props.layout.name === "pre-paginated") {
-      width = horizontal ? this.props.columnWidth : this.props.bounds.width;
-
-      if (this.props.spreads &&
-          this.props.section.index === this.props.lastSectionIndex &&
-          this.props.section.index % 2 > 0 ) {
-        width = horizontal ? this.props.columnWidth * 2 : this.props.bounds.width;
-      }
-
-    } else {
-      width = horizontal ? this.props.delta : this.props.bounds.width;
-    }
+    let { width, height } = this.getBounds();
 
     this.state = {
       visibility: false,
@@ -251,15 +239,118 @@ class EpubView extends Component {
   }
 
   componentDidMount() {
-
     this.mounted = true;
-
-
   }
 
   componentWillUnmount() {
     this.mounted = false;
     this.props.section.unload();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.contents != this.state.contents) {
+      return true;
+    }
+
+    if (nextState.width != this.state.width) {
+      return true;
+    }
+
+    if (nextState.height != this.state.height) {
+      return true;
+    }
+
+    if (nextState.visibility != this.state.visibility) {
+      return true;
+    }
+
+    if (nextProps.style != this.props.style) {
+      return true;
+    }
+
+    if (nextProps.backgroundColor != this.props.backgroundColor) {
+      return true;
+    }
+
+    if (nextProps.color != this.props.color) {
+      return true;
+    }
+
+    if (nextProps.size != this.props.size) {
+      return true;
+    }
+
+    if (nextState.innerHeight != this.state.innerHeight) {
+      return true;
+    }
+
+    if (nextState.marginLeft != this.state.marginLeft) {
+      return true;
+    }
+
+    if (nextState.marginTop != this.state.marginTop) {
+      return true;
+    }
+
+    if (nextState.opacity != this.state.opacity) {
+      return true;
+    }
+
+    if (nextProps.origin != this.props.origin) {
+      return true;
+    }
+
+    if (nextProps.layout != this.props.layout) {
+      return true;
+    }
+
+    if (nextProps.delta != this.props.delta) {
+      return true;
+    }
+
+    return false;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.layout != prevProps.layout) {
+      let { width, height } = this.getBounds();
+
+      this.setState({ width, height });
+
+      if (this.loading === false) {
+
+        if (this.props.layout.name === "pre-paginated") {
+          format = this.props.format(this.contents);
+        } else if (this.props.horizontal) {
+          format = this.props.format(this.contents);
+        } else {
+          format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`);
+        }
+
+        format.then( () => {
+           this.expand();
+        });
+
+      }
+    }
+  }
+
+  getBounds () {
+    let horizontal = this.props.horizontal;
+    let height = this.props.boundsHeight;
+    let width = 0;
+
+    if (this.props.layout.name === "pre-paginated") {
+      width = horizontal ? this.props.columnWidth : this.props.boundsWidth;
+
+      if (this.props.spreads && this.props.section.index === this.props.lastSectionIndex && this.props.section.index % 2 > 0) {
+        width = horizontal ? this.props.columnWidth * 2 : this.props.boundsWidth;
+      }
+    } else {
+      width = horizontal ? this.props.delta : this.props.boundsWidth;
+    }
+
+    return { width, height };
   }
 
   load() {
