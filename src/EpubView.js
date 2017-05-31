@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
-  WebView,
   Text,
   Dimensions,
   TouchableWithoutFeedback,
@@ -11,6 +10,9 @@ import {
 } from 'react-native';
 
 import EventEmitter from 'event-emitter'
+
+import WKWebView from 'react-native-wkwebview-reborn';
+
 const core = require("epubjs/lib/utils/core");
 const INJECTED_SCRIPT = `
   window.epubContents = undefined;
@@ -484,8 +486,8 @@ class EpubView extends Component {
         width = (this.props.delta) * Math.ceil(w / this.props.delta);
 
         this.setState({
-          width: width,
-          marginLeft: margin,
+          width: this.props.boundsWidth,
+          //marginLeft: margin,
           marginTop: margin/2,
           innerHeight: innerHeight
         }, () => {
@@ -812,7 +814,7 @@ class EpubView extends Component {
         collapsable={false}
         >
         <TouchableWithoutFeedback onPress={this.props.onPress}>
-        <WebView
+        <WKWebView
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
           style={{
@@ -825,11 +827,12 @@ class EpubView extends Component {
             overflow: "hidden" }}
           source={{html: this.state.contents, baseUrl: this.props.origin || DOMAIN }}
           scalesPageToFit={false}
-          scrollEnabled={false}
+          scrollEnabled={true}
           onLoadEnd={this._onLoad.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
           injectedJavaScript={INJECTED_SCRIPT}
           javaScriptEnabled={true}
+          pagingEnabled={true}
         />
         </TouchableWithoutFeedback>
       </View>

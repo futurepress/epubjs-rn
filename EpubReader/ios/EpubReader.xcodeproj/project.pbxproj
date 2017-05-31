@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -42,6 +41,7 @@
 		D7C7B772CBEE4F11866C431C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09199817DDB54B9EBEF3416B /* Entypo.ttf */; };
 		DB42DF33DBE24185896651C7 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D79F973B78174BA387833411 /* libRNVectorIcons.a */; };
 		E578D81E466D4AB48DF520F7 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADF14E8E964047EA89B063FA /* libRNZipArchive.a */; };
+		70D33B882F6444D6AC77FF09 /* libRCTWKWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85C5882B5EEE43549E2FA562 /* libRCTWKWebView.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -336,6 +336,8 @@
 		DF0F73237CC7451CA6234E19 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		E0FD27F0687E4CD09C4565EC /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
+		80332B4F5FCA46899DA0AB8E /* RCTWKWebView.xcodeproj */ = {isa = PBXFileReference; name = "RCTWKWebView.xcodeproj"; path = "../node_modules/react-native-wkwebview-reborn/ios/RCTWKWebView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		85C5882B5EEE43549E2FA562 /* libRCTWKWebView.a */ = {isa = PBXFileReference; name = "libRCTWKWebView.a"; path = "libRCTWKWebView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,6 +372,7 @@
 				481C985B0C0C4BBF8EDDDA7E /* libRNFS.a in Frameworks */,
 				7EFF0731C50C4E928FDCB6AF /* libFPStaticServer.a in Frameworks */,
 				DB42DF33DBE24185896651C7 /* libRNVectorIcons.a in Frameworks */,
+				70D33B882F6444D6AC77FF09 /* libRCTWKWebView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +607,7 @@
 				FFA0998DB50A46A98404B37C /* RNFS.xcodeproj */,
 				0E33C6176853488A92ABF75C /* FPStaticServer.xcodeproj */,
 				0315D6D409344FB197F5ED79 /* RNVectorIcons.xcodeproj */,
+				80332B4F5FCA46899DA0AB8E /* RCTWKWebView.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -702,7 +706,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 830;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -1134,7 +1138,10 @@
 				INFOPLIST_FILE = EpubReaderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
@@ -1150,7 +1157,10 @@
 				INFOPLIST_FILE = EpubReaderTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EpubReader.app/EpubReader";
@@ -1176,6 +1186,10 @@
 				PRODUCT_NAME = EpubReader;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-wkwebview-reborn/ios/RCTWKWebView",
+				);
 			};
 			name = Debug;
 		};
@@ -1198,6 +1212,10 @@
 				PRODUCT_NAME = EpubReader;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-wkwebview-reborn/ios/RCTWKWebView",
+				);
 			};
 			name = Release;
 		};

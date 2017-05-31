@@ -455,7 +455,6 @@ class Epub extends Component {
   }
 
   _onShown(shouldShow) {
-    console.log("s", shouldShow);
     this.setState({show: shouldShow});
   }
 
