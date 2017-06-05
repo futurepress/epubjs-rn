@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.65",
+  "version": "0.0.66",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -19,8 +19,6 @@
     "lodash": "^4.17.4",
     "npm": "^5.0.0",
     "path-webpack": "0.0.3",
-    "react": "^15.5.4",
-    "react-native": "^0.44.2",
     "react-native-fetch-blob": "0.10.5",
     "react-native-fs": "^2.3.2",
     "react-native-orientation": "8fit/react-native-orientation",
@@ -51,11 +49,13 @@
     "jest": "20.0.4",
     "jest-react-native": "18.0.0",
     "react-test-renderer": "~15.5.4",
-    "webpack": "^2.5.1"
+    "webpack": "^2.5.1",
+    "react": "^16.0.0-alpha.6",
+    "react-native": "^0.44.2"
   },
   "peerDependencies": {
     "react": "^16.0.0-alpha.6",
-    "react-native": "^0.44.0"
+    "react-native": "^0.44.2"
   },
   "jest": {
     "preset": "jest-react-native"
