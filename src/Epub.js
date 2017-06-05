@@ -38,6 +38,8 @@ const EpubViewManager = require("./EpubViewManager");
 
 const EPUBJS = readFileSync(__dirname + "/../contents/contents.min.js", "utf8");
 
+const INJECTED_SCRIPT = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
+
 class Epub extends Component {
 
   constructor(props) {
@@ -326,6 +328,11 @@ class Epub extends Component {
       script.setAttribute("type", "text/javascript");
       script.textContent = EPUBJS;
       doc.getElementsByTagName("head")[0].appendChild(script);
+
+      var iscript = doc.createElement("script");
+      iscript.setAttribute("type", "text/javascript");
+      iscript.textContent = INJECTED_SCRIPT;
+      doc.getElementsByTagName("head")[0].appendChild(iscript);
     }.bind(this));
 
     this.manager = this.refs["manager"];

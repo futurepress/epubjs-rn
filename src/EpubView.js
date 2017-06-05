@@ -3,10 +3,12 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
+  WebView,
   Text,
   Dimensions,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import EventEmitter from 'event-emitter'
@@ -14,147 +16,6 @@ import EventEmitter from 'event-emitter'
 import WKWebView from 'react-native-wkwebview-reborn';
 
 const core = require("epubjs/lib/utils/core");
-const INJECTED_SCRIPT = `
-  window.epubContents = undefined;
-  (function () {
-    var waitForReactNativePostMessageReady;
-
-    function _ready() {
-      var contents;
-      var targetOrigin = "*";
-
-      var isReactNativePostMessageReady = !!window.originalPostMessage;
-      clearTimeout(waitForReactNativePostMessageReady);
-      if(!isReactNativePostMessageReady) {
-        waitForReactNativePostMessageReady = setTimeout(_ready, 1);
-      }
-
-      if (typeof EPUBJSContents === "undefined") {
-        return window.postMessage(JSON.stringify({
-          method: "error",
-          value: "EPUB.js is not loaded"
-        }), targetOrigin);
-      }
-
-      contents = new EPUBJSContents(document);
-
-      contents.setCfiBase = function(cfiBase) {
-        contents.cfiBase = cfiBase;
-      };
-
-      var preventTap = false;
-      contents.mark = function(cfiRange, data) {
-        var m = EPUBJSContents.prototype.mark.call(contents, cfiRange, data);
-        m.addEventListener("touchstart", function (e) {
-          var bounds = e.target.getBoundingClientRect();
-          var padding = parseFloat(window.getComputedStyle(e.target)["paddingRight"]);
-          var clientX = e.targetTouches[0].pageX;
-          if (clientX >= bounds.right - (padding || 0)) {
-            preventTap = true;
-            window.postMessage(JSON.stringify({method:"markClicked", data: data, cfiRange: cfiRange }), targetOrigin);
-          }
-        });
-        return m;
-      };
-
-      document.addEventListener("message", function (e) {
-        var message = e.data;
-        var decoded = JSON.parse(message);
-        var response;
-        var result;
-
-        if (decoded.method in contents) {
-          result = contents[decoded.method].apply(contents, decoded.args);
-
-          response = JSON.stringify({
-            method: decoded.method,
-            promise: decoded.promise,
-            value: result
-          });
-
-          window.postMessage(response, targetOrigin);
-
-        }
-      });
-
-      contents.on("resize", function (size) {
-        window.postMessage(JSON.stringify({method:"resize", value: size }), targetOrigin);
-      });
-
-      contents.on("expand", function () {
-        window.postMessage(JSON.stringify({method:"expand", value: true}), targetOrigin);
-      });
-
-      contents.on("link", function (href) {
-        window.postMessage(JSON.stringify({method:"link", value: href}), targetOrigin);
-      });
-
-      contents.on("selected", function (sel) {
-        preventTap = true;
-        window.postMessage(JSON.stringify({method:"selected", value: sel}), targetOrigin);
-      });
-
-      var startPosition = { x: -1, y: -1 };
-      var currentPosition = { x: -1, y: -1 };
-      var isLongPress = false;
-      var longPressTimer;
-      var touchduration = 300;
-
-      document.getElementsByTagName('body')[0].addEventListener("touchstart", function (e) {
-        startPosition.x = e.targetTouches[0].pageX;
-        startPosition.y = e.targetTouches[0].pageY;
-        currentPosition.x = e.targetTouches[0].pageX;
-        currentPosition.y = e.targetTouches[0].pageY;
-        isLongPress = false;
-        longPressTimer = setTimeout(function() {
-          isLongPress = true;
-        }, touchduration);
-      }, false);
-
-      document.getElementsByTagName('body')[0].addEventListener("touchmove", function (e) {
-        currentPosition.x = e.targetTouches[0].pageX;
-        currentPosition.y = e.targetTouches[0].pageY;
-        clearTimeout(longPressTimer);
-      }, false);
-
-      document.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
-        var cfi;
-        clearTimeout(longPressTimer);
-        if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
-           Math.abs(startPosition.y - currentPosition.y) < 2) {
-
-          cfi = contents.cfiFromNode(e.changedTouches[0].target).toString();
-
-          if(preventTap) {
-            preventTap = false;
-          } else if(isLongPress) {
-            window.postMessage(JSON.stringify({method:"longpress", position: currentPosition, cfi: cfi}), targetOrigin);
-            isLongPress = false;
-          } else {
-            setTimeout(function() {
-              if(preventTap) {
-                preventTap = false;
-                isLongPress = false;
-                return;
-              }
-              window.postMessage(JSON.stringify({method:"press", position: currentPosition, cfi: cfi}), targetOrigin);
-            }, 10);
-          }
-        }
-      }, false);
-
-      window.postMessage(JSON.stringify({method:"ready", value: true}), targetOrigin);
-
-      window.epubContents = contents;
-    }
-
-    if ( document.readyState === 'complete' ) {
-      _ready();
-    } else {
-      window.addEventListener("load", _ready, false);
-    }
-  }());
-`;
 
 const DOMAIN = "http://futurepress.org";
 
@@ -410,6 +271,7 @@ class EpubView extends Component {
     // console.log("send", this.props.section.index, method);
 
     this.refs.webviewbridge.postMessage(str);
+    // this.refs.webviewbridge.evaluateJavaScript("document.dispatchEvent(new MessageEvent('message', {data: " + str + "}));")
   }
 
   ask(method, args) {
@@ -431,6 +293,7 @@ class EpubView extends Component {
     var width, height;
     var expanded;
     var expanding;
+    console.log("expand");
 
     // if (this.expanding || this.loading) {
     //   return;
@@ -486,8 +349,8 @@ class EpubView extends Component {
         width = (this.props.delta) * Math.ceil(w / this.props.delta);
 
         this.setState({
-          width: this.props.boundsWidth,
-          //marginLeft: margin,
+          width: width,
+          marginLeft: margin,
           marginTop: margin/2,
           innerHeight: innerHeight
         }, () => {
@@ -574,7 +437,12 @@ class EpubView extends Component {
 
   _onBridgeMessage(e) {
     var msg = e.nativeEvent.data;
-    var decoded = JSON.parse(msg);
+    var decoded;
+    if (typeof msg === "string") {
+      decoded = JSON.parse(msg);
+    } else {
+      decoded = msg; // webkit may pass parsed objects
+    }
     var p;
     // console.log("msg", this.props.section.index, decoded);
 
@@ -778,6 +646,8 @@ class EpubView extends Component {
   };
 
   render() {
+    const WebViewer = (Platform.OS === 'ios') ? WKWebView : WebView;
+
     if (!this.state.contents || !this.state.visibility) {
       return (
         <View
@@ -807,6 +677,7 @@ class EpubView extends Component {
             width: this.state.width,
             height: this.state.height,
             overflow: "hidden",
+            opacity: this.state.opacity,
             backgroundColor: this.props.backgroundColor || "#FFFFFF"
           }
         ]}
@@ -814,7 +685,7 @@ class EpubView extends Component {
         collapsable={false}
         >
         <TouchableWithoutFeedback onPress={this.props.onPress}>
-        <WKWebView
+        <WebViewer
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
           style={{
@@ -823,16 +694,13 @@ class EpubView extends Component {
             marginLeft: this.state.marginLeft,
             marginTop: this.state.marginTop,
             backgroundColor: this.props.backgroundColor || "#FFFFFF",
-            opacity: this.state.opacity,
             overflow: "hidden" }}
           source={{html: this.state.contents, baseUrl: this.props.origin || DOMAIN }}
           scalesPageToFit={false}
-          scrollEnabled={true}
+          scrollEnabled={false}
           onLoadEnd={this._onLoad.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
-          injectedJavaScript={INJECTED_SCRIPT}
           javaScriptEnabled={true}
-          pagingEnabled={true}
         />
         </TouchableWithoutFeedback>
       </View>

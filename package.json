@@ -26,7 +26,7 @@
     "react-native-orientation": "8fit/react-native-orientation",
     "react-native-static-server": "0.1.7",
     "react-native-visible-scrollview": "0.0.6",
-    "react-native-wkwebview-reborn": "^1.4.0",
+    "react-native-wkwebview-reborn": "fchasen/react-native-wkwebview",
     "react-native-zip-archive": "1.1.1",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
