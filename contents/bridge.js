@@ -6,11 +6,7 @@ window.epubContents = undefined;
 		var contents;
 		var targetOrigin = "*";
 		var sendMessage = function(obj) {
-			if (typeof window.webkit != "undefined") {
-				window.postMessage(obj, targetOrigin);
-			} else {
-				window.postMessage(JSON.stringify(obj), targetOrigin);
-			}
+			window.postMessage(JSON.stringify(obj), targetOrigin);
 		};
 
 		var isReactNativePostMessageReady = !!window.originalPostMessage;
@@ -43,6 +39,8 @@ window.epubContents = undefined;
 				if (clientX >= bounds.right - (padding || 0)) {
 					preventTap = true;
 					sendMessage({method:"markClicked", data: data, cfiRange: cfiRange });
+          e.preventDefault();
+          e.stopPropagation();
 				}
 			});
 			return m;
