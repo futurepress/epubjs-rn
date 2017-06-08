@@ -12,9 +12,10 @@
   },
   "license": "BSD-2-Clause",
   "dependencies": {
-    "epubjs-rn": "file:../",
+    "epubjs": "^0.3.34",
+    "epubjs-rn": "0.0.70",
     "react": "16.0.0-alpha.6",
-    "react-native": "^0.44.2",
+    "react-native": "^0.44.3",
     "react-native-fetch-blob": "^0.10.5",
     "react-native-fs": "^2.3.2",
     "react-native-orientation": "8fit/react-native-orientation",

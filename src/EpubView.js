@@ -187,7 +187,10 @@ class EpubView extends Component {
         } else if (this.props.horizontal) {
           format = this.props.format(this.contents);
         } else {
-          format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`);
+          format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`)
+            .then(() => {
+              return this.props.format(this.contents);
+            });
         }
 
         format.then( () => {
@@ -293,7 +296,6 @@ class EpubView extends Component {
     var width, height;
     var expanded;
     var expanding;
-    console.log("expand");
 
     // if (this.expanding || this.loading) {
     //   return;
@@ -416,7 +418,10 @@ class EpubView extends Component {
       // });
       format = this.props.format(this.contents);
     } else {
-      format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`);
+      format = this.contents.css("padding", `${this.props.gap/2}px ${this.props.gap}px`)
+        .then(() => {
+          return this.props.format(this.contents);
+        });
     }
 
     return format.then( () => {
