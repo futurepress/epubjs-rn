@@ -262,6 +262,7 @@ class Epub extends Component {
     if (this.rendition) {
 
       this.rendition.manager.clear(() => {
+        this.rendition.settings.globalLayoutProperties = this.rendition.determineLayoutProperties(this.book.package.metadata);
         this.rendition.layout(this.rendition.settings.globalLayoutProperties);
         this.rendition.display(_location);
       });

@@ -115,6 +115,15 @@ class EpubReader extends Component {
                 title={this.state.title}
                 shown={this.state.showBars}
                 onLeftButtonPressed={() => this.refs.nav.show()}
+                onRightButtonPressed={
+                  (value) => {
+                    if (this.state.flow === "paginated") {
+                      this.setState({flow: "scrolled-continuous"});
+                    } else {
+                      this.setState({flow: "paginated"});
+                    }
+                  }
+                }
                />
             </View>
             <View

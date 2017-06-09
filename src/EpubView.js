@@ -296,7 +296,7 @@ class EpubView extends Component {
     var width, height;
     var expanded;
     var expanding;
-
+    console.log("expanding", this.index);
     // if (this.expanding || this.loading) {
     //   return;
     // }
@@ -362,13 +362,14 @@ class EpubView extends Component {
           this.props.onExpanded && this.props.onExpanded(this);
           this.emit("expanded");
           defered.resolve();
+          console.log("expanded", this.index, width);
         });
 
         return defered.promise;
 
       });
     } else {
-      expanded = this.contents.width(this.state.width-margin).then((w) => {
+      expanded = this.contents.width(this.state.width).then((w) => {
         return this.contents.scrollHeight();
       }).then((h) => {
         var defered = new core.defer();
@@ -389,6 +390,7 @@ class EpubView extends Component {
           this.props.onExpanded && this.props.onExpanded(this);
           this.emit("expanded");
           defered.resolve();
+          console.log("expanded", this.index, height);
         });
 
         return defered.promise;

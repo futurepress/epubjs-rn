@@ -18,11 +18,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     fontWeight: '400',
+    flex: 8,
     color: '#000',
-    position: 'absolute',
-    top: 20,
-    left: 0,
-    right: 0,
     ...Platform.select({
       ios: {
         fontFamily: "Baskerville",
@@ -42,15 +39,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor:"#000",
     position: 'absolute',
+    display: 'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection: 'row',
+    flex: 14
   },
   backButton: {
-    width: 130,
-    height: 30,
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    padding: 0,
-    flexDirection: 'row',
+    width: 34,
+    height: 34,
+    margin: 20,
+    flex: 1,
+    display: 'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection: 'row'
   },
   backButtonImage: {
     width: 30,
@@ -120,10 +123,14 @@ class TopBar extends Component {
   render() {
     return (
       <Animated.View style={[styles.header, { opacity: this.state.fadeAnim }]}>
-        <Text style={styles.title}>{this.props.title}</Text>
         <TouchableOpacity style={styles.backButton}
           onPress={this.props.onLeftButtonPressed}>
           <Icon name="navicon" size={34} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{this.props.title}</Text>
+        <TouchableOpacity style={styles.backButton}
+          onPress={this.props.onRightButtonPressed}>
+          <Icon name="gear" size={34} />
         </TouchableOpacity>
       </Animated.View>
     );

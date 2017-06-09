@@ -43,8 +43,8 @@ class EpubViewManager extends Component {
       sections: [],
       layout: undefined,
       margin: this.props.margin || 60,
-      horizontal: this.props.flow === "vertical" ? false : true,
-      rate : this.props.flow === "vertical" ? VERT_SCROLLRATE : HORZ_SCROLLRATE,
+      horizontal: this.props.flow === "paginated" ? true : false,
+      rate : this.props.flow === "paginated" ? HORZ_SCROLLRATE : VERT_SCROLLRATE,
       displayed: false
     }
 
@@ -637,8 +637,8 @@ class EpubViewManager extends Component {
     let view = this.getView(section.index);
     let isVertical = !this.state.horizontal;
     let delta = this.state.layout.delta || DEFAULT_SCROLL_RENDER_AHEAD;
-    let lookAhead = (this.scrollMomentum > 0) ? this.lookAhead * delta : 0;
-    let lookBehind = (this.scrollMomentum < 0) ? this.lookBehind * delta : 0;
+    let lookAhead = (this.scrollMomentum > 0) ? this.lookAhead * delta : 10;
+    let lookBehind = (this.scrollMomentum < 0) ? this.lookBehind * delta : 10;
     let visibleMin = this.scrollProperties.offset;
     let visibleMax = visibleMin + this.scrollProperties.visibleLength;
 
@@ -827,11 +827,13 @@ class EpubViewManager extends Component {
 
   updateFlow(flow) {
     var horizontal = (flow === "paginated") ? true : false;
-    var rate = (this.props.flow === "vertical" ) ? VERT_SCROLLRATE : HORZ_SCROLLRATE;
+    var rate = (this.props.flow === "paginated" ) ? HORZ_SCROLLRATE : VERT_SCROLLRATE;
+
     this.setState({ horizontal, rate });
   }
 
   applyLayout(layout, cb) {
+    console.log("applyLayout", layout);
     this.updateLayout(layout);
 
     this.setState({ layout }, () => {
