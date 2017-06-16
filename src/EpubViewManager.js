@@ -1059,6 +1059,8 @@ class EpubViewManager extends Component {
     clearTimeout(this.resizedTimeout);
     clearTimeout(this.displayedTimeout);
 
+    this.scrollTo(0, 0, true);
+
     this.scrollProperties = {};
 
     this.scrollLeft = 0;

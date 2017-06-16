@@ -86,6 +86,7 @@ class EpubView extends Component {
     this.expanded = false;
 
     this.index = this.props.section && this.props.section.index;
+    this.contents.sectionIndex = this.index;
   }
 
   componentWillMount() {
