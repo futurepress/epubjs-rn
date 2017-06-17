@@ -833,7 +833,6 @@ class EpubViewManager extends Component {
   }
 
   applyLayout(layout, cb) {
-    console.log("applyLayout", layout);
     this.updateLayout(layout);
 
     this.setState({ layout }, () => {

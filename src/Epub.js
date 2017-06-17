@@ -166,6 +166,10 @@ class Epub extends Component {
       this.rendition.themes.fontSize(this.props.fontSize);
     }
 
+    if (this.rendition && prevProps.font !== this.props.font) {
+      this.rendition.themes.font(this.props.font);
+    }
+
     if (prevProps.src !== this.props.src) {
       this.book_url = this.props.src;
       this._loadBook(this.book_url);
@@ -388,6 +392,10 @@ class Epub extends Component {
 
     if (this.props.fontSize) {
       this.rendition.themes.fontSize(this.props.fontSize);
+    }
+
+    if (this.props.font) {
+      this.rendition.themes.font(this.props.font);
     }
 
     this.rendition.display(this.props.location || 0).then(() => {

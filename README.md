@@ -57,6 +57,7 @@ Then you can add the reader element in your code:
 * `themes`: JSON object of themes names and css properties to be applied
 * `theme`: Name of the theme to apply, such as `light`
 * `fontSize`: CSS override for font size of theme
+* `font`: CSS override for font family
 * `stylesheet`: Link to css stylesheet containing themes
 * `script`: Url for a javascript file to be injected into the view
 * `backgroundColor`: backgroundColor for the views

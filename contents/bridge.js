@@ -132,6 +132,10 @@ window.epubContents = undefined;
 			}
 		}, false);
 
+    window.addEventListener('scroll', function(e) {
+      window.scrollTo(0, 0);
+    });
+
 		sendMessage({method:"ready", value: true});
 
 		window.epubContents = contents;

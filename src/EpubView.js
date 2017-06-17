@@ -33,6 +33,7 @@ class EpubView extends Component {
       marginTop: 0,
       height: height,
       width: width,
+      innerWidth: width,
       innerHeight: height,
       contents: '',
     }
@@ -49,6 +50,7 @@ class EpubView extends Component {
       scrollWidth: () => this.ask("scrollWidth"),
       scrollHeight: () => this.ask("scrollHeight"),
       contentHeight: () => this.ask("contentHeight"),
+      contentWidth: () => this.ask("contentWidth"),
       overflow: (overflow) => this.ask("overflow", [overflow]),
       overflowY: (overflow) => this.ask("overflowY", [overflow]),
       css: (property, value) => this.ask("css", [property, value]),
@@ -141,6 +143,10 @@ class EpubView extends Component {
     }
 
     if (nextProps.size != this.props.size) {
+      return true;
+    }
+
+    if (nextState.innerWidth != this.state.innerWidth) {
       return true;
     }
 
@@ -297,7 +303,7 @@ class EpubView extends Component {
     var width, height;
     var expanded;
     var expanding;
-    console.log("expanding", this.index);
+    __DEV__ && console.log("expanding", this.index);
     // if (this.expanding || this.loading) {
     //   return;
     // }
@@ -355,7 +361,8 @@ class EpubView extends Component {
           width: width,
           marginLeft: margin,
           marginTop: margin/2,
-          innerHeight: innerHeight
+          innerHeight: innerHeight,
+          innerWidth: width
         }, () => {
           this.expanding = false;
           this.expanded = true;
@@ -363,7 +370,6 @@ class EpubView extends Component {
           this.props.onExpanded && this.props.onExpanded(this);
           this.emit("expanded");
           defered.resolve();
-          console.log("expanded", this.index, width);
         });
 
         return defered.promise;
@@ -381,7 +387,8 @@ class EpubView extends Component {
 
         this.setState({
           height: height,
-          innerHeight: height,
+          innerHeight: innerHeight,
+          innerWidth: width,
           marginLeft: 0,
           marginTop: 0
         }, () => {
@@ -389,9 +396,7 @@ class EpubView extends Component {
           this.expanded = true;
           this.setState({opacity: 1});
           this.props.onExpanded && this.props.onExpanded(this);
-          this.emit("expanded");
           defered.resolve();
-          console.log("expanded", this.index, height);
         });
 
         return defered.promise;
@@ -460,6 +465,10 @@ class EpubView extends Component {
 
     if (decoded.method === "error") {
       console.error(decoded.value);
+    }
+
+    if (decoded.method === "expand") {
+      // console.log("called expand", this.index);
     }
 
     if (decoded.method === "resize") {
@@ -697,7 +706,7 @@ class EpubView extends Component {
           ref="webviewbridge"
           key={`EpubViewSection:${this.props.section.index}`}
           style={{
-            width: this.state.width,
+            width: this.state.innerWidth,
             height: this.state.innerHeight,
             marginLeft: this.state.marginLeft,
             marginTop: this.state.marginTop,
