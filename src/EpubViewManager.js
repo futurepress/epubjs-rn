@@ -98,6 +98,7 @@ class EpubViewManager extends Component {
     this.prevOffset = 0;
     this._visible = [];
     this._childFrames = [];
+    this.unmounted = false;
   }
 
   componentDidMount() {
@@ -115,6 +116,7 @@ class EpubViewManager extends Component {
   }
 
   componentWillUnmount() {
+    this.unmounted = true;
     // destroy
     this.clear();
   }
@@ -124,6 +126,9 @@ class EpubViewManager extends Component {
   }
 
   getView(sectionIndex) {
+    if (this.unmounted) {
+      return;
+    }
     let view = this.refs["section_"+sectionIndex];
     if (!view) {
       throw new Error("Ref not found for Section " + sectionIndex);
@@ -893,6 +898,10 @@ class EpubViewManager extends Component {
 
   scrollTo(x, y, silent) {
 
+    if (this.unmounted) {
+      return;
+    }
+
     if (x === this.scrollProperties.offsetX &&
         y === this.scrollProperties.offsetY) {
       return; // no change
@@ -917,6 +926,10 @@ class EpubViewManager extends Component {
     // if(this.state.horizontal) {
     //   offset = Math.floor(this.scrollProperties.offset / this.state.layout.columnWidth) * (this.state.layout.delta / this.state.layout.divisor);
     // }
+
+    if (this.unmounted) {
+      return;
+    }
 
     if (x === 0 &&
         y === 0) {
@@ -1053,12 +1066,12 @@ class EpubViewManager extends Component {
   }
 
   clear(cb) {
+    this.scrollTo(0, 0, true);
+
     clearTimeout(this.scrollTimeout);
     clearTimeout(this.resizeTimeout);
     clearTimeout(this.resizedTimeout);
     clearTimeout(this.displayedTimeout);
-
-    this.scrollTo(0, 0, true);
 
     this.scrollProperties = {};
 
