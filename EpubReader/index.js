@@ -105,7 +105,7 @@ class EpubReader extends Component {
                 // Add marker
                 contents.mark(cfiRange, {});
               }}
-              // regenerateLocations={true}
+              regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
             />
@@ -134,7 +134,7 @@ class EpubReader extends Component {
                 shown={this.state.showBars}
                 onSlidingComplete={
                   (value) => {
-                    this.setState({location: value})
+                    this.setState({location: value.toFixed(6)})
                   }
                 }/>
             </View>

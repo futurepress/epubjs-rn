@@ -12,17 +12,17 @@
   },
   "license": "BSD-2-Clause",
   "dependencies": {
-    "epubjs": "^0.3.37",
-    "epubjs-rn": "0.0.75",
+    "epubjs": "0.3.38",
+    "epubjs-rn": "0.0.76",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.3",
-    "react-native-fetch-blob": "^0.10.5",
+    "react-native-fetch-blob": "^0.10.6",
     "react-native-fs": "^2.3.2",
-    "react-native-orientation": "8fit/react-native-orientation",
+    "react-native-orientation": "github:8fit/react-native-orientation",
     "react-native-static-server": "0.1.7",
     "react-native-vector-icons": "^4.2.0",
     "react-native-visible-scrollview": "0.0.6",
-    "react-native-wkwebview-reborn": "fchasen/react-native-wkwebview",
+    "react-native-wkwebview-reborn": "github:fchasen/react-native-wkwebview",
     "react-native-zip-archive": "1.1.1"
   },
   "devDependencies": {
