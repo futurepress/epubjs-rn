@@ -12,8 +12,8 @@
   },
   "license": "BSD-2-Clause",
   "dependencies": {
-    "epubjs": "0.3.38",
-    "epubjs-rn": "0.0.76",
+    "epubjs": "0.3.39",
+    "epubjs-rn": "0.0.78",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.3",
     "react-native-fetch-blob": "^0.10.6",
