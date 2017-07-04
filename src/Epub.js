@@ -22,7 +22,7 @@ if (!global.Blob) {
 
 global.JSZip = global.JSZip || require("jszip");
 
-// global.URL = require("epubjs/libs/url/url-polyfill.js");
+global.URL = require("epubjs/libs/url/url-polyfill.js");
 
 if (!global.btoa) {
   global.btoa = require("base-64").encode;
