@@ -210,7 +210,7 @@ class Epub extends Component {
   }
 
   _updateOrientation(orientation) {
-    var location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
+    var location = this._visibleLocation ? this._visibleLocation.start.cfi : this.props.location;
     var width, height;
     var bounds = Dimensions.get('window');
     var _width = bounds.width, _height = bounds.height;
@@ -260,11 +260,10 @@ class Epub extends Component {
   redisplay(location) {
     var _location = location;
     if (!_location) {
-      _location = this._visibleLocation ? this._visibleLocation.start : this.props.location;
+      _location = this._visibleLocation ? this._visibleLocation.start.cfi : this.props.location;
     }
 
     if (this.rendition) {
-
       this.rendition.manager.clear(() => {
         this.rendition.settings.globalLayoutProperties = this.rendition.determineLayoutProperties(this.book.package.metadata);
         this.rendition.layout(this.rendition.settings.globalLayoutProperties);
@@ -398,7 +397,7 @@ class Epub extends Component {
       this.rendition.themes.font(this.props.font);
     }
 
-    this.rendition.display(this.props.location || 0).then(() => {
+    this.rendition.display(this.props.location || undefined).then(() => {
       if (this.props.generateLocations != false) {
         requestAnimationFrame(() => this.loadLocations());
       }
@@ -417,7 +416,7 @@ class Epub extends Component {
     });
     */
 
-    this.rendition.on("locationChanged", (visibleLocation)=> {
+    this.rendition.on("relocated", (visibleLocation)=> {
 
       this._visibleLocation = visibleLocation;
 

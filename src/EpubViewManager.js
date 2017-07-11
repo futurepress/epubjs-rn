@@ -420,8 +420,8 @@ class EpubViewManager extends Component {
 
     return locate;
   }
-
-  scrolledLocation(visible) {
+  /*
+  _scrolledLocation(visible) {
 
     var visible = this.visible();
     var startPage, endPage;
@@ -471,7 +471,7 @@ class EpubViewManager extends Component {
 
   }
 
-  paginatedLocation(visible) {
+  _paginatedLocation(visible) {
     var startA, startB, endA, endB;
     var pageLeft, pageRight;
     var container = this.position();
@@ -515,6 +515,99 @@ class EpubViewManager extends Component {
       });
 
     }
+  }
+  */
+  scrolledLocation(visible){
+    var container = this.position();
+
+    let sections = visible.map((view) => {
+      let {index, href} = view.section;
+      let position = view.position().top;
+      let offset = view.offset(this._position).top;
+      let height = view.height();
+      let bounds = this.props.bounds || this._bounds;
+
+
+      let startPos = (container.top + this.scrollProperties.offset) - position;
+      let endPos = startPos + bounds.height;
+      if (endPos > this.scrollProperties.offset + offset + height) {
+        endPos = this.scrollProperties.offset + offset + height;
+      }
+
+      let totalPages = this.state.layout.count(height, bounds.height).pages;
+      let currPage = Math.round(startPos / bounds.height);
+      let pages = [];
+      let numPages = Math.floor((endPos - startPos) / bounds.height);
+
+      for (var i = 1; i <= numPages; i++) {
+        let pg = currPage + i;
+        pages.push(pg);
+      }
+
+      let start = container.top + this.scrollProperties.offset - position;
+      let end = start + bounds.height;
+      let mapping = view.mapPage(start, end);
+
+      return mapping.then((mapping) => {
+        return {
+          index,
+          href,
+          pages,
+          totalPages,
+          mapping
+        }
+      });
+    });
+
+    return Promise.all(sections).then((results) => {
+      return results;
+    });
+  }
+
+  paginatedLocation(visible){
+    var container = this.position();
+
+    let sections = visible.map((view) => {
+      let {index, href} = view.section;
+      let position = view.position().left;
+      let offset = view.offset(this._position).left;
+      let width = view.width();
+
+
+      let startPos = (container.left + this.scrollProperties.offset) - position;
+      let endPos = startPos + this.state.layout.spreadWidth + this.state.layout.gap;
+      if (endPos > this.scrollProperties.offset + offset + width) {
+        endPos = this.scrollProperties.offset + offset + width;
+      }
+
+      let totalPages = this.state.layout.count(width).pages;
+      let currPage = Math.ceil(startPos / this.state.layout.delta);
+      let pages = [];
+      let numPages = Math.floor((endPos - startPos) / (this.state.layout.columnWidth + (this.state.layout.gap / 2)));
+
+      for (var i = 1; i <= numPages; i++) {
+        let pg = currPage + i;
+        pages.push(pg);
+      }
+
+      let start = container.left + this.scrollProperties.offset - position;
+      let end = start + this.state.layout.spreadWidth + this.state.layout.gap;
+      let mapping = view.mapPage(start, end);
+
+      return mapping.then((mapping) => {
+        return {
+          index,
+          href,
+          pages,
+          totalPages,
+          mapping
+        }
+      });
+    });
+
+    return Promise.all(sections).then((results) => {
+      return results;
+    });
   }
 
   _onScroll(e) {

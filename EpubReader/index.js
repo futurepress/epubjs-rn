@@ -105,7 +105,7 @@ class EpubReader extends Component {
                 // Add marker
                 contents.mark(cfiRange, {});
               }}
-              regenerateLocations={true}
+              // regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
             />
@@ -130,7 +130,7 @@ class EpubReader extends Component {
               style={[styles.bar, { bottom:0 }]}>
               <BottomBar
                 disabled= {this.state.sliderDisabled}
-                value={this.state.visibleLocation ? this.state.visibleLocation.percentage : 0}
+                value={this.state.visibleLocation ? this.state.visibleLocation.start.percentage : 0}
                 shown={this.state.showBars}
                 onSlidingComplete={
                   (value) => {

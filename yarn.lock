@@ -1977,9 +1977,9 @@ enhanced-resolve@^3.0.0:
     object-assign "^4.0.1"
     tapable "^0.2.5"
 
-epubjs@0.3.39:
-  version "0.3.39"
-  resolved "https://registry.yarnpkg.com/epubjs/-/epubjs-0.3.39.tgz#671963eb5e1e5e575edcaba376b134a6fb40e49e"
+epubjs@0.3.40:
+  version "0.3.40"
+  resolved "https://registry.yarnpkg.com/epubjs/-/epubjs-0.3.40.tgz#04e766f152f6ced73c597115d51ffbbc6528cb55"
   dependencies:
     event-emitter "^0.3.4"
     jszip "^3.1.3"

@@ -631,6 +631,32 @@ class EpubView extends Component {
     return position;
   }
 
+  offset(relativeTo) {
+    var bounds = this.bounds;
+
+    var offset = {
+      'top': 0,
+      'left': 0,
+    }
+
+    if (bounds) {
+      offset = {
+        'top':  bounds.y - relativeTo.y,
+        'left': bounds.x - relativeTo.x,
+      }
+    }
+
+    return offset;
+  }
+
+  width() {
+    return this.state.innerWidth;
+  }
+
+  height() {
+    return this.state.innerHeight;
+  }
+
   get section() {
     return this.props.section;
   }
