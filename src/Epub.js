@@ -60,7 +60,7 @@ class Epub extends Component {
   }
 
   componentDidMount() {
-
+    this.isMounted = true;
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
@@ -81,6 +81,8 @@ class Epub extends Component {
   }
 
   componentWillUnmount() {
+    this.isMounted = false;
+
     AppState.removeEventListener('change', this._handleAppStateChange);
     Orientation.removeSpecificOrientationListener(this._orientationDidChange);
     clearTimeout(this.orientationTimeout);
@@ -197,15 +199,11 @@ class Epub extends Component {
       return;
     }
 
-    if (this.rendition) {
-      this.orientationTimeout = setTimeout(()=> {
+    this.orientationTimeout = setTimeout(()=> {
+      if(this.isMounted) {
         this._updateOrientation(orientation);
-      }, wait);
-    } else {
-      this.orientationTimeout = setTimeout(()=> {
-          this._updateOrientation(orientation);
-      }, wait);
-    }
+      }
+    }, wait);
 
   }
 
@@ -399,7 +397,12 @@ class Epub extends Component {
 
     this.rendition.display(this.props.location || undefined).then(() => {
       if (this.props.generateLocations != false) {
-        requestAnimationFrame(() => this.loadLocations());
+        requestAnimationFrame(() => {
+          this.loadLocations().then(() => {
+            this.rendition.reportLocation();
+            this.props.onLocationsReady && this.props.onLocationsReady(this.book.locations);
+          });
+        });
       }
     });
     // Disable Scrollbar for Android
@@ -439,7 +442,7 @@ class Epub extends Component {
   }
 
   loadLocations() {
-    this.book.ready.then(() => {
+    return this.book.ready.then(() => {
       // Load in stored locations from json or local storage
       var key = this.book.key()+"-locations";
 
@@ -448,7 +451,7 @@ class Epub extends Component {
           return this.book.locations.load(stored);
         } else {
           var locationsTimer = Date.now();
-          return this.book.locations.generate(600).then((locations) => {
+          return this.book.locations.generate(this.props.locationsCharBreak || 600).then((locations) => {
             // __DEV__ && console.log("locations generated", Date.now() - locationsTimer);
             // Save out the generated locations to JSON
             AsyncStorage.setItem(key, this.book.locations.save());
@@ -456,9 +459,7 @@ class Epub extends Component {
         }
       })
 
-    }).then(() => {
-      this.props.onLocationsReady && this.props.onLocationsReady(this.book.locations);
-    })
+    });
   }
 
   visibleLocation() {

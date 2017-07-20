@@ -105,7 +105,7 @@ class EpubReader extends Component {
                 // Add marker
                 contents.mark(cfiRange, {});
               }}
-              // regenerateLocations={true}
+              regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
             />
