@@ -60,7 +60,7 @@ class Epub extends Component {
   }
 
   componentDidMount() {
-    this.isMounted = true;
+    this._isMounted = true;
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
@@ -81,7 +81,7 @@ class Epub extends Component {
   }
 
   componentWillUnmount() {
-    this.isMounted = false;
+    this._isMounted = false;
 
     AppState.removeEventListener('change', this._handleAppStateChange);
     Orientation.removeSpecificOrientationListener(this._orientationDidChange);
@@ -200,7 +200,7 @@ class Epub extends Component {
     }
 
     this.orientationTimeout = setTimeout(()=> {
-      if(this.isMounted) {
+      if(this._isMounted) {
         this._updateOrientation(orientation);
       }
     }, wait);
@@ -471,6 +471,7 @@ class Epub extends Component {
   }
 
   _onShown(shouldShow) {
+    console.log("_onShown", shouldShow);
     this.setState({show: shouldShow});
   }
 

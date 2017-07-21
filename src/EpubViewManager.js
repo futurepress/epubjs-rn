@@ -167,15 +167,19 @@ class EpubViewManager extends Component {
               // Wait for scroll to complete
               this.displayedTimeout = setTimeout(() => {
                 this.displayed = true;
+                shownView.show();
                 this._check();
                 this.props.onShow && this.props.onShow(true);
                 displaying.resolve();
-              }, 10);
+              }, this.props.displayWait || 10);
 
             });
           } else {
             // this.loading = false;
             this.displayed = true;
+            this.displayedTimeout = setTimeout(() => {
+              shownView.show();
+            }, this.props.displayWait || 10);
             this.props.onShow && this.props.onShow(true);
             displaying.resolve();
             return displaying.promise;
@@ -218,7 +222,7 @@ class EpubViewManager extends Component {
         sections.forEach((sect) => {
           let view = this.getView(sect.index);
           view.setVisibility(true);
-          view.on("displayed", () => this.afterDisplayed(view));
+          view.on("expanded", () => this.afterDisplayed(view));
           renderedPromises.push(view.displayed);
         });
 
@@ -238,13 +242,18 @@ class EpubViewManager extends Component {
                 // Wait for scroll to complete
                 this.displayedTimeout = setTimeout(() => {
                   this.displayed = true;
+                  targetView.show();
                   this._check();
                   resolve();
-                }, 10);
+                }, this.props.displayWait || 10);
               });
 
             } else {
-              this._check();
+              this.displayedTimeout = setTimeout(() => {
+                this.displayed = true;
+                targetView.show();
+                this._check();
+              }, this.props.displayWait || 10);
             }
           })
           .then(displaying.resolve, displaying.reject);
@@ -758,6 +767,7 @@ class EpubViewManager extends Component {
         // __DEV__ && console.log("hiding", section.index);
         this.emit("hidden", view);
         view.setVisibility(false);
+        view.hide();
       }
 
       return false;
@@ -768,7 +778,13 @@ class EpubViewManager extends Component {
         // __DEV__ && console.log("showing", section.index);
         view.setVisibility(true, () => {
           // this.afterDisplayed(view);
+          view.once("expanded", () => {
+            this.displayedTimeout = setTimeout(() => {
+              view.show();
+            }, this.props.displayWait || 10);
+          });
         });
+
       }
 
       return true;

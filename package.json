@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.81",
+  "version": "0.0.82",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {

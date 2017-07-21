@@ -335,7 +335,7 @@ class EpubView extends Component {
           expanded = this.contents.size(this.props.columnWidth, this.state.height).then((w) => {
             this.expanding = false;
             this.expanded = true;
-            this.setState({opacity: 1});
+            // this.setState({opacity: 1});
             this.props.onExpanded && this.props.onExpanded(this);
             this.emit("expanded");
             defered.resolve();
@@ -366,7 +366,7 @@ class EpubView extends Component {
         }, () => {
           this.expanding = false;
           this.expanded = true;
-          this.setState({opacity: 1});
+          // this.setState({opacity: 1});
           this.props.onExpanded && this.props.onExpanded(this);
           this.emit("expanded");
           defered.resolve();
@@ -394,7 +394,7 @@ class EpubView extends Component {
         }, () => {
           this.expanding = false;
           this.expanded = true;
-          this.setState({opacity: 1});
+          // this.setState({opacity: 1});
           this.props.onExpanded && this.props.onExpanded(this);
           defered.resolve();
         });
