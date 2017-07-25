@@ -396,6 +396,7 @@ class EpubView extends Component {
           this.expanded = true;
           // this.setState({opacity: 1});
           this.props.onExpanded && this.props.onExpanded(this);
+          this.emit("expanded");
           defered.resolve();
         });
 

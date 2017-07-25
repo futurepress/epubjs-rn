@@ -778,8 +778,11 @@ class EpubViewManager extends Component {
         // __DEV__ && console.log("showing", section.index);
         view.setVisibility(true, () => {
           // this.afterDisplayed(view);
+          console.log("need show", view.index);
+
           view.once("expanded", () => {
             this.displayedTimeout = setTimeout(() => {
+              console.log("show", view.index);
               view.show();
             }, this.props.displayWait || 10);
           });
