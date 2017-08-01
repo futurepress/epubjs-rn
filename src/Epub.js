@@ -7,14 +7,15 @@ import {
   AsyncStorage,
   Dimensions,
   Platform,
-  AppState
+  AppState,
+  WebView
 } from "react-native";
+
+import WKWebView from 'react-native-wkwebview-reborn';
 
 import Orientation from "react-native-orientation";
 
 import RNFetchBlob from "react-native-fetch-blob"
-
-import { readFileSync } from "fs";
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
@@ -28,17 +29,13 @@ if (!global.btoa) {
   global.btoa = require("base-64").encode;
 }
 
-import ePub, { Rendition, Layout, EpubCFI } from "epubjs";
+import ePub, { Layout, EpubCFI } from "epubjs";
 
 const core = require("epubjs/lib/utils/core");
 const Uri = require("epubjs/lib/utils/url");
 const Path = require("epubjs/lib/utils/path");
 
-const EpubViewManager = require("./EpubViewManager");
-
-const EPUBJS = readFileSync(__dirname + "/../contents/contents.min.js", "utf8");
-
-const INJECTED_SCRIPT = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
+const Rendition = require("./Rendition");
 
 class Epub extends Component {
 
@@ -47,12 +44,12 @@ class Epub extends Component {
 
     var bounds = Dimensions.get("window");
 
-    this.book_url = this.props.src;
     this.state = {
       toc: [],
       show: false,
       width : bounds.width,
-      height : bounds.height
+      height : bounds.height,
+      orientation: "PORTRAIT"
     }
 
     this.active = true;
@@ -64,19 +61,21 @@ class Epub extends Component {
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
     Orientation.addSpecificOrientationListener(this._orientationDidChange.bind(this));
-    this.orientation = Orientation.getInitialOrientation();
-    if (this.orientation === "PORTRAITUPSIDEDOWN" || this.orientation === "UNKNOWN") {
-      this.orientation = "PORTRAIT";
+    let orientation = Orientation.getInitialOrientation();
+    if (orientation && (orientation === "PORTRAITUPSIDEDOWN" || orientation === "UNKNOWN")) {
+      orientation = "PORTRAIT";
+      this.setState({orientation})
+    } else if (orientation) {
+      this.setState({orientation})
+    } else if (orientation === null) {
+      // Android starts as null
+      orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
+      this.setState({orientation})
     }
+    // __DEV__ && console.log("inital orientation", orientation, this.state.width, this.state.height)
 
-    // Android starts as null
-    if (this.orientation === null) {
-      this.orientation = this.state.width > this.state.height ? "LANDSCAPE" : "PORTRAIT";
-    }
-    __DEV__ && console.log("inital orientation", this.orientation, this.state.width, this.state.height)
-
-    if (this.book_url) {
-      this._loadBook(this.book_url);
+    if (this.props.src) {
+      this._loadBook(this.props.src);
     }
   }
 
@@ -173,19 +172,15 @@ class Epub extends Component {
     }
 
     if (prevProps.src !== this.props.src) {
-      this.book_url = this.props.src;
-      this._loadBook(this.book_url);
+      this._loadBook(this.props.src);
     } else if (prevProps.orientation !== this.props.orientation) {
       _orientationDidChange(this.props.orientation);
     } else if (prevProps.width !== this.props.width || prevProps.height !== this.props.height) {
-      this.redisplay();
-    } else if (prevProps.flow !== this.props.flow) {
-      this.rendition.flow(this.props.flow || "paginated");
-      this.redisplay();
+      // this.redisplay();
     }
 
     if (prevProps.location !== this.props.location) {
-      this.rendition.display(this.props.location);
+      // this.rendition.display(this.props.location);
     }
   }
 
@@ -235,7 +230,7 @@ class Epub extends Component {
     }
 
 
-    this.orientation = orientation;
+    this.setState({orientation});
 
 
     if (reversed) {
@@ -246,11 +241,7 @@ class Epub extends Component {
       height = this.props.height || _height;
     }
 
-    this.setState({ width, height }, () => {
-      if ((!this.props.width || !this.props.height) && this.rendition) {
-        this.redisplay(location);
-      }
-    });
+    this.setState({ width, height });
 
     this.props.onOrientationChanged && this.props.onOrientationChanged(orientation);
   }
@@ -262,17 +253,12 @@ class Epub extends Component {
     }
 
     if (this.rendition) {
-      this.rendition.manager.clear(() => {
-        this.rendition.settings.globalLayoutProperties = this.rendition.determineLayoutProperties(this.book.package.metadata);
-        this.rendition.layout(this.rendition.settings.globalLayoutProperties);
-        this.rendition.display(_location);
-      });
+      // this.rendition.display(_location);
     }
   }
 
   _loadBook(bookUrl) {
-
-    // __DEV__ && console.log("loading book: ", bookUrl);
+    __DEV__ && console.log("loading book: ", bookUrl);
 
     this.book = ePub({
       replacements: this.props.base64 || "none"
@@ -280,28 +266,28 @@ class Epub extends Component {
 
     return this._openBook(bookUrl);
 
-    // var type = this.book.determineType(bookUrl);
+    /*
+    var type = this.book.determineType(bookUrl);
 
-    // var uri = new Uri(bookUrl);
-    // if ((type === "directory") || (type === "opf")) {
-    //   return this._openBook(bookUrl);
-    // } else {
-      // return this.streamer.start()
-      // .then((origin) => {
-      //   this.setState({origin})
-      //   return this.streamer.get(bookUrl);
-      // })
-      // .then((localUrl) => {
-      //   console.log("local", localUrl);
-      //   return this._openBook(localUrl);
-      // });
-    // }
-
+    var uri = new Uri(bookUrl);
+    if ((type === "directory") || (type === "opf")) {
+      return this._openBook(bookUrl);
+    } else {
+      return this.streamer.start()
+      .then((localOrigin) => {
+        this.setState({localOrigin})
+        return this.streamer.get(bookUrl);
+      })
+      .then((localUrl) => {
+        this.setState({localUrl})
+        return this._openBook(localUrl);
+      });
+    }
+    */
   }
 
   _openBook(bookUrl, useBase64) {
     var type = useBase64 ? "base64" : null;
-    var unzipTimer = Date.now();
 
     this.book.open(bookUrl)
       .then(() => {
@@ -311,126 +297,9 @@ class Epub extends Component {
         console.error(err);
       })
 
-
-
-    // load epubjs in views
-    /*
-    book.spine.hooks.content.register(function(doc, section) {
-      var script = doc.createElement("script");
-      script.setAttribute("type", "text/javascript");
-      script.setAttribute("src", EPUBJS_LOCATION);
-
-      doc.getElementsByTagName("head")[0].appendChild(script);
-    });
-    */
-
-    // Load the epubjs library into a hook for each webview
-    this.book.spine.hooks.content.register(function(doc, section) {
-      var script = doc.createElement("script");
-      script.setAttribute("type", "text/javascript");
-      script.textContent = EPUBJS;
-      doc.getElementsByTagName("head")[0].appendChild(script);
-
-      var iscript = doc.createElement("script");
-      iscript.setAttribute("type", "text/javascript");
-      iscript.textContent = INJECTED_SCRIPT;
-      doc.getElementsByTagName("head")[0].appendChild(iscript);
-    }.bind(this));
-
-    this.manager = this.refs["manager"];
-
-    this.rendition = new Rendition(this.book, {
-      flow: this.props.flow || "paginated",
-      minSpreadWidth: 550,
-      manager: this.manager,
-      stylesheet: this.props.stylesheet,
-      script: this.props.script,
-    });
-
-    // Pass marks along
-    this.rendition.hooks.content.register((contents) => {
-      contents.on("markClicked", (cfiRange, data) => this.rendition.emit("markClicked", cfiRange, data, contents));
-    });
-
-    if (this.props.onSelected) {
-      this.rendition.on("selected", (cfiRange, contents) => {
-        this.props.onSelected(cfiRange, contents);
-      });
-    }
-
-    if (this.props.onMarkClicked) {
-      this.rendition.on("markClicked", (cfiRange, data, contents) => {
-        this.props.onMarkClicked(cfiRange, data, contents);
-      });
-    }
-
-
-    if (this.props.onViewAdded) {
-      this.rendition.manager.on("added", (view) => {
-        this.props.onViewAdded(view, view.contents);
-      });
-    }
-
-    if (this.props.beforeViewRemoved) {
-      this.rendition.manager.on("hidden", (view) => {
-        this.props.beforeViewRemoved(view, view.contents);
-      });
-    }
-
-    // this.rendition.setManager(this.manager);
-
-    if (this.props.themes) {
-      this.rendition.themes.register(this.props.themes);
-    }
-
-    if (this.props.theme) {
-      this.rendition.themes.apply(this.props.theme);
-    }
-
-    if (this.props.fontSize) {
-      this.rendition.themes.fontSize(this.props.fontSize);
-    }
-
-    if (this.props.font) {
-      this.rendition.themes.font(this.props.font);
-    }
-
-    this.rendition.display(this.props.location || undefined).then(() => {
-      if (this.props.generateLocations != false) {
-        requestAnimationFrame(() => {
-          this.loadLocations().then(() => {
-            this.rendition.reportLocation();
-            this.props.onLocationsReady && this.props.onLocationsReady(this.book.locations);
-          });
-        });
-      }
-    });
-    // Disable Scrollbar for Android
-    /*
-    this.rendition.hooks.content.register((contents) => {
-      contents.addStylesheetRules([
-        ["html",
-          ["position", "fixed"],
-          ["overflow", "hidden"],
-          ["height", "100%"],
-          ["width", "100%"]
-        ]
-      ]);
-    });
-    */
-
-    this.rendition.on("relocated", (visibleLocation)=> {
-
-      this._visibleLocation = visibleLocation;
-
-      if (this.props.onLocationChange) {
-        this.props.onLocationChange(visibleLocation);
-      }
-    });
+    this.rendition = this.refs["rendition"];
 
     this.book.ready.then(() => {
-      this.setState({show: true});
-
       this.props.onReady && this.props.onReady(this.book);
     });
 
@@ -438,6 +307,14 @@ class Epub extends Component {
       this.setState({toc : nav.toc});
       this.props.onNavigationReady && this.props.onNavigationReady(nav.toc);
     });
+
+    if (this.props.generateLocations != false) {
+      this.loadLocations().then((locations) => {
+        this.rendition.setLocations(locations);
+        // this.rendition.reportLocation();
+        this.props.onLocationsReady && this.props.onLocationsReady(this.book.locations);
+      });
+    }
 
   }
 
@@ -450,16 +327,23 @@ class Epub extends Component {
         if (this.props.regenerateLocations != true && stored !== null){
           return this.book.locations.load(stored);
         } else {
-          var locationsTimer = Date.now();
           return this.book.locations.generate(this.props.locationsCharBreak || 600).then((locations) => {
-            // __DEV__ && console.log("locations generated", Date.now() - locationsTimer);
             // Save out the generated locations to JSON
             AsyncStorage.setItem(key, this.book.locations.save());
+            return locations;
           });
         }
       })
 
     });
+  }
+
+  onRelocated(visibleLocation) {
+    this._visibleLocation = visibleLocation;
+
+    if (this.props.onLocationChange) {
+      this.props.onLocationChange(visibleLocation);
+    }
   }
 
   visibleLocation() {
@@ -468,11 +352,6 @@ class Epub extends Component {
 
   getRange(cfi) {
     return this.book.getRange(cfi);
-  }
-
-  _onShown(shouldShow) {
-    console.log("_onShown", shouldShow);
-    this.setState({show: shouldShow});
   }
 
   _handleAppStateChange(appState) {
@@ -496,41 +375,29 @@ class Epub extends Component {
   }
 
   render() {
-
-    var loader;
-    if (!this.state.show) {
-      loader = (
-        <View style={[styles.loadScreen, {
-            backgroundColor: this.props.backgroundColor || "#FFFFFF"
-          }]}>
-          <ActivityIndicator
-              color={this.props.color || "black"}
-              size={this.props.size || "large"}
-              style={{ flex: 1 }}
-            />
-        </View>);
-    }
-
     return (
-      <View ref="framer" style={styles.container}>
-        <EpubViewManager
-          ref="manager"
-          style={[styles.manager, {
-            backgroundColor: this.props.backgroundColor || "#FFFFFF"
-          }]}
-          flow={this.props.flow || "paginated"}
-          request={this.book && this.book.load.bind(this.book)}
-          onPress={this.props.onPress}
-          onLongPress={this.props.onLongPress}
-          onShow={this._onShown.bind(this)}
-          origin={this.props.origin}
-          backgroundColor={this.props.backgroundColor}
-          lastSectionIndex={this.book && (this.book.spine.length - 1)}
-          bounds={{ width: this.props.width || this.state.width,
-                    height: this.props.height || this.state.height }}
+      <Rendition
+        ref="rendition"
+        url={this.props.src}
+        flow={this.props.flow}
+        minSpreadWidth={this.props.minSpreadWidth}
+        stylesheet={this.props.stylesheet}
+        script={this.props.script}
+        onSelected={this.props.onSelected}
+        onMarkClicked={this.props.onMarkClicked}
+        onPress={(this.props.onPress)}
+        onLongPress={(this.props.onLongPress)}
+        onViewAdded={this.props.onViewAdded}
+        beforeViewRemoved={this.props.beforeViewRemoved}
+        themes={this.props.themes}
+        theme={this.props.theme}
+        fontSize={this.props.fontSize}
+        font={this.props.font}
+        display={this.props.location}
+        onRelocated={this.onRelocated.bind(this)}
+        orientation={this.state.orientation}
+        minSpreadWidth={this.props.minSpreadWidth}
         />
-        {loader}
-      </View>
     );
   }
 }

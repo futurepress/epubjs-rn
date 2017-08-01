@@ -19,7 +19,6 @@ to allow link to work automatically
 	"react-native-fetch-blob": "0.10.2",
 	"react-native-fs": "^2.1.0-rc.1",
 	"react-native-orientation": "8fit/react-native-orientation",
-	"react-native-visible-scrollview": "0.0.2",
 	"react-native-zip-archive": "0.1.0",
 	"react-native-static-server": "0.1.3"
 }
@@ -60,7 +59,7 @@ Then you can add the reader element in your code:
 * `font`: CSS override for font family
 * `stylesheet`: Link to css stylesheet containing themes
 * `script`: Url for a javascript file to be injected into the view
-* `backgroundColor`: backgroundColor for the views
+* `minSpreadWidth`: cut off width for spreads
 
 Using a local file server
 -------------------------

@@ -1,149 +1,253 @@
-window.epubContents = undefined;
 (function () {
- 	var waitForReactNativePostMessageReady;
+   var waitForReactNativePostMessageReady;
 
-	function _ready() {
-		var contents;
-		var targetOrigin = "*";
-		var sendMessage = function(obj) {
-			window.postMessage(JSON.stringify(obj), targetOrigin);
-		};
+  function _ready() {
+    var contents;
+    var targetOrigin = "*";
+    var sendMessage = function(obj) {
+      window.postMessage(JSON.stringify(obj), targetOrigin);
+    };
 
-		var isReactNativePostMessageReady = !!window.originalPostMessage;
-		clearTimeout(waitForReactNativePostMessageReady);
-		if(!isReactNativePostMessageReady) {
-		  waitForReactNativePostMessageReady = setTimeout(_ready, 1);
-			return;
-		}
+    var preventTap = false;
+    var q = [];
+    var _isReady = false;
 
-		if (typeof EPUBJSContents === "undefined") {
-			return sendMessage({
-				method: "error",
-				value: "EPUB.js is not loaded"
-			});
-		}
+    var book;
+    var rendition;
 
-		contents = new EPUBJSContents(document);
+    var minSpreadWidth = 800;
+    var currentFlow = "paginated";
 
-		contents.setCfiBase = function(cfiBase) {
-			contents.cfiBase = cfiBase;
-		};
+    // debug
+    console.log = function() {
+      sendMessage({method:"log", value: Array.from(arguments)});
+    }
 
-		var preventTap = false;
-		contents.mark = function(cfiRange, data) {
-			var m = EPUBJSContents.prototype.mark.call(contents, cfiRange, data);
-			m.addEventListener("touchstart", function (e) {
-				var bounds = e.target.getBoundingClientRect();
-				var padding = parseFloat(window.getComputedStyle(e.target)["paddingRight"]);
-				var clientX = e.targetTouches[0].pageX;
-				if (clientX >= bounds.right - (padding || 0)) {
-					preventTap = true;
-					sendMessage({method:"markClicked", data: data, cfiRange: cfiRange });
-          e.preventDefault();
-          e.stopPropagation();
-				}
-			});
-			return m;
-		};
+    console.error = function() {
+      sendMessage({method:"error", value: Array.from(arguments)});
+    }
 
-		document.addEventListener("message", function (e) {
-			var message = e.data;
-			var decoded = (typeof message == "object") ? message : JSON.parse(message);
-			var response;
-			var result;
+    var isReactNativePostMessageReady = !!window.originalPostMessage;
+    clearTimeout(waitForReactNativePostMessageReady);
+    if(!isReactNativePostMessageReady) {
+      waitForReactNativePostMessageReady = setTimeout(_ready, 1);
+      return;
+    }
 
-			if (decoded.method in contents) {
-				result = contents[decoded.method].apply(contents, decoded.args);
+    function onMessage(e) {
+      var message = e.data;
+      handleMessage(message);
+    }
 
-				response = {
-					method: decoded.method,
-					promise: decoded.promise,
-					value: result
-				};
+    function handleMessage(message) {
+      var decoded = (typeof message == "object") ? message : JSON.parse(message);
+      var response;
+      var result;
 
-				sendMessage(response);
+      switch (decoded.method) {
+        case "open": {
+          var url = decoded.args[0];
+          var options = decoded.args.length > 1 && decoded.args[1];
+          openEpub(url, options);
+          break;
+        }
+        case "display": {
+          let args = decoded.args[0];
+          let target;
 
-			}
-		});
+          if (!args) {
+            target = undefined;
+          }
+          else if (args.target) {
+            target = args.target;
+          }
+          else if (args.spine) {
+            target = parseInt(args.spine);
+          }
+          rendition.display(target);
+          break;
+        }
+        case "flow": {
+          let direction = decoded.args.length && decoded.args[0];
 
-		contents.on("resize", function (size) {
-			sendMessage({method:"resize", value: size });
-		});
+          if (direction != currentFlow) {
+            rendition.flow(direction);
+          }
 
-		contents.on("expand", function () {
-			sendMessage({method:"expand", value: true});
-		});
+          break;
+        }
+        case "setLocations": {
+          let locations = decoded.args[0];
+          book.locations.load(locations);
 
-		contents.on("link", function (href) {
-			sendMessage({method:"link", value: href});
-		});
+          rendition.reportLocation();
+          break;
+        }
+        case "reportLocation": {
+          rendition.reportLocation();
+          break;
+        }
+        case "minSpreadWidth": {
+          minSpreadWidth = decoded.args;
+          break;
+        }
+        case "mark": {
+          rendition.annotations.mark.apply(rendition.annotations, decoded.args);
+          break;
+        }
+        case "underline": {
+          rendition.annotations.underline.apply(rendition.annotations, decoded.args);
+          break;
+        }
+        case "highlight": {
+          rendition.annotations.highlight.apply(rendition.annotations, decoded.args);
+          break;
+        }
+        case "themes": {
+          let themes = decoded.args[0];
+          rendition.themes.register(themes);
+          break;
+        }
+        case "theme": {
+          let theme = decoded.args[0];
+          rendition.themes.select(theme);
+          break;
+        }
+        case "fontSize": {
+          let fontSize = decoded.args[0];
+          rendition.themes.fontSize(fontSize);
+          break;
+        }
+        case "font": {
+          let font = decoded.args[0];
+          rendition.themes.font(font);
+          break;
+        }
+      }
+    }
 
-		contents.on("selected", function (sel) {
-			preventTap = true;
-			sendMessage({method:"selected", value: sel});
-		});
+    function openEpub(url, options) {
+      var settings = Object.assign({
+        manager: "continuous",
+        overflow: "visible"
+      }, options);
 
-		var startPosition = { x: -1, y: -1 };
-		var currentPosition = { x: -1, y: -1 };
-		var isLongPress = false;
-		var longPressTimer;
-		var touchduration = 300;
+      book = ePub(url);
 
-		document.getElementsByTagName('body')[0].addEventListener("touchstart", function (e) {
-			startPosition.x = e.targetTouches[0].pageX;
-			startPosition.y = e.targetTouches[0].pageY;
-			currentPosition.x = e.targetTouches[0].pageX;
-			currentPosition.y = e.targetTouches[0].pageY;
-			isLongPress = false;
-			longPressTimer = setTimeout(function() {
-				isLongPress = true;
-			}, touchduration);
-		}, false);
+      rendition = book.renderTo(document.body, settings);
 
-		document.getElementsByTagName('body')[0].addEventListener("touchmove", function (e) {
-			currentPosition.x = e.targetTouches[0].pageX;
-			currentPosition.y = e.targetTouches[0].pageY;
-			clearTimeout(longPressTimer);
-		}, false);
+      rendition.hooks.content.register(function(contents, rendition) {
+        var doc = contents.document;
+        var startPosition = { x: -1, y: -1 };
+        var currentPosition = { x: -1, y: -1 };
+        var isLongPress = false;
+        var longPressTimer;
+        var touchduration = 300;
 
- 		document.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
-			var cfi;
-			clearTimeout(longPressTimer);
-			if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
-				 Math.abs(startPosition.y - currentPosition.y) < 2) {
+        doc.getElementsByTagName('body')[0].addEventListener("touchstart", function (e) {
+          startPosition.x = e.targetTouches[0].pageX;
+          startPosition.y = e.targetTouches[0].pageY;
+          currentPosition.x = e.targetTouches[0].pageX;
+          currentPosition.y = e.targetTouches[0].pageY;
+          isLongPress = false;
+          longPressTimer = setTimeout(function() {
+            isLongPress = true;
+          }, touchduration);
+        }, false);
 
-				cfi = contents.cfiFromNode(e.changedTouches[0].target).toString();
+        doc.getElementsByTagName('body')[0].addEventListener("touchmove", function (e) {
+          currentPosition.x = e.targetTouches[0].pageX;
+          currentPosition.y = e.targetTouches[0].pageY;
+          clearTimeout(longPressTimer);
+        }, false);
 
-				if(preventTap) {
-					preventTap = false;
-				} else if(isLongPress) {
-					sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
-					isLongPress = false;
-				} else {
-					setTimeout(function() {
-						if(preventTap) {
-							preventTap = false;
-							isLongPress = false;
-							return;
-						}
-						sendMessage({method:"press", position: currentPosition, cfi: cfi});
-					}, 10);
-				}
-			}
-		}, false);
+         doc.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
+          var cfi;
+          clearTimeout(longPressTimer);
+          if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
+             Math.abs(startPosition.y - currentPosition.y) < 2) {
 
-    window.addEventListener('scroll', function(e) {
-      window.scrollTo(0, 0);
-    });
+            var target = e.changedTouches[0].target;
 
-		sendMessage({method:"ready", value: true});
+            if (target.getAttribute("ref") === "epubjs-mk") {
+              return;
+            }
 
-		window.epubContents = contents;
-	}
+            cfi = contents.cfiFromNode(target).toString();
 
-	if ( document.readyState === 'complete' ) {
-		_ready();
-	} else {
-		window.addEventListener("load", _ready, false);
-	}
+            if(preventTap) {
+              preventTap = false;
+            } else if(isLongPress) {
+              sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
+              isLongPress = false;
+            } else {
+              setTimeout(function() {
+                if(preventTap) {
+                  preventTap = false;
+                  isLongPress = false;
+                  return;
+                }
+                sendMessage({method:"press", position: currentPosition, cfi: cfi});
+              }, 10);
+            }
+          }
+        }, false);
+
+      }.bind(this));
+
+      rendition.on("relocated", function(location){
+        sendMessage({method:"relocated", location: location});
+      });
+
+      rendition.on("selected", function (cfiRange) {
+        preventTap = true;
+        sendMessage({method:"selected", cfiRange: cfiRange});
+      });
+
+      rendition.on("markClicked", function (cfiRange) {
+
+      });
+
+      rendition.on("rendered", function (section) {
+        sendMessage({method:"rendered", sectionIndex: section.index});
+      });
+
+      rendition.on("added", function (section) {
+        sendMessage({method:"added", sectionIndex: section.index});
+      });
+
+      rendition.on("removed", function (section) {
+        sendMessage({method:"removed", sectionIndex: section.index});
+      });
+
+      book.ready.then(function(){
+        _isReady = true;
+
+        sendMessage({method:"ready"});
+
+        // replay messages
+        // q.forEach((msg) => {
+        //   console.log("replay", msg);
+        //   handleMessage(msg);
+        // })
+      });
+
+      window.addEventListener("unload", function () {
+        book && book.destroy();
+      });
+    }
+
+    window.addEventListener("message", onMessage);
+    // React native uses document for postMessages
+    document.addEventListener("message", onMessage);
+
+    sendMessage({method:"loaded", value: true});
+
+  }
+
+  if ( document.readyState === 'complete' ) {
+    _ready();
+  } else {
+    window.addEventListener("load", _ready, false);
+  }
 }());
