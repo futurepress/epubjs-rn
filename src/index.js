@@ -1,11 +1,9 @@
 import Epub from './Epub'
-import EpubViewManager from './EpubViewManager'
-import EpubView from './EpubView'
+import Rendition from './Rendition'
 import Streamer from './Streamer'
 
 module.exports = {
   Epub,
-  EpubViewManager,
-  EpubView,
+  Rendition,
   Streamer
 }

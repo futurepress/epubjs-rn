@@ -16,7 +16,6 @@
     var rendition;
 
     var minSpreadWidth = 800;
-    var currentFlow = "paginated";
 
     // debug
     console.log = function() {
@@ -70,7 +69,7 @@
         case "flow": {
           let direction = decoded.args.length && decoded.args[0];
 
-          if (direction != currentFlow) {
+          if (direction) {
             rendition.flow(direction);
           }
 

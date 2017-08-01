@@ -8,7 +8,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.futurepress.staticserver.FPStaticServerPackage;
 import com.rnfs.RNFSPackage;
 import com.rnziparchive.RNZipArchivePackage;
-import com.futurepress.visiblescroll.FPVisibleScrollViewPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -36,7 +35,6 @@ public class MainApplication extends Application implements ReactApplication {
             new FPStaticServerPackage(),
             new RNFSPackage(),
             new RNZipArchivePackage(),
-            new FPVisibleScrollViewPackage(),
             new RNFetchBlobPackage(),
             new OrientationPackage()
       );
