@@ -70,6 +70,7 @@ class EpubReader extends Component {
       <View style={styles.container}>
         <StatusBar hidden={true}/>
         <Epub style={styles.reader}
+              ref="epub"
               //src={"https://s3.amazonaws.com/epubjs/books/moby-dick.epub"}
               src={this.state.src}
               flow={this.state.flow}
@@ -90,20 +91,20 @@ class EpubReader extends Component {
                   toc: book.toc
                 });
               }}
-              onPress={(cfi)=> {
+              onPress={(cfi, rendition)=> {
                 this.toggleBars();
                 console.log(cfi);
               }}
-              onViewAdded={(view, contents) => {
-                console.log("added", view.index)
+              onViewAdded={(index) => {
+                console.log("added", index)
               }}
-              beforeViewRemoved={(view, contents) => {
-                console.log("removed", view.index)
+              beforeViewRemoved={(index) => {
+                console.log("removed", index)
               }}
-              onSelected={(cfiRange, contents) => {
-                console.log("selected", cfiRange, contents)
+              onSelected={(cfiRange, rendition) => {
+                console.log("selected", cfiRange)
                 // Add marker
-                contents.mark(cfiRange, {});
+                rendition.highlight(cfiRange, {});
               }}
               // regenerateLocations={true}
               // generateLocations={true}
