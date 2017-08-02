@@ -11,7 +11,7 @@ import {
   WebView
 } from "react-native";
 
-import WKWebView from 'react-native-wkwebview-reborn';
+import WKWebView from 'react-native-wkwebview-reborn-fchasen';
 
 import Orientation from "react-native-orientation";
 
