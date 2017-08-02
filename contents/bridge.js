@@ -207,8 +207,8 @@
         sendMessage({method:"selected", cfiRange: cfiRange});
       });
 
-      rendition.on("markClicked", function (cfiRange) {
-
+      rendition.on("markClicked", function (cfiRange, data) {
+        sendMessage({method:"markClicked", cfiRange: cfiRange, data: data});
       });
 
       rendition.on("rendered", function (section) {
