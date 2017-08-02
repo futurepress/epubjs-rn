@@ -106,10 +106,20 @@ class Rendition extends Component {
 
     __DEV__ && console.log("loading book: ", bookUrl);
 
-    this.sendToBridge("open", [bookUrl, {
+    let config = {
       "minSpreadWidth": this.props.minSpreadWidth || 800,
-      "flow": this.props.flow || "paginated"
-    }]);
+      "flow": this.props.flow || "paginated",
+    };
+
+    if (this.props.stylesheet) {
+      config.stylesheet = this.props.stylesheet;
+    }
+
+    if (this.props.script) {
+      config.script = this.props.script;
+    }
+
+    this.sendToBridge("open", [bookUrl, config]);
 
     this.display(this.props.display);
 

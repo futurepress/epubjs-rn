@@ -11,8 +11,6 @@ import {
   WebView
 } from "react-native";
 
-import WKWebView from 'react-native-wkwebview-reborn-fchasen';
-
 import Orientation from "react-native-orientation";
 
 import RNFetchBlob from "react-native-fetch-blob"
@@ -142,6 +140,14 @@ class Epub extends Component {
       return true;
     }
 
+    if (nextProps.stylesheet != this.props.stylesheet) {
+      return true;
+    }
+
+    if (nextProps.javascript != this.props.javascript) {
+      return true;
+    }
+
     return false;
   }
 
@@ -152,24 +158,6 @@ class Epub extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.rendition &&
-        this.props.themes &&
-        JSON.stringify(prevProps.themes) !== JSON.stringify(this.props.themes)) {
-      this.rendition.themes.register(this.props.themes);
-      this.rendition.themes.apply(this.props.theme);
-    }
-
-    if (this.rendition && prevProps.theme !== this.props.theme) {
-      this.rendition.themes.apply(this.props.theme);
-    }
-
-    if (this.rendition && prevProps.fontSize !== this.props.fontSize) {
-      this.rendition.themes.fontSize(this.props.fontSize);
-    }
-
-    if (this.rendition && prevProps.font !== this.props.font) {
-      this.rendition.themes.font(this.props.font);
-    }
 
     if (prevProps.src !== this.props.src) {
       this._loadBook(this.props.src);
@@ -397,7 +385,9 @@ class Epub extends Component {
         onRelocated={this.onRelocated.bind(this)}
         orientation={this.state.orientation}
         minSpreadWidth={this.props.minSpreadWidth}
-        />
+        stylesheet={this.props.stylesheet}
+        script={this.props.script}
+      />
     );
   }
 }
