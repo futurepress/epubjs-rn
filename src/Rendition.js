@@ -19,7 +19,7 @@ import { readFileSync } from "fs";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
-const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.min.js", "utf8");
+const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.js", "utf8");
 const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 // const SNAP = readFileSync(__dirname + "/../node_modules/scrollsnap-polyfill/dist/scrollsnap-polyfill.bundled.js", "utf8");
 
@@ -99,7 +99,6 @@ class Rendition extends Component {
       this.font(this.props.font);
     }
   }
-
 
   load(bookUrl) {
     if (!this._webviewLoaded) return;
@@ -200,15 +199,15 @@ class Rendition extends Component {
 	}
 
   unhighlight (cfiRange, data) {
-    this.sendToBridge("unhighlight", [cfiRange, data]);
+    this.sendToBridge("removeAnnotation", [cfiRange, data]);
 	}
 
 	ununderline (cfiRange, data) {
-    this.sendToBridge("ununderline", [cfiRange, data]);
+    this.sendToBridge("removeAnnotation", [cfiRange, data]);
 	}
 
 	unmark (cfiRange, data) {
-    this.sendToBridge("unmark", [cfiRange, data]);
+    this.sendToBridge("removeAnnotation", [cfiRange, data]);
 	}
 
   destroy() {

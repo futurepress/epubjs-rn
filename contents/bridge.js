@@ -102,6 +102,10 @@
           rendition.annotations.highlight.apply(rendition.annotations, decoded.args);
           break;
         }
+        case "removeAnnotation": {
+          rendition.annotations.remove.apply(rendition.annotations, decoded.args);
+          break;
+        }
         case "themes": {
           let themes = decoded.args[0];
           rendition.themes.register(themes);
