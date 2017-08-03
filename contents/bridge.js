@@ -51,7 +51,7 @@
           break;
         }
         case "display": {
-          let args = decoded.args[0];
+          let args = decoded.args && decoded.args.length && decoded.args[0];
           let target;
 
           if (!args) {

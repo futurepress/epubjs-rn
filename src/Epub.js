@@ -287,6 +287,7 @@ class Epub extends Component {
 
     this.rendition = this.refs["rendition"];
 
+
     this.book.ready.then(() => {
       this.props.onReady && this.props.onReady(this.book);
     });

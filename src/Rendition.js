@@ -8,7 +8,8 @@ import {
   Dimensions,
   Platform,
   AppState,
-  WebView
+  WebView,
+  TouchableOpacity
 } from "react-native";
 
 import WKWebView from 'react-native-wkwebview-reborn-fchasen';
@@ -19,7 +20,7 @@ import { readFileSync } from "fs";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
-const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.js", "utf8");
+  const EPUBJS = readFileSync("/Users/fchasen/Repos/epub.js/dist/epub.js", "utf8");
 const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 // const SNAP = readFileSync(__dirname + "/../node_modules/scrollsnap-polyfill/dist/scrollsnap-polyfill.bundled.js", "utf8");
 
@@ -344,11 +345,13 @@ class Rendition extends Component {
       <View style={[styles.loadScreen, {
           backgroundColor: this.props.backgroundColor || "#FFFFFF"
         }]}>
-        <ActivityIndicator
-            color={this.props.color || "black"}
-            size={this.props.size || "large"}
-            style={{ flex: 1 }}
-          />
+        <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.manager}>
+          <ActivityIndicator
+              color={this.props.color || "black"}
+              size={this.props.size || "large"}
+              style={{ flex: 1 }}
+            />
+        </TouchableOpacity>
       </View>
     );
 
