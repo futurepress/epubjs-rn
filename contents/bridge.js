@@ -58,7 +58,7 @@
             target = undefined;
           }
           else if (args.target) {
-            target = args.target;
+            target = args.target.toString();
           }
           else if (args.spine) {
             target = parseInt(args.spine);
@@ -135,9 +135,9 @@
         overflow: "visible"
       }, options);
 
-      book = ePub(url);
+      window.book = book = ePub(url);
 
-      rendition = book.renderTo(document.body, settings);
+      window.rendition = rendition = book.renderTo(document.body, settings);
 
       rendition.hooks.content.register(function(contents, rendition) {
         var doc = contents.document;

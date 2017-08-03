@@ -315,7 +315,7 @@ class Rendition extends Component {
     this._visibleLocation = visibleLocation;
 
     if (this.props.onRelocated) {
-      this.props.onRelocated(visibleLocation);
+      this.props.onRelocated(visibleLocation, this);
     }
   }
 
@@ -327,7 +327,7 @@ class Rendition extends Component {
 
   _markClicked(cfiRange, data) {
     if (this.props.onMarkClicked) {
-      this.props.onMarkClicked("markClicked", cfiRange, data);
+      this.props.onMarkClicked(cfiRange, data, this);
     }
   }
 
