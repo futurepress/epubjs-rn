@@ -71,12 +71,12 @@ class Rendition extends Component {
     }
 
     if (prevProps.display !== this.props.display) {
-      this.setState({loaded: false});
+      // this.setState({loaded: false});
       this.display(this.props.display);
     }
 
     if (prevProps.orientation !== this.props.orientation) {
-      this.setState({loaded: false});
+      // this.setState({loaded: false});
     }
 
     if (prevProps.flow !== this.props.flow) {
