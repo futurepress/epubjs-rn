@@ -65,6 +65,7 @@ class EpubStreamer {
     return RNFetchBlob
       .config({
         fileCache : true,
+        path: Dirs.DocumentDir + '/' + filename
       })
       .fetch("GET", bookUrl)
       .then((res) => {
@@ -80,7 +81,7 @@ class EpubStreamer {
             this.locals.push(url);
             this.paths.push(path);
 
-            res.flush();
+            // res.flush();
 
             return url;
           })

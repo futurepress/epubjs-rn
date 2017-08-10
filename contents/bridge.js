@@ -63,6 +63,7 @@
           else if (args.spine) {
             target = parseInt(args.spine);
           }
+
           rendition.display(target);
           break;
         }
