@@ -355,7 +355,7 @@ babel-helpers@^6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-jest@20.0.3, babel-jest@^20.0.3:
+babel-jest@^20.0.1, babel-jest@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-20.0.3.tgz#e4a03b13dc10389e140fc645d09ffc4ced301671"
   dependencies:
@@ -727,9 +727,9 @@ babel-preset-jest@^20.0.3:
   dependencies:
     babel-plugin-jest-hoist "^20.0.3"
 
-babel-preset-react-native@2.1.0, babel-preset-react-native@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/babel-preset-react-native/-/babel-preset-react-native-2.1.0.tgz#9013ebd82da1c88102bf588810ff59e209ca2b8a"
+babel-preset-react-native@^1.9.1, babel-preset-react-native@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/babel-preset-react-native/-/babel-preset-react-native-1.9.2.tgz#b22addd2e355ff3b39671b79be807e52dfa145f2"
   dependencies:
     babel-plugin-check-es2015-constants "^6.5.0"
     babel-plugin-react-transform "2.0.2"
@@ -761,9 +761,9 @@ babel-preset-react-native@2.1.0, babel-preset-react-native@^2.0.0:
     babel-plugin-transform-regenerator "^6.5.0"
     react-transform-hmr "^1.0.4"
 
-babel-preset-react-native@^1.9.1:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/babel-preset-react-native/-/babel-preset-react-native-1.9.2.tgz#b22addd2e355ff3b39671b79be807e52dfa145f2"
+babel-preset-react-native@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-react-native/-/babel-preset-react-native-2.1.0.tgz#9013ebd82da1c88102bf588810ff59e209ca2b8a"
   dependencies:
     babel-plugin-check-es2015-constants "^6.5.0"
     babel-plugin-react-transform "2.0.2"
@@ -1951,6 +1951,17 @@ glob2base@^0.0.12:
   resolved "https://registry.yarnpkg.com/glob2base/-/glob2base-0.0.12.tgz#9d419b3e28f12e83a362164a277055922c9c0d56"
   dependencies:
     find-index "^0.1.1"
+
+glob@7.0.6:
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.0.6.tgz#211bafaf49e525b8cd93260d14ab136152b3f57a"
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.2"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
 
 glob@^4.3.1:
   version "4.5.3"
@@ -3776,16 +3787,23 @@ react-native-fetch-blob@0.10.5:
     base-64 "0.1.0"
     glob "^7.0.6"
 
-react-native-fetch-blob@^0.10.6:
-  version "0.10.6"
-  resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.6.tgz#a009c99bbf4f3681ecc991d25398688dc38f93fc"
+react-native-fetch-blob@^0.10.8:
+  version "0.10.8"
+  resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz#4fc256abae0cb5f10e7c41f28c11b3ff330d72a9"
   dependencies:
     base-64 "0.1.0"
-    glob "^7.0.6"
+    glob "7.0.6"
 
 react-native-fs@^2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.3.3.tgz#94c0d9699ec20405f30b79a69b6d8b96d2a4851b"
+  dependencies:
+    base-64 "^0.1.0"
+    utf8 "^2.1.1"
+
+react-native-fs@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.5.1.tgz#2f9b59652ead7aadc8739ea21336ef53826b9500"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
@@ -3802,7 +3820,11 @@ react-native-static-server@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/react-native-static-server/-/react-native-static-server-0.1.7.tgz#385fd901fdb1b074ffe0698df7f581573e7fcd82"
 
-react-native-vector-icons@^4.2.0:
+react-native-static-server@0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/react-native-static-server/-/react-native-static-server-0.1.8.tgz#932baca881f1cfbce7a9624a577aaf99acc0b67a"
+
+react-native-vector-icons@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.3.0.tgz#49eab845fbcde6354cb3dbcb62c1abd1f6abc866"
   dependencies:
@@ -3820,9 +3842,9 @@ react-native-zip-archive@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-zip-archive/-/react-native-zip-archive-1.1.1.tgz#fa7dc9e7269bde4ae1322126125a068ef1038a3c"
 
-react-native-zip-archive@2.0.0:
+react-native-zip-archive@mockingbot/react-native-zip-archive:
   version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-zip-archive/-/react-native-zip-archive-2.0.0.tgz#1f15f388a2954bc5b49be64b8ab33771cc305b5a"
+  resolved "https://codeload.github.com/mockingbot/react-native-zip-archive/tar.gz/96300414338adfa504adcf5781f9970a26bb3cfb"
 
 react-native@0.47.1:
   version "0.47.1"
