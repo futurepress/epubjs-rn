@@ -33,8 +33,6 @@ class EpubReader extends Component {
     };
 
     this.streamer = new Streamer();
-
-    this.barsShown = false;
   }
 
   componentDidMount() {
@@ -55,13 +53,7 @@ class EpubReader extends Component {
 
   toggleBars() {
 
-    if (this.barsShown) {
-      this.setState({ showBars: false });
-    } else {
-      this.setState({ showBars: true });
-    }
-
-    this.barsShown = !this.barsShown;
+    this.setState({ showBars: !this.state.showBars });
   }
 
 
@@ -93,7 +85,7 @@ class EpubReader extends Component {
               }}
               onPress={(cfi, rendition)=> {
                 this.toggleBars();
-                console.log(cfi);
+                console.log("press", cfi);
               }}
               onLongPress={(cfi, rendition)=> {
                 console.log("longpress", cfi);
@@ -109,6 +101,14 @@ class EpubReader extends Component {
                 // Add marker
                 rendition.highlight(cfiRange, {});
               }}
+              // themes={{
+              //   default: {
+              //     body: {
+              //       "-webkit-user-select": "none",
+              //       "user-select": "none"
+              //     }
+              //   }
+              // }}
               // regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}

@@ -177,7 +177,16 @@
           }
 
           longPressTimer = setTimeout(function() {
-            isLongPress = true;
+            target = e.targetTouches[0].target;
+
+            if (target.getAttribute("ref") === "epubjs-mk") {
+              return;
+            }
+
+            cfi = contents.cfiFromNode(target).toString();
+
+            sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
+            preventTap = true;
           }, touchduration);
         }, false);
 
