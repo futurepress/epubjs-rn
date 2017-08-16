@@ -95,6 +95,9 @@ class EpubReader extends Component {
                 this.toggleBars();
                 console.log(cfi);
               }}
+              onLongPress={(cfi, rendition)=> {
+                console.log("longpress", cfi);
+              }}
               onViewAdded={(index) => {
                 console.log("added", index)
               }}

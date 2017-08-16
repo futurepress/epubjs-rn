@@ -385,9 +385,6 @@ class Epub extends Component {
         display={this.props.location}
         onRelocated={this.onRelocated.bind(this)}
         orientation={this.state.orientation}
-        minSpreadWidth={this.props.minSpreadWidth}
-        stylesheet={this.props.stylesheet}
-        script={this.props.script}
       />
     );
   }

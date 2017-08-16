@@ -147,27 +147,55 @@
         var isLongPress = false;
         var longPressTimer;
         var touchduration = 300;
+        var $body = doc.getElementsByTagName('body')[0];
 
-        doc.getElementsByTagName('body')[0].addEventListener("touchstart", function (e) {
+        $body.addEventListener("touchstart", function (e) {
+          var f, target;
           startPosition.x = e.targetTouches[0].pageX;
           startPosition.y = e.targetTouches[0].pageY;
           currentPosition.x = e.targetTouches[0].pageX;
           currentPosition.y = e.targetTouches[0].pageY;
           isLongPress = false;
+
+          for (var i=0; i < e.targetTouches.length; i++) {
+            f = e.changedTouches[i].force;
+            if (f >= 0.8 && !preventTap) {
+              target = e.changedTouches[i].target;
+
+              if (target.getAttribute("ref") === "epubjs-mk") {
+                return;
+              }
+
+              clearTimeout(longPressTimer);
+
+              cfi = contents.cfiFromNode(target).toString();
+
+              sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
+              isLongPress = false;
+              preventTap = true;
+            }
+          }
+
           longPressTimer = setTimeout(function() {
             isLongPress = true;
           }, touchduration);
         }, false);
 
-        doc.getElementsByTagName('body')[0].addEventListener("touchmove", function (e) {
+        $body.addEventListener("touchmove", function (e) {
           currentPosition.x = e.targetTouches[0].pageX;
           currentPosition.y = e.targetTouches[0].pageY;
           clearTimeout(longPressTimer);
         }, false);
 
-         doc.getElementsByTagName('body')[0].addEventListener("touchend", function (e) {
+        $body.addEventListener("touchend", function (e) {
           var cfi;
           clearTimeout(longPressTimer);
+
+          if(preventTap) {
+            preventTap = false;
+            return;
+          }
+
           if(Math.abs(startPosition.x - currentPosition.x) < 2 &&
              Math.abs(startPosition.y - currentPosition.y) < 2) {
 
@@ -179,9 +207,7 @@
 
             cfi = contents.cfiFromNode(target).toString();
 
-            if(preventTap) {
-              preventTap = false;
-            } else if(isLongPress) {
+            if(isLongPress) {
               sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
               isLongPress = false;
             } else {
@@ -194,6 +220,25 @@
                 sendMessage({method:"press", position: currentPosition, cfi: cfi});
               }, 10);
             }
+          }
+        }, false);
+
+        $body.addEventListener('touchforcechange', function (e) {
+          var f = e.changedTouches[0].force;
+          if (f >= 0.8 && !preventTap) {
+            var target = e.changedTouches[0].target;
+
+            if (target.getAttribute("ref") === "epubjs-mk") {
+              return;
+            }
+
+            clearTimeout(longPressTimer);
+
+            cfi = contents.cfiFromNode(target).toString();
+
+            sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
+            isLongPress = false;
+            preventTap = true;
           }
         }, false);
 
