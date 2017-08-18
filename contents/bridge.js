@@ -51,8 +51,8 @@
           break;
         }
         case "display": {
-          let args = decoded.args && decoded.args.length && decoded.args[0];
-          let target;
+          var args = decoded.args && decoded.args.length && decoded.args[0];
+          var target;
 
           if (!args) {
             target = undefined;
@@ -68,7 +68,7 @@
           break;
         }
         case "flow": {
-          let direction = decoded.args.length && decoded.args[0];
+          var direction = decoded.args.length && decoded.args[0];
 
           if (direction) {
             rendition.flow(direction);
@@ -77,7 +77,7 @@
           break;
         }
         case "setLocations": {
-          let locations = decoded.args[0];
+          var locations = decoded.args[0];
           book.locations.load(locations);
 
           rendition.reportLocation();
@@ -108,22 +108,22 @@
           break;
         }
         case "themes": {
-          let themes = decoded.args[0];
+          var themes = decoded.args[0];
           rendition.themes.register(themes);
           break;
         }
         case "theme": {
-          let theme = decoded.args[0];
+          var theme = decoded.args[0];
           rendition.themes.select(theme);
           break;
         }
         case "fontSize": {
-          let fontSize = decoded.args[0];
+          var fontSize = decoded.args[0];
           rendition.themes.fontSize(fontSize);
           break;
         }
         case "font": {
-          let font = decoded.args[0];
+          var font = decoded.args[0];
           rendition.themes.font(font);
           break;
         }

@@ -364,7 +364,9 @@ class Rendition extends Component {
         <WebViewer
           ref="webviewbridge"
           source={{html: EMBEDDED_HTML, baseUrl: this.props.url}}
-          style={styles.manager}
+          style={[styles.manager, {
+            backgroundColor: this.props.backgroundColor || "#FFFFFF"
+          }]}
           scalesPageToFit={false}
           bounces={false}
           javaScriptEnabled={true}
