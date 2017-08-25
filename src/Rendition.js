@@ -72,12 +72,12 @@ class Rendition extends Component {
     }
 
     if (prevProps.display !== this.props.display) {
-      // this.setState({loaded: false});
+      this.setState({loaded: false});
       this.display(this.props.display);
     }
 
     if (prevProps.orientation !== this.props.orientation) {
-      // this.setState({loaded: false});
+      this.setState({ loaded: false});
     }
 
     if (prevProps.flow !== this.props.flow) {
@@ -342,17 +342,17 @@ class Rendition extends Component {
     const WebViewer = (Platform.OS === 'ios') ? WKWebView : WebView;
 
     let loader = (
-      <View style={[styles.loadScreen, {
-          backgroundColor: this.props.backgroundColor || "#FFFFFF"
-        }]}>
-        <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.manager}>
-          <ActivityIndicator
-              color={this.props.color || "black"}
-              size={this.props.size || "large"}
-              style={{ flex: 1 }}
-            />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.loadScreen}>
+        <View style={[styles.loadScreen, {
+            backgroundColor: this.props.backgroundColor || "#FFFFFF"
+          }]}>
+            <ActivityIndicator
+                color={this.props.color || "black"}
+                size={this.props.size || "large"}
+                style={{ flex: 1 }}
+              />
+        </View>
+      </TouchableOpacity>
     );
 
     if (!this.props.url) {
