@@ -1,3 +1,8 @@
+window.onerror = function (message, file, line, col, error) {
+  var msg = JSON.stringify({method:"error", value: message});
+  window.postMessage(msg, "*");
+};
+
 (function () {
    var waitForReactNativePostMessageReady;
 

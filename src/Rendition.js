@@ -254,11 +254,15 @@ class Rendition extends Component {
 
     switch (decoded.method) {
       case "log": {
-        console.log.apply(console.log, decoded.value);
+        console.log.apply(console.log, [decoded.value]);
         break;
       }
       case "error": {
-        console.error.apply(console.error, decoded.value);
+        if (this.props.onError) {
+          this.props.onError(decoded.value);
+        } else {
+          console.error.apply(console.error, [decoded.value]);
+        }
         break;
       }
       case "loaded": {
