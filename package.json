@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.100",
+  "version": "0.0.101",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "buffer": "^5.0.7",
-    "epubjs": "^0.3.47",
+    "epubjs": "0.3.48",
     "events": "^1.1.1",
     "gulp": "^3.9.1",
     "i": "^0.3.5",
@@ -23,15 +23,14 @@
     "react-native-orientation": "3.0.0",
     "react-native-static-server": "0.1.8",
     "react-native-wkwebview-reborn-fchasen": "1.6.0",
-    "react-native-zip-archive": "mockingbot/react-native-zip-archive",
+    "react-native-zip-archive": "github:mockingbot/react-native-zip-archive",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
     "util": "^0.10.3"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "jest": "20.0.4",
-    "babel-loader": "^7.1.1",
+    "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-module-resolver": "^2.7.1",
     "babel-plugin-static-fs": "^1.1.0",
@@ -44,6 +43,7 @@
     "gulp-babel": "^7.0.0",
     "gulp-plumber": "^1.1.0",
     "gulp-util": "^3.0.8",
+    "jest": "20.0.4",
     "jest-react-native": "18.0.0",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.47.1",

@@ -102,13 +102,15 @@ class EpubReader extends Component {
                 rendition.highlight(cfiRange, {});
               }}
               // themes={{
-              //   default: {
+              //   tan: {
               //     body: {
               //       "-webkit-user-select": "none",
-              //       "user-select": "none"
+              //       "user-select": "none",
+              //       "background-color": "tan"
               //     }
               //   }
               // }}
+              // theme="tan"
               // regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
