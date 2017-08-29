@@ -20,7 +20,7 @@ import { readFileSync } from "fs";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
-const EPUBJS = readFileSync("/Users/fchasen/Repos/epub.js/dist/epub.min.js", "utf8");
+const EPUBJS = readFileSync("/projects/react-native/epubj-rn/node_modules/epubjs/dist/epub.min.js", "utf8");
 const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 // const SNAP = readFileSync(__dirname + "/../node_modules/scrollsnap-polyfill/dist/scrollsnap-polyfill.bundled.js", "utf8");
 
@@ -275,11 +275,11 @@ class Rendition extends Component {
         break;
       }
       case "press": {
-        this.props.onPress && this.props.onPress(decoded.cfi, this);
+        this.props.onPress && this.props.onPress(decoded.cfi, decoded.position, this);
         break;
       }
       case "longpress": {
-        this.props.onLongPress && this.props.onLongPress(decoded.cfi, this);
+        this.props.onLongPress && this.props.onLongPress(decoded.cfi, decoded.position, this);
         break;
       }
       case "selected": {
