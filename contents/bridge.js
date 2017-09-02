@@ -68,7 +68,6 @@ window.onerror = function (message, file, line, col, error) {
           else if (args.spine) {
             target = parseInt(args.spine);
           }
-
           rendition.display(target);
           break;
         }
@@ -114,12 +113,16 @@ window.onerror = function (message, file, line, col, error) {
         }
         case "themes": {
           var themes = decoded.args[0];
-          rendition.themes.register(themes);
+          if (rendition) {
+            rendition.themes.register(themes);
+          }
           break;
         }
         case "theme": {
           var theme = decoded.args[0];
-          rendition.themes.select(theme);
+          if (rendition) {
+            rendition.themes.select(theme);
+          }
           break;
         }
         case "fontSize": {
