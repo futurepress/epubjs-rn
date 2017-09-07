@@ -309,6 +309,115 @@ window.onerror = function (message, file, line, col, error) {
 
     sendMessage({method:"loaded", value: true});
 
+    // Snap scrolling
+    var isChrome = /Chrome/.test(navigator.userAgent);
+    var isWebkit = !isChrome && /AppleWebKit/.test(navigator.userAgent);
+
+    var snapWidth = window.innerWidth;
+    var last_known_scroll_position = 0;
+    var ticking = false;
+    var wait;
+
+    var touchCanceler = false;
+    var resizeCanceler = false;
+    var beforeTouchMovePosition = false;
+
+    if(!isWebkit) {
+      window.addEventListener('scroll', function(e) {
+        last_known_scroll_position = window.scrollX;
+        clearTimeout(wait);
+
+        if (!touchCanceler) {
+          wait = setTimeout(function() {
+            snap(last_known_scroll_position);
+          }, 100);
+        }
+      });
+
+      window.addEventListener('touchup', function(e) {
+        touchCanceler = false;
+
+        if (last_known_scroll_position !== beforeTouchMovePosition) {
+          wait = setTimeout(function() {
+            snap(last_known_scroll_position);
+          }, 100);
+        }
+
+        beforeTouchMovePosition = false;
+      });
+
+      window.addEventListener('touchmove', function(e) {
+        // touchCanceler = true;
+        // beforeTouchMovePosition = last_known_scroll_position;
+      });
+
+      window.addEventListener('resize', function(e) {
+        resizeCanceler = true;
+        snapWidth = window.innerWidth;
+      });
+    }
+
+    function snap(scroll_pos) {
+      var snapTo = Math.round(scroll_pos / snapWidth) * snapWidth;
+      if (scroll_pos % snapWidth > 0) {
+        scrollToX(snapTo, 20000);
+      }
+    }
+
+    function scrollToX(scrollTargetX, speed, easing) {
+        var scrollX = window.scrollX,
+            scrollTargetX = scrollTargetX || 0,
+            speed = speed || 2000,
+            easing = easing || 'easeOutSine',
+            currentTime = 0;
+
+        // min time .1, max time .8 seconds
+        var time = Math.max(.1, Math.min(Math.abs(scrollX - scrollTargetX) / speed, .8));
+
+        // easing equations from https://github.com/danro/easing-js/blob/master/easing.js
+        var PI_D2 = Math.PI / 2,
+        easingEquations = {
+            easeOutSine: function (pos) {
+                return Math.sin(pos * (Math.PI / 2));
+            },
+            easeInOutSine: function (pos) {
+                return (-0.5 * (Math.cos(Math.PI * pos) - 1));
+            },
+            easeInOutQuint: function (pos) {
+                if ((pos /= 0.5) < 1) {
+                    return 0.5 * Math.pow(pos, 5);
+                }
+                return 0.5 * (Math.pow((pos - 2), 5) + 2);
+            }
+        };
+
+        // add animation loop
+        function tick() {
+            currentTime += 1 / 60;
+
+            var p = currentTime / time;
+            var t = easingEquations[easing](p);
+
+            if (touchCanceler) {
+              return;
+            }
+
+            if (resizeCanceler) {
+              resizeCanceler = false;
+              return;
+            }
+
+            if (p < 1) {
+                window.requestAnimationFrame(tick);
+
+                window.scrollTo(scrollX + ((scrollTargetX - scrollX) * t), 0);
+            } else {
+                window.scrollTo(scrollTargetX, 0);
+            }
+        }
+
+        tick();
+    }
   }
 
   if ( document.readyState === 'complete' ) {
