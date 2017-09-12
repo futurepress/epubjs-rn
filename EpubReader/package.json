@@ -12,7 +12,7 @@
   },
   "license": "BSD-2-Clause",
   "dependencies": {
-    "epubjs": "0.3.49",
+    "epubjs": "0.3.51",
     "epubjs-rn": "latest",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.47.2",

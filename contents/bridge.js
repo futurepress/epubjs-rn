@@ -68,7 +68,12 @@ window.onerror = function (message, file, line, col, error) {
           else if (args.spine) {
             target = parseInt(args.spine);
           }
-          rendition.display(target);
+
+          if (rendition) {
+            rendition.display(target);
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "flow": {
@@ -76,19 +81,31 @@ window.onerror = function (message, file, line, col, error) {
 
           if (direction) {
             rendition.flow(direction);
+          } else {
+            q.push(message);
           }
 
           break;
         }
         case "setLocations": {
           var locations = decoded.args[0];
-          book.locations.load(locations);
+          if (book) {
+            book.locations.load(locations);
+          } else {
+            q.push(message);
+          }
 
-          rendition.reportLocation();
+          if (rendition) {
+            rendition.reportLocation();
+          }
           break;
         }
         case "reportLocation": {
-          rendition.reportLocation();
+          if (rendition) {
+            rendition.reportLocation();
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "minSpreadWidth": {
@@ -96,25 +113,43 @@ window.onerror = function (message, file, line, col, error) {
           break;
         }
         case "mark": {
-          rendition.annotations.mark.apply(rendition.annotations, decoded.args);
+          if (rendition) {
+            rendition.annotations.mark.apply(rendition.annotations, decoded.args);
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "underline": {
-          rendition.annotations.underline.apply(rendition.annotations, decoded.args);
+          if (rendition) {
+            rendition.annotations.underline.apply(rendition.annotations, decoded.args);
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "highlight": {
-          rendition.annotations.highlight.apply(rendition.annotations, decoded.args);
+          if (rendition) {
+            rendition.annotations.highlight.apply(rendition.annotations, decoded.args);
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "removeAnnotation": {
-          rendition.annotations.remove.apply(rendition.annotations, decoded.args);
+          if (rendition) {
+            rendition.annotations.remove.apply(rendition.annotations, decoded.args);
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "themes": {
           var themes = decoded.args[0];
           if (rendition) {
             rendition.themes.register(themes);
+          } else {
+            q.push(message);
           }
           break;
         }
@@ -122,17 +157,27 @@ window.onerror = function (message, file, line, col, error) {
           var theme = decoded.args[0];
           if (rendition) {
             rendition.themes.select(theme);
+          } else {
+            q.push(message);
           }
           break;
         }
         case "fontSize": {
           var fontSize = decoded.args[0];
-          rendition.themes.fontSize(fontSize);
+          if (rendition) {
+            rendition.themes.fontSize(fontSize);
+          } else {
+            q.push(message);
+          }
           break;
         }
         case "font": {
           var font = decoded.args[0];
-          rendition.themes.font(font);
+          if (rendition) {
+            rendition.themes.font(font);
+          } else {
+            q.push(message);
+          }
           break;
         }
       }
@@ -286,16 +331,24 @@ window.onerror = function (message, file, line, col, error) {
         sendMessage({method:"removed", sectionIndex: section.index});
       });
 
+      rendition.on("resized", function(size){
+        sendMessage({method:"resized", size: size});
+      });
+
+      // replay messages
+      rendition.started.then(function() {
+        let msg;
+        for (var i = 0; i < q.length; i++) {
+          msg = q.shift();
+          handleMessage(msg);
+        }
+      });
+
       book.ready.then(function(){
         _isReady = true;
 
         sendMessage({method:"ready"});
 
-        // replay messages
-        // q.forEach((msg) => {
-        //   console.log("replay", msg);
-        //   handleMessage(msg);
-        // })
       });
 
       window.addEventListener("unload", function () {

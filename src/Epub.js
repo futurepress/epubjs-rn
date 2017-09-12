@@ -163,86 +163,33 @@ class Epub extends Component {
       this._loadBook(this.props.src);
     } else if (prevProps.orientation !== this.props.orientation) {
       _orientationDidChange(this.props.orientation);
-    } else if (prevProps.width !== this.props.width || prevProps.height !== this.props.height) {
-      // this.redisplay();
-    }
-
-    if (prevProps.location !== this.props.location) {
-      // this.rendition.display(this.props.location);
     }
   }
 
   // LANDSCAPE PORTRAIT UNKNOWN PORTRAITUPSIDEDOWN
   _orientationDidChange(orientation) {
-    var wait = 10;
+    let wait = 10;
+    let _orientation = orientation;
 
     if(!this.active) return;
 
-    if (orientation === "UNKNOWN" || orientation == "PORTRAITUPSIDEDOWN" || this.orientation === orientation) {
+    if (orientation === "PORTRAITUPSIDEDOWN" || orientation === "UNKNOWN") {
+      _orientation = "PORTRAIT";
+    }
+
+    if (orientation === "LANDSCAPE-RIGHT" || orientation === "LANDSCAPE-LEFT") {
+      _orientation = "LANDSCAPE";
+    }
+
+    if (this.state.orientation === _orientation) {
       return;
     }
 
-    this.orientationTimeout = setTimeout(()=> {
-      if(this._isMounted) {
-        this._updateOrientation(orientation);
-      }
-    }, wait);
 
-  }
+    __DEV__ && console.log("orientation", _orientation);
 
-  _updateOrientation(orientation) {
-    var location = this._visibleLocation ? this._visibleLocation.start.cfi : this.props.location;
-    var width, height;
-    var bounds = Dimensions.get('window');
-    var _width = bounds.width, _height = bounds.height;
-    var reversed = false;
-
-    __DEV__ && console.log("orientation", orientation, bounds.width, bounds.height);
-
-    switch (orientation) {
-      case "PORTRAIT":
-        if (_width > _height) { reversed = true };
-        break;
-      case "LANDSCAPE":
-        width = this.props.height || _width;
-        height = this.props.width || _height;
-        break;
-      case "LANDSCAPE-RIGHT":
-        if (_height > _width) { reversed = true };
-        break;
-      case "LANDSCAPE-LEFT":
-        if (_height > _width) { reversed = true };
-        break;
-      default:
-        reversed = false;
-    }
-
-
-    this.setState({orientation});
-
-
-    if (reversed) {
-      width = this.props.width || _height;
-      height = this.props.height || _width;
-    } else {
-      width = this.props.width || _width;
-      height = this.props.height || _height;
-    }
-
-    this.setState({ width, height });
-
-    this.props.onOrientationChanged && this.props.onOrientationChanged(orientation);
-  }
-
-  redisplay(location) {
-    var _location = location;
-    if (!_location) {
-      _location = this._visibleLocation ? this._visibleLocation.start.cfi : this.props.location;
-    }
-
-    if (this.rendition) {
-      // this.rendition.display(_location);
-    }
+    this.setState({ orientation: _orientation });
+    this.props.onOrientationChanged && this.props.onOrientationChanged(_orientation);
   }
 
   _loadBook(bookUrl) {

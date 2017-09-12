@@ -20,7 +20,7 @@ import { readFileSync } from "fs";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
-const EPUBJS = readFileSync("/Users/fchasen/Repos/epub.js/dist/epub.js", "utf8");
+const EPUBJS = readFileSync("/Users/fchasen/Repos/epub.js/dist/epub.min.js", "utf8");
 const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 // const SNAP = readFileSync(__dirname + "/../node_modules/scrollsnap-polyfill/dist/scrollsnap-polyfill.bundled.js", "utf8");
 
@@ -72,12 +72,12 @@ class Rendition extends Component {
     }
 
     if (prevProps.display !== this.props.display) {
-      this.setState({loaded: false});
+      // this.setState({ loaded: false });
       this.display(this.props.display);
     }
 
     if (prevProps.orientation !== this.props.orientation) {
-      this.setState({ loaded: false});
+      // this.setState({ loaded: false });
     }
 
     if (prevProps.flow !== this.props.flow) {
@@ -270,9 +270,9 @@ class Rendition extends Component {
         break;
       }
       case "rendered": {
-        if (!this.state.loaded) {
-          this.setState({loaded: true});
-        }
+        // if (!this.state.loaded) {
+        //   this.setState({loaded: true});
+        // }
         break;
       }
       case "relocated": {
@@ -281,6 +281,11 @@ class Rendition extends Component {
         if (!this.state.loaded) {
           this.setState({loaded: true});
         }
+        break;
+      }
+      case "resized": {
+        let {size} = decoded;
+        // console.log("resized", size.width, size.height);
         break;
       }
       case "press": {
@@ -323,7 +328,6 @@ class Rendition extends Component {
 
   _relocated(visibleLocation) {
     this._visibleLocation = visibleLocation;
-
     if (this.props.onRelocated) {
       this.props.onRelocated(visibleLocation, this);
     }
