@@ -20,16 +20,15 @@ import { readFileSync } from "fs";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
-const EPUBJS = readFileSync("/Users/fchasen/Repos/epub.js/dist/epub.min.js", "utf8");
+const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.min.js", "utf8");
 const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
-// const SNAP = readFileSync(__dirname + "/../node_modules/scrollsnap-polyfill/dist/scrollsnap-polyfill.bundled.js", "utf8");
 
 const EMBEDDED_HTML = `
 <!DOCTYPE html>
 <html><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-  <title></title>
+  <title>epubjs</title>
   <script>${EPUBJS}</script>
   <script>${BRIDGE}</script>
   <style>

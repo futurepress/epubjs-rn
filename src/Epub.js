@@ -224,18 +224,18 @@ class Epub extends Component {
   _openBook(bookUrl, useBase64) {
     var type = useBase64 ? "base64" : null;
 
+    if (!this.rendition) {
+      this.needsOpen = [bookUrl, useBase64];
+      return;
+    }
+
     this.book.open(bookUrl)
-      .then(() => {
-        // __DEV__ && console.log("book opened", Date.now() - unzipTimer);
-      })
       .catch((err) => {
         console.error(err);
       })
 
-    this.rendition = this.refs["rendition"];
-
-
     this.book.ready.then(() => {
+      this.isReady = true;
       this.props.onReady && this.props.onReady(this.book);
     });
 
@@ -313,7 +313,14 @@ class Epub extends Component {
   render() {
     return (
       <Rendition
-        ref="rendition"
+        ref={(r) => {
+          this.rendition = r;
+
+          if (this.needsOpen) {
+            this._openBook.apply(this, this.needsOpen);
+            this.needsOpen = undefined;
+          }
+        }}
         url={this.props.src}
         flow={this.props.flow}
         minSpreadWidth={this.props.minSpreadWidth}

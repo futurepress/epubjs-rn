@@ -96,12 +96,10 @@ class TopBar extends Component {
   show() {
     const timing = Animated.timing;
 
-    Animated.sequence([
-      timing( this.state.fadeAnim, {
-        toValue: 1,
-        duration: 20
-      })
-    ]).start();
+    timing( this.state.fadeAnim, {
+      toValue: 1,
+      duration: 20
+    }).start();
 
     this.barsShown = true;
   }
@@ -109,12 +107,10 @@ class TopBar extends Component {
   hide() {
     const timing = Animated.timing;
 
-    Animated.sequence([
-      timing( this.state.fadeAnim, {
-        toValue: 0,
-        duration: 20
-      })
-    ]).start();
+    timing( this.state.fadeAnim, {
+      toValue: 0,
+      duration: 20
+    }).start();
 
 
     this.barsShown = false;

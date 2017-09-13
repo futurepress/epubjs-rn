@@ -52,7 +52,6 @@ class EpubReader extends Component {
   }
 
   toggleBars() {
-
     this.setState({ showBars: !this.state.showBars });
   }
 

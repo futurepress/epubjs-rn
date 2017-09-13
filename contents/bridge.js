@@ -21,6 +21,17 @@ window.onerror = function (message, file, line, col, error) {
     var rendition;
 
     var minSpreadWidth = 800;
+    var axis = "horizontal";
+
+    var isChrome = /Chrome/.test(navigator.userAgent);
+    var isWebkit = !isChrome && /AppleWebKit/.test(navigator.userAgent);
+
+    var snapWidth = window.innerWidth;
+    var last_known_scroll_position = 0;
+    var ticking = false;
+    var touchCanceler = false;
+    var resizeCanceler = false;
+    var animating = false;
 
     // debug
     console.log = function() {
@@ -78,8 +89,9 @@ window.onerror = function (message, file, line, col, error) {
         }
         case "flow": {
           var direction = decoded.args.length && decoded.args[0];
+          axis = (direction === "paginated") ? "horizontal" : "vertical";
 
-          if (direction) {
+          if (rendition) {
             rendition.flow(direction);
           } else {
             q.push(message);
@@ -202,7 +214,7 @@ window.onerror = function (message, file, line, col, error) {
         var touchduration = 300;
         var $body = doc.getElementsByTagName('body')[0];
 
-        $body.addEventListener("touchstart", function (e) {
+        function touchStartHandler(e) {
           var f, target;
           startPosition.x = e.targetTouches[0].pageX;
           startPosition.y = e.targetTouches[0].pageY;
@@ -241,15 +253,15 @@ window.onerror = function (message, file, line, col, error) {
             sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
             preventTap = true;
           }, touchduration);
-        }, false);
+        }
 
-        $body.addEventListener("touchmove", function (e) {
+        function touchMoveHandler(e) {
           currentPosition.x = e.targetTouches[0].pageX;
           currentPosition.y = e.targetTouches[0].pageY;
           clearTimeout(longPressTimer);
-        }, false);
+        }
 
-        $body.addEventListener("touchend", function (e) {
+        function touchEndHandler(e) {
           var cfi;
           clearTimeout(longPressTimer);
 
@@ -283,9 +295,9 @@ window.onerror = function (message, file, line, col, error) {
               }, 10);
             }
           }
-        }, false);
+        }
 
-        $body.addEventListener('touchforcechange', function (e) {
+        function touchForceHandler(e) {
           var f = e.changedTouches[0].force;
           if (f >= 0.8 && !preventTap) {
             var target = e.changedTouches[0].target;
@@ -302,7 +314,96 @@ window.onerror = function (message, file, line, col, error) {
             isLongPress = false;
             preventTap = true;
           }
-        }, false);
+        }
+
+        if(!isWebkit) {
+
+          var prevX;
+          var flick = 0;
+          var pan = false;
+
+          doc.addEventListener('touchmove', function(e) {
+            var screenX = e.touches[0].screenX;
+            var delta = prevX - screenX;
+
+            touchMoveHandler(e);
+
+            if (axis !== "horizontal") {
+              return;
+            }
+
+            if (Math.abs(delta) > 0.5) {
+              pan = true;
+            }
+
+            if (delta > 20) {
+              flick = 1;
+            }
+
+            if (delta < -20) {
+              flick = -1;
+            }
+
+            if (!animating) {
+              if (delta) {
+                window.scrollBy(delta, 0);
+              }
+            }
+
+            prevX = screenX;
+
+            e.prevenatDefault();
+          }, { capture: true, passive: false });
+
+          doc.addEventListener('touchstart', function(e) {
+
+            touchStartHandler(e);
+
+            if (axis !== "horizontal") {
+              return;
+            }
+
+            resizeCanceler = false;
+
+            e.preventDefault();
+          }, { capture: true, passive: false });
+
+          doc.addEventListener('touchend', function(e) {
+
+            touchEndHandler(e);
+
+            if (axis !== "horizontal") {
+              return;
+            }
+
+            if(!animating) {
+
+              if (flick === 1) {
+                snap(last_known_scroll_position + snapWidth + 10);
+              }
+              else if (flick === -1) {
+                snap(last_known_scroll_position - snapWidth + 10);
+              }
+              else if (pan) {
+                snap(last_known_scroll_position);
+              }
+
+            }
+
+            prevX = undefined;
+            flick = 0;
+            pan = false;
+          }, { capture: true, passive: false });
+
+        } else {
+          doc.addEventListener("touchstart", touchStartHandler, false);
+
+          doc.addEventListener("touchmove", touchMoveHandler, false);
+
+          doc.addEventListener("touchend", touchEndHandler, false);
+
+          doc.addEventListener('touchforcechange', touchForceHandler, false);
+        }
 
       }.bind(this));
 
@@ -363,57 +464,22 @@ window.onerror = function (message, file, line, col, error) {
     sendMessage({method:"loaded", value: true});
 
     // Snap scrolling
-    var isChrome = /Chrome/.test(navigator.userAgent);
-    var isWebkit = !isChrome && /AppleWebKit/.test(navigator.userAgent);
-
-    var snapWidth = window.innerWidth;
-    var last_known_scroll_position = 0;
-    var ticking = false;
-    var wait;
-
-    var touchCanceler = false;
-    var resizeCanceler = false;
-    var beforeTouchMovePosition = false;
-
     if(!isWebkit) {
       window.addEventListener('scroll', function(e) {
         last_known_scroll_position = window.scrollX;
-        clearTimeout(wait);
-
-        if (!touchCanceler) {
-          wait = setTimeout(function() {
-            snap(last_known_scroll_position);
-          }, 100);
-        }
-      });
-
-      window.addEventListener('touchup', function(e) {
-        touchCanceler = false;
-
-        if (last_known_scroll_position !== beforeTouchMovePosition) {
-          wait = setTimeout(function() {
-            snap(last_known_scroll_position);
-          }, 100);
-        }
-
-        beforeTouchMovePosition = false;
-      });
-
-      window.addEventListener('touchmove', function(e) {
-        // touchCanceler = true;
-        // beforeTouchMovePosition = last_known_scroll_position;
       });
 
       window.addEventListener('resize', function(e) {
         resizeCanceler = true;
         snapWidth = window.innerWidth;
+        animating = false;
       });
     }
 
     function snap(scroll_pos) {
       var snapTo = Math.round(scroll_pos / snapWidth) * snapWidth;
       if (scroll_pos % snapWidth > 0) {
-        scrollToX(snapTo, 20000);
+        scrollToX(snapTo, 25000);
       }
     }
 
@@ -423,6 +489,8 @@ window.onerror = function (message, file, line, col, error) {
             speed = speed || 2000,
             easing = easing || 'easeOutSine',
             currentTime = 0;
+
+        animating = true;
 
         // min time .1, max time .8 seconds
         var time = Math.max(.1, Math.min(Math.abs(scrollX - scrollTargetX) / speed, .8));
@@ -466,6 +534,7 @@ window.onerror = function (message, file, line, col, error) {
                 window.scrollTo(scrollX + ((scrollTargetX - scrollX) * t), 0);
             } else {
                 window.scrollTo(scrollTargetX, 0);
+                animating = false;
             }
         }
 
