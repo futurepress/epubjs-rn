@@ -21,7 +21,7 @@
     "react-native-orientation": "^3.0.0",
     "react-native-static-server": "0.1.8",
     "react-native-vector-icons": "^4.3.0",
-    "react-native-wkwebview-reborn-fchasen": "1.6.0",
+    "react-native-wkwebview-reborn-fchasen": "1.8.1",
     "react-native-zip-archive": "github:mockingbot/react-native-zip-archive"
   },
   "devDependencies": {

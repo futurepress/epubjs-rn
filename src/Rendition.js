@@ -269,9 +269,9 @@ class Rendition extends Component {
         break;
       }
       case "rendered": {
-        // if (!this.state.loaded) {
-        //   this.setState({loaded: true});
-        // }
+        if (!this.state.loaded) {
+          this.setState({loaded: true});
+        }
         break;
       }
       case "relocated": {

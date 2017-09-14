@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.105",
+  "version": "0.0.106",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "react-native-fs": "^2.5.1",
     "react-native-orientation": "3.0.0",
     "react-native-static-server": "0.1.8",
-    "react-native-wkwebview-reborn-fchasen": "1.6.0",
+    "react-native-wkwebview-reborn-fchasen": "1.8.1",
     "react-native-zip-archive": "github:mockingbot/react-native-zip-archive",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
