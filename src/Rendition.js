@@ -175,13 +175,13 @@ class Rendition extends Component {
 
   setLocations(locations) {
     this.locations = locations;
-    if (this._ready) {
+    if (this.isReady) {
       this.sendToBridge("setLocations", [this.locations]);
     }
   }
 
   reportLocation() {
-    if (this._ready) {
+    if (this.isReady) {
       this.sendToBridge("reportLocation");
     }
   }
@@ -345,9 +345,11 @@ class Rendition extends Component {
   }
 
   _ready() {
+    this.isReady = true;
     if (this.locations) {
       this.sendToBridge("setLocations", [this.locations]);
     }
+    this.props.onDisplayed && this.props.onDisplayed();
   }
 
   render() {
