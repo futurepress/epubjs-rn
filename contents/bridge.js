@@ -222,24 +222,27 @@ window.onerror = function (message, file, line, col, error) {
           currentPosition.y = e.targetTouches[0].pageY;
           isLongPress = false;
 
-          for (var i=0; i < e.targetTouches.length; i++) {
-            f = e.changedTouches[i].force;
-            if (f >= 0.8 && !preventTap) {
-              target = e.changedTouches[i].target;
+          if (isWebkit) {
+            for (var i=0; i < e.targetTouches.length; i++) {
+              f = e.changedTouches[i].force;
+              if (f >= 0.8 && !preventTap) {
+                target = e.changedTouches[i].target;
 
-              if (target.getAttribute("ref") === "epubjs-mk") {
-                return;
+                if (target.getAttribute("ref") === "epubjs-mk") {
+                  return;
+                }
+
+                clearTimeout(longPressTimer);
+
+                cfi = contents.cfiFromNode(target).toString();
+
+                sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
+                isLongPress = false;
+                preventTap = true;
               }
-
-              clearTimeout(longPressTimer);
-
-              cfi = contents.cfiFromNode(target).toString();
-
-              sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
-              isLongPress = false;
-              preventTap = true;
             }
           }
+
 
           longPressTimer = setTimeout(function() {
             target = e.targetTouches[0].target;
@@ -344,11 +347,11 @@ window.onerror = function (message, file, line, col, error) {
               flick = -1;
             }
 
-            if (!animating) {
-              if (delta) {
-                window.scrollBy(delta, 0);
-              }
-            }
+            // if (!animating) {
+            //   if (delta) {
+            //     window.scrollBy(delta, 0);
+            //   }
+            // }
 
             prevX = screenX;
 
@@ -359,14 +362,9 @@ window.onerror = function (message, file, line, col, error) {
 
             touchStartHandler(e);
 
-            if (axis !== "horizontal") {
-              return;
-            }
-
             resizeCanceler = false;
 
-            e.preventDefault();
-          }, { capture: true, passive: false });
+          }, { capture: false, passive: true });
 
           doc.addEventListener('touchend', function(e) {
 
@@ -465,6 +463,10 @@ window.onerror = function (message, file, line, col, error) {
 
     // Snap scrolling
     if(!isWebkit) {
+
+      // Disable momentum scrolling
+      document.getElementsByTagName('body')[0].style.overflow = "hidden";
+
       window.addEventListener('scroll', function(e) {
         last_known_scroll_position = window.scrollX;
       });
