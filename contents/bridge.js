@@ -64,6 +64,16 @@ window.onerror = function (message, file, line, col, error) {
           var url = decoded.args[0];
           var options = decoded.args.length > 1 && decoded.args[1];
           openEpub(url, options);
+
+          if (options && options.stylesheet) {
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = options.stylesheet;
+            head.appendChild(link);
+          }
+
           break;
         }
         case "display": {
@@ -198,10 +208,13 @@ window.onerror = function (message, file, line, col, error) {
     function openEpub(url, options) {
       var settings = Object.assign({
         manager: "continuous",
-        overflow: "visible"
+        overflow: "visible",
+        method: "blobUrl"
       }, options);
 
-      window.book = book = ePub(url);
+      window.book = book = ePub(url, {
+        replacements: "blobUrl"
+      });
 
       window.rendition = rendition = book.renderTo(document.body, settings);
 
@@ -278,7 +291,9 @@ window.onerror = function (message, file, line, col, error) {
 
             var target = e.changedTouches[0].target;
 
-            if (target.getAttribute("ref") === "epubjs-mk") {
+            if (target.getAttribute("ref") === "epubjs-mk" ||
+                target.getAttribute("ref") === "epubjs-hl" ||
+                target.getAttribute("ref") === "epubjs-ul") {
               return;
             }
 
@@ -415,6 +430,7 @@ window.onerror = function (message, file, line, col, error) {
       });
 
       rendition.on("markClicked", function (cfiRange, data) {
+        preventTap = true;
         sendMessage({method:"markClicked", cfiRange: cfiRange, data: data});
       });
 

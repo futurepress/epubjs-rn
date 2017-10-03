@@ -39,7 +39,6 @@ class EpubReader extends Component {
     this.streamer.start()
       .then((origin) => {
         this.setState({origin})
-        // console.log("origin", origin);
         return this.streamer.get(this.state.url);
       })
       .then((src) => {
@@ -99,6 +98,9 @@ class EpubReader extends Component {
                 console.log("selected", cfiRange)
                 // Add marker
                 rendition.highlight(cfiRange, {});
+              }}
+              onMarkClicked={(cfiRange) => {
+                console.log("mark clicked", cfiRange)
               }}
               // themes={{
               //   tan: {

@@ -24,7 +24,7 @@ class EpubStreamer {
 
   constructor(opts) {
     opts = opts || {};
-    this.port = opts.port || 0;
+    this.port = opts.port || "3" + Math.round(Math.random() * 1000);
     this.root = opts.root || "www";
     this.server = new StaticServer(this.port, this.root, {localOnly: true});
 
@@ -62,7 +62,7 @@ class EpubStreamer {
   add(bookUrl) {
     let uri = new Uri(bookUrl);
     const filename = this.filename(bookUrl);
-    
+
     return RNFetchBlob
       .config({
         fileCache : true,

@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Dimensions,
-  Platform,
   AppState,
   WebView
 } from "react-native";
