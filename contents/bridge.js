@@ -65,12 +65,12 @@ window.onerror = function (message, file, line, col, error) {
           var options = decoded.args.length > 1 && decoded.args[1];
           openEpub(url, options);
 
-          if (options && options.stylesheet) {
+          if (options && options.webviewStylesheet) {
             var head = document.getElementsByTagName('head')[0];
             var link = document.createElement('link');
             link.rel = 'stylesheet';
             link.type = 'text/css';
-            link.href = options.stylesheet;
+            link.href = options.webviewStylesheet;
             head.appendChild(link);
           }
 

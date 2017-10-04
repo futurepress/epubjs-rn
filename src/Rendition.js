@@ -114,6 +114,10 @@ class Rendition extends Component {
       config.stylesheet = this.props.stylesheet;
     }
 
+    if (this.props.webviewStylesheet) {
+      config.webviewStylesheet = this.props.webviewStylesheet;
+    }
+
     if (this.props.script) {
       config.script = this.props.script;
     }
