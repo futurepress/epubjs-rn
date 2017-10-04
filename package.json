@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.108",
+  "version": "0.0.109",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "buffer": "^5.0.7",
-    "epubjs": "^0.3.54",
+    "epubjs": "^0.3.55",
     "events": "^1.1.1",
     "gulp": "^3.9.1",
     "i": "^0.3.5",
