@@ -49,11 +49,10 @@ class Epub extends Component {
       orientation: "PORTRAIT"
     }
 
-    this.active = true;
-
   }
 
   componentDidMount() {
+    this.active = true;
     this._isMounted = true;
     AppState.addEventListener('change', this._handleAppStateChange.bind(this));
 
@@ -170,7 +169,7 @@ class Epub extends Component {
     let wait = 10;
     let _orientation = orientation;
 
-    if(!this.active) return;
+    if(!this.active || !this._isMounted) return;
 
     if (orientation === "PORTRAITUPSIDEDOWN" || orientation === "UNKNOWN") {
       _orientation = "PORTRAIT";
@@ -239,6 +238,7 @@ class Epub extends Component {
     });
 
     this.book.loaded.navigation.then((nav) => {
+      if(!this.active || !this._isMounted) return;
       this.setState({toc : nav.toc});
       this.props.onNavigationReady && this.props.onNavigationReady(nav.toc);
     });
