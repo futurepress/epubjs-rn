@@ -212,9 +212,7 @@ window.onerror = function (message, file, line, col, error) {
         method: "blobUrl"
       }, options);
 
-      window.book = book = ePub(url, {
-        replacements: "blobUrl"
-      });
+      window.book = book = ePub(url);
 
       window.rendition = rendition = book.renderTo(document.body, settings);
 

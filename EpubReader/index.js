@@ -115,6 +115,9 @@ class EpubReader extends Component {
               // regenerateLocations={true}
               // generateLocations={true}
               origin={this.state.origin}
+              onError={(message) => {
+                console.log("EPUBJS-Webview", message);
+              }}
             />
             <View
               style={[styles.bar, { top:0 }]}>
