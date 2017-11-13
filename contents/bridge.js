@@ -450,7 +450,7 @@ window.onerror = function (message, file, line, col, error) {
 
       // replay messages
       rendition.started.then(function() {
-        let msg;
+        var msg;
         for (var i = 0; i < q.length; i++) {
           msg = q.shift();
           handleMessage(msg);

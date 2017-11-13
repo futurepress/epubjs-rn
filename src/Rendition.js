@@ -25,9 +25,10 @@ const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 
 const EMBEDDED_HTML = `
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <title>epubjs</title>
   <script>${EPUBJS}</script>
   <script>${BRIDGE}</script>
