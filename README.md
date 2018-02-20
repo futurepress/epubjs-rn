@@ -6,7 +6,7 @@ Uses v0.3 of [EPUB.js](https://github.com/futurepress/epub.js) to parse and rend
 Getting Started
 -------------------------
 
-To use the components in your own app install via npm
+To use the components in your own app install via npm or yarn
 
 ```bash
 npm install --save epubjs-rn
@@ -14,14 +14,9 @@ npm install --save epubjs-rn
 
 It may be necessary to include the following dependencies to your `package.json`
 to allow link to work automatically
-```
-{
-	"react-native-fetch-blob": "0.10.2",
-	"react-native-fs": "^2.1.0-rc.1",
-	"react-native-orientation": "8fit/react-native-orientation",
-	"react-native-zip-archive": "0.1.0",
-	"react-native-static-server": "0.1.3"
-}
+
+```bash
+npm install --save react-native-fetch-blob react-native-fs react-native-orientation react-native-zip-archive react-native-static-server react-native-wkwebview-reborn
 ```
 
 then install and link the required libraries with

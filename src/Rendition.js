@@ -12,7 +12,7 @@ import {
   TouchableOpacity
 } from "react-native";
 
-import WKWebView from 'react-native-wkwebview-reborn-fchasen';
+import WKWebView from 'react-native-wkwebview-reborn';
 
 import EventEmitter from 'event-emitter'
 

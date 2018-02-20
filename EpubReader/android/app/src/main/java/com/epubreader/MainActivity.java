@@ -1,6 +1,7 @@
 package com.epubreader;
 
 import com.facebook.react.ReactActivity;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 
@@ -15,7 +16,6 @@ public class MainActivity extends ReactActivity {
         return "EpubReader";
     }
 
-    // react-native-orientation
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
       super.onConfigurationChanged(newConfig);

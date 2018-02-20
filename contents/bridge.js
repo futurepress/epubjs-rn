@@ -42,7 +42,8 @@ window.onerror = function (message, file, line, col, error) {
       sendMessage({method:"error", value: Array.from(arguments)});
     }
 
-    var isReactNativePostMessageReady = !!window.originalPostMessage;
+    // var isReactNativePostMessageReady = !!window.originalPostMessage;
+    var isReactNativePostMessageReady = !!window.originalPostMessage || window.postMessage.toString().indexOf("[native code]") === -1;
     clearTimeout(waitForReactNativePostMessageReady);
     if(!isReactNativePostMessageReady) {
       waitForReactNativePostMessageReady = setTimeout(_ready, 1);

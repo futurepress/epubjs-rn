@@ -25,7 +25,7 @@ class Nav extends Component {
 
     this.state = {
       error: '',
-      dataSource: ds.cloneWithRows(this.props.toc),
+      dataSource: ds.cloneWithRows(this.props.toc || []),
       modalVisible: false
     }
   }
@@ -41,7 +41,7 @@ class Nav extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.toc !== this.props.toc) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.props.toc)
+        dataSource: this.state.dataSource.cloneWithRows(this.props.toc || [])
       });
     }
 
