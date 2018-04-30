@@ -215,6 +215,14 @@ class Rendition extends Component {
     this.sendToBridge("removeAnnotation", [cfiRange, data]);
 	}
 
+  next() {
+    this.sendToBridge("next");
+  }
+
+  prev() {
+    this.sendToBridge("prev");
+  }
+
   destroy() {
 
   }

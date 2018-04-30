@@ -203,6 +203,22 @@ window.onerror = function (message, file, line, col, error) {
           }
           break;
         }
+        case "next": {
+          if (rendition) {
+            rendition.next();
+          } else {
+            q.push(message);
+          }
+          break;
+        }
+        case "prev": {
+          if (rendition) {
+            rendition.next();
+          } else {
+            q.push(message);
+          }
+          break;
+        }
       }
     }
 
