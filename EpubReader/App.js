@@ -77,7 +77,7 @@ class EpubReader extends Component {
                 // console.log("Table of Contents", book.toc)
                 this.setState({
                   title : book.package.metadata.title,
-                  toc: book.toc
+                  toc: book.navigation.toc
                 });
               }}
               onPress={(cfi, rendition)=> {

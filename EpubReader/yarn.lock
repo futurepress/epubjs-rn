@@ -1614,8 +1614,9 @@ envinfo@^3.0.0:
     os-name "^2.0.1"
     which "^1.2.14"
 
-"epubjs-rn@file:..":
-  version "0.0.114"
+epubjs-rn@latest:
+  version "0.0.115"
+  resolved "https://registry.yarnpkg.com/epubjs-rn/-/epubjs-rn-0.0.115.tgz#0c833616acbdc5e7d6a5ae10172ffc3e69e7a6f3"
   dependencies:
     buffer "^5.1.0"
     epubjs "^0.3.58"
@@ -1635,14 +1636,14 @@ envinfo@^3.0.0:
     stream-browserify "^2.0.1"
     util "^0.10.3"
 
-epubjs@0.3.58, epubjs@^0.3.58:
-  version "0.3.58"
-  resolved "https://registry.yarnpkg.com/epubjs/-/epubjs-0.3.58.tgz#55488eec893b0578f314d2e6d6a3bff4fdd6a642"
+epubjs@0.3.59, epubjs@^0.3.58:
+  version "0.3.59"
+  resolved "https://registry.yarnpkg.com/epubjs/-/epubjs-0.3.59.tgz#d050621474c977df8845c915eb434d14637f63d0"
   dependencies:
     event-emitter "^0.3.5"
-    jszip "^3.1.4"
+    jszip "^3.1.5"
     lodash "^4.17.4"
-    marks-pane "^1.0.5"
+    marks-pane "^1.0.7"
     path-webpack "0.0.3"
     stream-browserify "^2.0.1"
     xmldom "^0.1.27"
@@ -3324,7 +3325,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jszip@^3.1.4, jszip@^3.1.5:
+jszip@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.1.5.tgz#e3c2a6c6d706ac6e603314036d43cd40beefdf37"
   dependencies:
@@ -3598,9 +3599,9 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-marks-pane@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/marks-pane/-/marks-pane-1.0.5.tgz#152e083dbf226a66cecea4545af095b804f4ae7c"
+marks-pane@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/marks-pane/-/marks-pane-1.0.7.tgz#ab259f9459d4351aa138cc3430548cabe977d7af"
 
 media-typer@0.3.0:
   version "0.3.0"
