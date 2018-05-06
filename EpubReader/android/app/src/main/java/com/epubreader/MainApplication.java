@@ -9,24 +9,6 @@ import com.futurepress.staticserver.FPStaticServerPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.rnfs.RNFSPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.rnziparchive.RNZipArchivePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.futurepress.staticserver.FPStaticServerPackage;
-import com.github.yamill.orientation.OrientationPackage;
-import com.rnfs.RNFSPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.rnziparchive.RNZipArchivePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.futurepress.staticserver.FPStaticServerPackage;
-import com.github.yamill.orientation.OrientationPackage;
-import com.rnfs.RNFSPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.rnziparchive.RNZipArchivePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.futurepress.staticserver.FPStaticServerPackage;
-import com.github.yamill.orientation.OrientationPackage;
-import com.rnfs.RNFSPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -47,18 +29,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNZipArchivePackage(),
-            new VectorIconsPackage(),
-            new FPStaticServerPackage(),
-            new OrientationPackage(),
-            new RNFSPackage(),
-            new RNFetchBlobPackage(),
-            new RNZipArchivePackage(),
-            new VectorIconsPackage(),
-            new FPStaticServerPackage(),
-            new OrientationPackage(),
-            new RNFSPackage(),
-            new RNFetchBlobPackage(),
             new RNZipArchivePackage(),
             new VectorIconsPackage(),
             new FPStaticServerPackage(),
