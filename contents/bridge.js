@@ -213,7 +213,7 @@ window.onerror = function (message, file, line, col, error) {
         }
         case "prev": {
           if (rendition) {
-            rendition.next();
+            rendition.prev();
           } else {
             q.push(message);
           }
