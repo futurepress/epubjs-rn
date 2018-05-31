@@ -80,7 +80,7 @@ class EpubReader extends Component {
                   toc: book.navigation.toc
                 });
               }}
-              onPress={(cfi, rendition)=> {
+              onPress={(cfi, position, rendition)=> {
                 this.toggleBars();
                 console.log("press", cfi);
               }}

@@ -301,7 +301,7 @@ class Rendition extends Component {
         break;
       }
       case "press": {
-        this.props.onPress && this.props.onPress(decoded.cfi, this);
+        this.props.onPress && this.props.onPress(decoded.cfi, decoded.position, this);
         break;
       }
       case "longpress": {
