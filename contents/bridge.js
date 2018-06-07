@@ -44,8 +44,13 @@ window.onerror = function (message, file, line, col, error) {
 
     // var isReactNativePostMessageReady = !!window.originalPostMessage;
     var isReactNativePostMessageReady = !!window.originalPostMessage || window.postMessage.toString().indexOf("[native code]") === -1;
+    var hasReactNativePostMessage = typeof window.webkit.messageHandlers.reactNative.postMessage !== "undefined";
+
     clearTimeout(waitForReactNativePostMessageReady);
-    if(!isReactNativePostMessageReady) {
+    if (!isReactNativePostMessageReady && hasReactNativePostMessage) {
+      window.originalPostMessage = window.postMessage;
+      window.postMessage = function (data) { window.webkit.messageHandlers.reactNative.postMessage(data); };
+    } else if (!isReactNativePostMessageReady && !hasReactNativePostMessage){
       waitForReactNativePostMessageReady = setTimeout(_ready, 1);
       return;
     }

@@ -249,6 +249,7 @@ class Rendition extends Component {
 
   _onWebViewLoaded() {
     this._webviewLoaded = true;
+    console.log("has loadeds");
     if (this.props.url) {
       this.load(this.props.url);
     }
@@ -398,7 +399,6 @@ class Rendition extends Component {
           bounces={false}
           javaScriptEnabled={true}
           scrollEnabled={true}
-          javaScriptEnabled={true}
           pagingEnabled={this.props.flow === "paginated"}
           // onLoadEnd={this._onWebViewLoaded.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
