@@ -16,7 +16,7 @@ It may be necessary to include the following dependencies to your `package.json`
 to allow link to work automatically
 
 ```bash
-npm install --save react-native-fetch-blob react-native-fs react-native-orientation react-native-zip-archive react-native-static-server react-native-wkwebview-reborn
+npm install --save react-native-fetch-blob react-native-fs react-native-orientation react-native-zip-archive react-native-static-server react-native-wkwebview-reborn base-64
 ```
 
 then install and link the required libraries with
