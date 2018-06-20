@@ -44,7 +44,10 @@ window.onerror = function (message, file, line, col, error) {
 
     // var isReactNativePostMessageReady = !!window.originalPostMessage;
     var isReactNativePostMessageReady = !!window.originalPostMessage || window.postMessage.toString().indexOf("[native code]") === -1;
-    var hasReactNativePostMessage = typeof window.webkit.messageHandlers.reactNative.postMessage !== "undefined";
+    var hasReactNativePostMessage = typeof window.webkit !== "undefined" &&
+                                    typeof window.webkit.messageHandlers !== "undefined" &&
+                                    typeof window.webkit.messageHandlers.reactNative !== "undefined" &&
+                                    typeof window.webkit.messageHandlers.reactNative.postMessage !== "undefined";
 
     clearTimeout(waitForReactNativePostMessageReady);
     if (!isReactNativePostMessageReady && hasReactNativePostMessage) {
