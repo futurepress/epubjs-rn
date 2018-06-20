@@ -393,7 +393,7 @@ window.onerror = function (message, file, line, col, error) {
 
             prevX = screenX;
 
-            e.prevenatDefault();
+            e.preventDefault();
           }, { capture: true, passive: false });
 
           doc.addEventListener('touchstart', function(e) {
