@@ -20,7 +20,7 @@ window.onerror = function (message, file, line, col, error) {
     var book;
     var rendition;
 
-    var minSpreadWidth = 800;
+    var minSpreadWidth = 815;
     var axis = "horizontal";
 
     var isChrome = /Chrome/.test(navigator.userAgent);
@@ -206,6 +206,26 @@ window.onerror = function (message, file, line, col, error) {
           var font = decoded.args[0];
           if (rendition) {
             rendition.themes.font(font);
+          } else {
+            q.push(message);
+          }
+          break;
+        }
+        case "override": {
+          if (rendition) {
+            rendition.themes.override.apply(rendition.themes, decoded.args);
+          } else {
+            q.push(message);
+          }
+          break;
+        }
+        case "gap": {
+          var gap = decoded.args[0];
+          if (rendition) {
+            rendition.settings.gap = gap;
+            if (rendition.manager) {
+              rendition.manager.settings.gap = gap;
+            }
           } else {
             q.push(message);
           }

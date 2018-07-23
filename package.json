@@ -1,6 +1,6 @@
 {
   "name": "epubjs-rn",
-  "version": "0.0.122",
+  "version": "0.0.123",
   "repository": "https://github.com/futurepress/epubjs-rn",
   "main": "./components/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "buffer": "^5.1.0",
-    "epubjs": "^0.3.63",
+    "epubjs": "0.3.65",
     "events": "^3.0.0",
     "gulp": "^3.9.1",
     "i": "^0.3.6",
@@ -19,11 +19,11 @@
     "lodash": "^4.17.10",
     "path-webpack": "0.0.3",
     "react-native-fetch-blob": "^0.10.8",
-    "react-native-fs": "^2.9.12",
+    "react-native-fs": "^2.10.14",
     "react-native-orientation": "^3.1.3",
     "react-native-static-server": "^0.3.0",
     "react-native-wkwebview-reborn": "^1.20.0",
-    "react-native-zip-archive": "^2.2.3",
+    "react-native-zip-archive": "^2.2.6",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.1",
     "util": "^0.11.0"
@@ -33,10 +33,10 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.46",
-    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.54",
+    "@babel/preset-env": "^7.0.0-beta.54",
     "babel-cli": "^6.26.0",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^7.1.5",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-static-fs": "^1.1.0",
@@ -49,12 +49,17 @@
     "gulp-babel": "^7.0.1",
     "gulp-plumber": "^1.2.0",
     "gulp-util": "^3.0.8",
-    "jest": "23.1.0",
+    "jest": "23.4.1",
     "jest-react-native": "18.0.0",
+    "natives": "^1.1.4",
     "react-test-renderer": "16.4.1",
-    "webpack": "^4.7.0"
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
   },
   "jest": {
     "preset": "jest-react-native"
+  },
+  "resolutions": {
+    "natives": "1.1.4"
   }
 }

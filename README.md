@@ -55,6 +55,7 @@ Then you can add the reader element in your code:
 * `stylesheet`: Link to css stylesheet containing themes
 * `script`: Url for a javascript file to be injected into the view
 * `minSpreadWidth`: cut off width for spreads
+* `gap`: gap (int) between columns / pages
 
 Using a local file server
 -------------------------

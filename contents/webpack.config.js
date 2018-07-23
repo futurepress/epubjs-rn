@@ -1,12 +1,15 @@
 var webpack = require("webpack");
 var BabiliPlugin = require("babili-webpack-plugin");
+const path = require('path');
 
 module.exports = {
+	mode: "development",
 	entry: {
 		"contents": "./contents/contents.js",
 	},
 	output: {
-		filename: "./contents/[name].min.js",
+		path: path.resolve(__dirname),
+		filename: "[name].min.js",
 		library: "EPUBJSContents",
 		libraryTarget: "umd",
 	},
@@ -15,7 +18,7 @@ module.exports = {
 		"xmldom": "xmldom"
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.js$/,
 				//exclude: /node_modules/,

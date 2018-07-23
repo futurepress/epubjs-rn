@@ -28,7 +28,7 @@ const EMBEDDED_HTML = `
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
   <title>epubjs</title>
   <script>${EPUBJS}</script>
   <script>${BRIDGE}</script>
@@ -37,6 +37,7 @@ const EMBEDDED_HTML = `
       margin: 0;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       -webkit-tap-highlight-color: transparent; /* For some Androids */
+      padding-top: calc(env(safe-area-inset-top) / 2); /* For iPhone X Notch */
     }
   </style>
 </head><body></body></html>
@@ -107,8 +108,9 @@ class Rendition extends Component {
     __DEV__ && console.log("loading book: ", bookUrl);
 
     let config = {
-      "minSpreadWidth": this.props.minSpreadWidth || 800,
+      "minSpreadWidth": this.props.minSpreadWidth || 815,
       "flow": this.props.flow || "paginated",
+      "gap": this.props.gap
     };
 
     if (this.props.stylesheet) {
@@ -176,6 +178,14 @@ class Rendition extends Component {
 
   fontSize(f) {
     this.sendToBridge("fontSize", [f]);
+  }
+
+  override(name, value, priority) {
+    this.sendToBridge("override", [name, value, priority]);
+  }
+
+  gap(gap) {
+    this.sendToBridge("gap", [gap]);
   }
 
   setLocations(locations) {
@@ -402,6 +412,8 @@ class Rendition extends Component {
           pagingEnabled={this.props.flow === "paginated"}
           // onLoadEnd={this._onWebViewLoaded.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
+          contentInsetAdjustmentBehavior="never"
+          automaticallyAdjustContentInsets={true}
         />
         {!this.state.loaded ? loader : null}
       </View>
