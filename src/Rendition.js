@@ -37,7 +37,16 @@ const EMBEDDED_HTML = `
       margin: 0;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       -webkit-tap-highlight-color: transparent; /* For some Androids */
-      padding-top: calc(env(safe-area-inset-top) / 2); /* For iPhone X Notch */
+    }
+
+    /* For iPhone X Notch */
+    @media only screen
+      and (min-device-width : 375px)
+      and (max-device-width : 812px)
+      and (-webkit-device-pixel-ratio : 3) {
+      body {
+        padding-top: calc(env(safe-area-inset-top) / 2);
+      }
     }
   </style>
 </head><body></body></html>
@@ -308,7 +317,7 @@ class Rendition extends Component {
       }
       case "resized": {
         let {size} = decoded;
-        // console.log("resized", size.width, size.height);
+        console.log("resized", size.width, size.height);
         break;
       }
       case "press": {
@@ -413,7 +422,8 @@ class Rendition extends Component {
           // onLoadEnd={this._onWebViewLoaded.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
           contentInsetAdjustmentBehavior="never"
-          automaticallyAdjustContentInsets={true}
+          contentInset={{top: 0}}
+          automaticallyAdjustContentInsets={false}
         />
         {!this.state.loaded ? loader : null}
       </View>

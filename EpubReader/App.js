@@ -26,7 +26,7 @@ class EpubReader extends Component {
       origin: "",
       title: "",
       toc: [],
-      showBars: false,
+      showBars: true,
       showNav: false,
       sliderDisabled: true
     };
@@ -43,6 +43,8 @@ class EpubReader extends Component {
       .then((src) => {
         return this.setState({src});
       });
+
+    setTimeout(() => this.toggleBars(), 1000);
   }
 
   componentWillUnmount() {
@@ -57,7 +59,7 @@ class EpubReader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true}/>
+        <StatusBar hidden={!this.state.showBars}/>
         <Epub style={styles.reader}
               ref="epub"
               //src={"https://s3.amazonaws.com/epubjs/books/moby-dick.epub"}

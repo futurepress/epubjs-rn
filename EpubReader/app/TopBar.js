@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Animated
+  Animated,
+  StatusBar
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/EvilIcons'
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#cdcdcd",
-    paddingTop: 0,
+    paddingTop: 20,
     top: 0,
     height: 64,
     right: 0,
