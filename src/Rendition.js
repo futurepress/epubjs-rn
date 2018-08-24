@@ -37,6 +37,7 @@ const EMBEDDED_HTML = `
       margin: 0;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       -webkit-tap-highlight-color: transparent; /* For some Androids */
+      height: 100vh;
     }
 
     /* For iPhone X Notch */
@@ -109,6 +110,11 @@ class Rendition extends Component {
     if (prevProps.font !== this.props.font) {
       this.font(this.props.font);
     }
+
+    if (prevProps.width !== this.props.width ||
+        prevProps.height !== this.props.height) {
+      this.resize(this.props.width, this.props.height);
+    }
   }
 
   load(bookUrl) {
@@ -119,7 +125,8 @@ class Rendition extends Component {
     let config = {
       "minSpreadWidth": this.props.minSpreadWidth || 815,
       "flow": this.props.flow || "paginated",
-      "gap": this.props.gap
+      "gap": this.props.gap,
+      "fullsize": true
     };
 
     if (this.props.stylesheet) {
@@ -132,6 +139,18 @@ class Rendition extends Component {
 
     if (this.props.script) {
       config.script = this.props.script;
+    }
+
+    if (this.props.width) {
+      config.width = this.props.width;
+    }
+
+    if (this.props.height) {
+      config.height = this.props.height;
+    }
+
+    if (this.props.disableOrientationEvent) {
+      config.resizeOnOrientationChange = this.props.resizeOnOrientationChange;
     }
 
     this.sendToBridge("open", [bookUrl, config]);
@@ -167,6 +186,13 @@ class Rendition extends Component {
     } else {
       this.sendToBridge("display");
     }
+  }
+
+  resize(w, h) {
+    if (!w || !h) {
+      return;
+    }
+    this.sendToBridge("resize", [w,h]);
   }
 
   flow(f) {
@@ -268,7 +294,6 @@ class Rendition extends Component {
 
   _onWebViewLoaded() {
     this._webviewLoaded = true;
-    console.log("has loadeds");
     if (this.props.url) {
       this.load(this.props.url);
     }
@@ -407,7 +432,10 @@ class Rendition extends Component {
     }
 
     return (
-      <View ref="framer" style={styles.container}>
+      <View ref="framer" style={[styles.container, {
+          maxWidth: this.props.width, maxHeight: this.props.height,
+          minWidth: this.props.width, minHeight: this.props.height
+        }]}>
         <WebViewer
           ref="webviewbridge"
           source={{html: EMBEDDED_HTML, baseUrl: this.props.url}}

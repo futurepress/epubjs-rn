@@ -118,6 +118,18 @@ window.onerror = function (message, file, line, col, error) {
 
           break;
         }
+        case "resize": {
+          var width = decoded.args.length && decoded.args[0];
+          var height = decoded.args.length > 1 && decoded.args[1];
+
+          if (rendition) {
+            rendition.resize(width, height);
+          } else {
+            q.push(message);
+          }
+
+          break;
+        }
         case "setLocations": {
           var locations = decoded.args[0];
           if (book) {
@@ -254,7 +266,8 @@ window.onerror = function (message, file, line, col, error) {
       var settings = Object.assign({
         manager: "continuous",
         overflow: "visible",
-        method: "blobUrl"
+        method: "blobUrl",
+        fullsize: true
       }, options);
 
       window.book = book = ePub(url);

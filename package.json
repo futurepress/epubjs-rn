@@ -11,7 +11,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "buffer": "^5.1.0",
-    "epubjs": "0.3.65",
+    "epubjs": "0.3.70",
     "events": "^3.0.0",
     "gulp": "^3.9.1",
     "i": "^0.3.6",
