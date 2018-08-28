@@ -37,7 +37,6 @@ const EMBEDDED_HTML = `
       margin: 0;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       -webkit-tap-highlight-color: transparent; /* For some Androids */
-      height: 100vh;
     }
 
     /* For iPhone X Notch */
