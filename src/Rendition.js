@@ -12,16 +12,17 @@ import {
   TouchableOpacity
 } from "react-native";
 
-import WKWebView from 'react-native-wkwebview-reborn';
+// import WKWebView from 'react-native-wkwebview-reborn';
 
 import EventEmitter from 'event-emitter'
 
-import { readFileSync } from "fs";
+// import { readFileSync } from "fs";
+import raw from "raw.macro";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
-const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.min.js", "utf8");
-const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
+const EPUBJS = raw("../node_modules/epubjs/dist/epub.min.js");
+const BRIDGE = raw("../contents/bridge.js");
 
 const EMBEDDED_HTML = `
 <!DOCTYPE html>
@@ -410,7 +411,7 @@ class Rendition extends Component {
   }
 
   render() {
-    const WebViewer = (Platform.OS === 'ios') ? WKWebView : WebView;
+    // const WebViewer = (Platform.OS === 'ios') ? WKWebView : WebView;
 
     let loader = (
       <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.loadScreen}>
@@ -435,17 +436,24 @@ class Rendition extends Component {
           maxWidth: this.props.width, maxHeight: this.props.height,
           minWidth: this.props.width, minHeight: this.props.height
         }]}>
-        <WebViewer
+        <WebView
           ref="webviewbridge"
           source={{html: EMBEDDED_HTML, baseUrl: this.props.url}}
           style={[styles.manager, {
             backgroundColor: this.props.backgroundColor || "#FFFFFF"
           }]}
-          scalesPageToFit={false}
+          // scalesPageToFit={false}
           bounces={false}
           javaScriptEnabled={true}
           scrollEnabled={true}
           pagingEnabled={this.props.flow === "paginated"}
+          useWebKit={true}
+          originWhitelist={['*']}
+          nativeConfig={{
+            props: {
+              pagingEnabled: true
+            },
+          }}
           // onLoadEnd={this._onWebViewLoaded.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
           contentInsetAdjustmentBehavior="never"

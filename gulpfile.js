@@ -10,6 +10,7 @@ gulp.task("build", function () {
 	return gulp.src(["./src/**/*.js"])
 	.pipe(plumber({ errorHandler: onError }))
 	.pipe(babel({
+		"presets": ["module:metro-react-native-babel-preset"],
 		"plugins": [
 				"syntax-jsx",
 				["module-resolver", {
@@ -18,7 +19,7 @@ gulp.task("build", function () {
 						"path": "path-webpack"
 					}
 				}],
-				"static-fs"
+				"macros"
 			]
 		}
 	))
