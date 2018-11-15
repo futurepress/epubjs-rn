@@ -19,7 +19,7 @@ import EventEmitter from 'event-emitter'
 import { readFileSync } from "fs";
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
-
+const POLYFILL = readFileSync(__dirname + "/../node_modules/babel-polyfill/dist/polyfill.min.js", "utf8");
 const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.min.js", "utf8");
 const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 
@@ -30,6 +30,7 @@ const EMBEDDED_HTML = `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
   <title>epubjs</title>
+  <script>${POLYFILL}</script>
   <script>${EPUBJS}</script>
   <script>${BRIDGE}</script>
   <style>
