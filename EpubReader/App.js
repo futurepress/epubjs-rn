@@ -14,6 +14,7 @@ import { Epub, Streamer } from "epubjs-rn";
 import TopBar from './app/TopBar'
 import BottomBar from './app/BottomBar'
 import Nav from './app/Nav'
+import CustomLoading from './Loading';
 
 class EpubReader extends Component {
   constructor(props) {
@@ -119,6 +120,7 @@ class EpubReader extends Component {
               onError={(message) => {
                 console.log("EPUBJS-Webview", message);
               }}
+              loadingView={<CustomLoading />}
             />
             <View
               style={[styles.bar, { top:0 }]}>

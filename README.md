@@ -56,6 +56,7 @@ Then you can add the reader element in your code:
 * `script`: Url for a javascript file to be injected into the view
 * `minSpreadWidth`: cut off width for spreads
 * `gap`: gap (int) between columns / pages
+* `loadingView`: a custom loading view or component instead of the deafult loading indicator
 
 Using a local file server
 -------------------------

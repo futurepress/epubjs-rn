@@ -413,19 +413,21 @@ class Rendition extends Component {
   render() {
     const WebViewer = (Platform.OS === 'ios') ? WKWebView : WebView;
 
-    let loader = (
-      <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.loadScreen}>
-        <View style={[styles.loadScreen, {
-            backgroundColor: this.props.backgroundColor || "#FFFFFF"
-          }]}>
-            <ActivityIndicator
-                color={this.props.color || "black"}
-                size={this.props.size || "large"}
-                style={{ flex: 1 }}
-              />
-        </View>
-      </TouchableOpacity>
-    );
+    let loader = this.props.loadingView ? 
+      <View style={styles.loadScreen}>{this.props.loadingView}</View> : 
+      (
+        <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.loadScreen}>
+          <View style={[styles.loadScreen, {
+              backgroundColor: this.props.backgroundColor || "#FFFFFF"
+            }]}>
+              <ActivityIndicator
+                  color={this.props.color || "black"}
+                  size={this.props.size || "large"}
+                  style={{ flex: 1 }}
+                />
+          </View>
+        </TouchableOpacity>
+      );
 
     if (!this.props.url) {
       return loader;
