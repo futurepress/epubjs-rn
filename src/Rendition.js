@@ -8,20 +8,14 @@ import {
   Dimensions,
   Platform,
   AppState,
-  WebView,
   TouchableOpacity
 } from "react-native";
 
-import WKWebView from 'react-native-wkwebview-reborn';
+import { WebView } from 'react-native-webview';
 
 import EventEmitter from 'event-emitter'
 
-import { readFileSync } from "fs";
-
 const URL = require("epubjs/libs/url/url-polyfill.js");
-const POLYFILL = readFileSync(__dirname + "/../node_modules/babel-polyfill/dist/polyfill.min.js", "utf8");
-const EPUBJS = readFileSync(__dirname + "/../node_modules/epubjs/dist/epub.min.js", "utf8");
-const BRIDGE = readFileSync(__dirname + "/../contents/bridge.js", "utf8");
 
 const EMBEDDED_HTML = `
 <!DOCTYPE html>
@@ -30,9 +24,9 @@ const EMBEDDED_HTML = `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
   <title>epubjs</title>
-  <script>${POLYFILL}</script>
-  <script>${EPUBJS}</script>
-  <script>${BRIDGE}</script>
+  <script>${process.env.POLYFILL}</script>
+  <script>${process.env.EPUBJS}</script>
+  <script>${process.env.BRIDGE}</script>
   <style>
     body {
       margin: 0;
@@ -411,8 +405,6 @@ class Rendition extends Component {
   }
 
   render() {
-    const WebViewer = (Platform.OS === 'ios') ? WKWebView : WebView;
-
     let loader = (
       <TouchableOpacity onPress={() => this.props.onPress('')} style={styles.loadScreen}>
         <View style={[styles.loadScreen, {
@@ -436,22 +428,22 @@ class Rendition extends Component {
           maxWidth: this.props.width, maxHeight: this.props.height,
           minWidth: this.props.width, minHeight: this.props.height
         }]}>
-        <WebViewer
+        <WebView
           ref="webviewbridge"
           source={{html: EMBEDDED_HTML, baseUrl: this.props.url}}
           style={[styles.manager, {
             backgroundColor: this.props.backgroundColor || "#FFFFFF"
           }]}
-          scalesPageToFit={false}
           bounces={false}
           javaScriptEnabled={true}
           scrollEnabled={true}
           pagingEnabled={this.props.flow === "paginated"}
-          // onLoadEnd={this._onWebViewLoaded.bind(this)}
           onMessage={this._onBridgeMessage.bind(this)}
           contentInsetAdjustmentBehavior="never"
           contentInset={{top: 0}}
           automaticallyAdjustContentInsets={false}
+          originWhitelist={['*']}
+          allowsLinkPreview={false}
         />
         {!this.state.loaded ? loader : null}
       </View>
@@ -491,4 +483,4 @@ const styles = StyleSheet.create({
 
 EventEmitter(Rendition.prototype);
 
-module.exports = Rendition;
+export default Rendition;

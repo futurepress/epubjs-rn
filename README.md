@@ -1,7 +1,7 @@
 Epub.js React Native Components
 ================================
 
-Uses v0.3 of [EPUB.js](https://github.com/futurepress/epub.js) to parse and render epubs on iOS and Android using React Native.
+Uses [EPUB.js](https://github.com/futurepress/epub.js) to parse and render epubs on iOS and Android using React Native.
 
 Getting Started
 -------------------------
@@ -12,17 +12,9 @@ To use the components in your own app install via npm or yarn
 npm install --save epubjs-rn
 ```
 
-It may be necessary to include the following dependencies to your `package.json`
-to allow link to work automatically
-
+then link the required libraries with
 ```bash
-npm install --save react-native-fetch-blob react-native-fs react-native-orientation react-native-zip-archive react-native-static-server react-native-wkwebview-reborn base-64
-```
-
-then install and link the required libraries with
-```bash
-npm install
-react-native link
+react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link react-native-orientation
 ```
 
 then require the `components` you need
@@ -83,11 +75,11 @@ streamer.start("8899")
 Running the example app
 -------------------------
 
-Install from NPM or Yarn
+Install from Yarn
 
 ```bash
-npm install -g react-native-cli
-npm install
+yarn install -g react-native-cli
+yarn
 ```
 Then start the iOS or Android App
 

@@ -4,12 +4,11 @@ import {
 
 import StaticServer from 'react-native-static-server';
 
-import RNFetchBlob from "react-native-fetch-blob"
+import RNFetchBlob from "rn-fetch-blob";
 
 import { zip, unzip, unzipAssets, subscribe } from 'react-native-zip-archive'
 
 
-// import { readFileSync } from "fs";
 import { join } from "path";
 
 const Dirs = RNFetchBlob.fs.dirs

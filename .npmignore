@@ -4,3 +4,4 @@ ios
 node_modules
 EpubReader
 .babelrc
+.babelrc.js
