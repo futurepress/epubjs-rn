@@ -59,7 +59,9 @@ class EpubReader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar hidden={!this.state.showBars}/>
+        <StatusBar hidden={!this.state.showBars}
+          translucent={true}
+          animated={false} />
         <Epub style={styles.reader}
               ref="epub"
               //src={"https://s3.amazonaws.com/epubjs/books/moby-dick.epub"}
