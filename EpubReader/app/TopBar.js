@@ -32,9 +32,23 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#cdcdcd",
-    paddingTop: 20,
+    ...Platform.select({
+      ios: {
+        paddingTop: 40,
+      },
+      android: {
+        paddingTop: 24,
+      },
+    }),
     top: 0,
-    height: 64,
+    ...Platform.select({
+      ios: {
+        height: 84,
+      },
+      android: {
+        height: 74,
+      },
+    }),
     right: 0,
     left: 0,
     borderBottomWidth: 1,

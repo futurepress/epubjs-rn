@@ -3,16 +3,17 @@ package com.epubreader;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.rnziparchive.RNZipArchivePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.futurepress.staticserver.FPStaticServerPackage;
 import com.github.yamill.orientation.OrientationPackage;
-import com.rnfs.RNFSPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import android.webkit.WebView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +30,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
             new RNZipArchivePackage(),
-            new VectorIconsPackage(),
+            new RNCWebViewPackage(),
             new FPStaticServerPackage(),
             new OrientationPackage(),
-            new RNFSPackage(),
-            new RNFetchBlobPackage()
+            new VectorIconsPackage()
       );
     }
 
@@ -53,5 +54,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    WebView.setWebContentsDebuggingEnabled(true);
   }
 }

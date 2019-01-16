@@ -4,28 +4,25 @@ import {
   StyleSheet,
   Text,
   View,
-  ListView,
+  FlatList,
   TouchableHighlight,
   Modal,
   TouchableOpacity,
   Platform
 } from 'react-native';
 
-// import NavigationBar from 'react-native-navbar';
 
 import Icon from 'react-native-vector-icons/EvilIcons'
 
 
-class Nav extends Component {
+class Nav extends Component<{}> {
 
   constructor(props) {
     super(props);
 
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
-
     this.state = {
       error: '',
-      dataSource: ds.cloneWithRows(this.props.toc || []),
+      dataSource: this.props.toc || [],
       modalVisible: false
     }
   }
@@ -41,7 +38,7 @@ class Nav extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.toc !== this.props.toc) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.props.toc || [])
+        dataSource: this.props.toc || []
       });
     }
 
@@ -103,13 +100,14 @@ class Nav extends Component {
               <Icon name="close" size={34} />
             </TouchableOpacity>
           </View>
-          <ListView
+          <FlatList
             style={styles.container}
-            dataSource={this.state.dataSource}
-            renderRow={(item) => {
-              return this.renderRow(item);
+            data={this.state.dataSource}
+            renderItem={(row) => {
+              return this.renderRow(row.item);
             }}
-            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+            keyExtractor={item => item.id}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
           />
         </Modal>
       </View>

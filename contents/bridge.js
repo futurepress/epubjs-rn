@@ -13,7 +13,6 @@ window.onerror = function (message, file, line, col, error) {
       window.postMessage(JSON.stringify(obj), targetOrigin);
     };
 
-    var preventTap = false;
     var q = [];
     var _isReady = false;
 
@@ -25,13 +24,6 @@ window.onerror = function (message, file, line, col, error) {
 
     var isChrome = /Chrome/.test(navigator.userAgent);
     var isWebkit = !isChrome && /AppleWebKit/.test(navigator.userAgent);
-
-    var snapWidth = window.innerWidth;
-    var last_known_scroll_position = 0;
-    var ticking = false;
-    var touchCanceler = false;
-    var resizeCanceler = false;
-    var animating = false;
 
     // debug
     console.log = function() {
@@ -267,7 +259,8 @@ window.onerror = function (message, file, line, col, error) {
         manager: "continuous",
         overflow: "visible",
         method: "blobUrl",
-        fullsize: true
+        fullsize: true,
+        snap: isChrome
       }, options);
 
       window.book = book = ePub(url);
@@ -390,89 +383,13 @@ window.onerror = function (message, file, line, col, error) {
           }
         }
 
-        if(!isWebkit) {
+        doc.addEventListener("touchstart", touchStartHandler, false);
 
-          var prevX;
-          var flick = 0;
-          var pan = false;
+        doc.addEventListener("touchmove", touchMoveHandler, false);
 
-          doc.addEventListener('touchmove', function(e) {
-            var screenX = e.touches[0].screenX;
-            var delta = prevX - screenX;
+        doc.addEventListener("touchend", touchEndHandler, false);
 
-            touchMoveHandler(e);
-
-            if (axis !== "horizontal") {
-              return;
-            }
-
-            if (Math.abs(delta) > 0.5) {
-              pan = true;
-            }
-
-            if (delta > 20) {
-              flick = 1;
-            }
-
-            if (delta < -20) {
-              flick = -1;
-            }
-
-            // if (!animating) {
-            //   if (delta) {
-            //     window.scrollBy(delta, 0);
-            //   }
-            // }
-
-            prevX = screenX;
-
-            e.preventDefault();
-          }, { capture: true, passive: false });
-
-          doc.addEventListener('touchstart', function(e) {
-
-            touchStartHandler(e);
-
-            resizeCanceler = false;
-
-          }, { capture: false, passive: true });
-
-          doc.addEventListener('touchend', function(e) {
-
-            touchEndHandler(e);
-
-            if (axis !== "horizontal") {
-              return;
-            }
-
-            if(!animating) {
-
-              if (flick === 1) {
-                snap(last_known_scroll_position + snapWidth + 10);
-              }
-              else if (flick === -1) {
-                snap(last_known_scroll_position - snapWidth + 10);
-              }
-              else if (pan) {
-                snap(last_known_scroll_position);
-              }
-
-            }
-
-            prevX = undefined;
-            flick = 0;
-            pan = false;
-          }, { capture: true, passive: false });
-
-        } else {
-          doc.addEventListener("touchstart", touchStartHandler, false);
-
-          doc.addEventListener("touchmove", touchMoveHandler, false);
-
-          doc.addEventListener("touchend", touchEndHandler, false);
-
-          doc.addEventListener('touchforcechange', touchForceHandler, false);
-        }
+        doc.addEventListener('touchforcechange', touchForceHandler, false);
 
       }.bind(this));
 
@@ -481,12 +398,10 @@ window.onerror = function (message, file, line, col, error) {
       });
 
       rendition.on("selected", function (cfiRange) {
-        preventTap = true;
         sendMessage({method:"selected", cfiRange: cfiRange});
       });
 
       rendition.on("markClicked", function (cfiRange, data) {
-        preventTap = true;
         sendMessage({method:"markClicked", cfiRange: cfiRange, data: data});
       });
 
@@ -532,88 +447,6 @@ window.onerror = function (message, file, line, col, error) {
     document.addEventListener("message", onMessage);
 
     sendMessage({method:"loaded", value: true});
-
-    // Snap scrolling
-    if(!isWebkit) {
-
-      // Disable momentum scrolling
-      document.getElementsByTagName('body')[0].style.overflow = "hidden";
-
-      window.addEventListener('scroll', function(e) {
-        last_known_scroll_position = window.scrollX;
-      });
-
-      window.addEventListener('resize', function(e) {
-        resizeCanceler = true;
-        snapWidth = window.innerWidth;
-        animating = false;
-      });
-    }
-
-    function snap(scroll_pos) {
-      var snapTo = Math.round(scroll_pos / snapWidth) * snapWidth;
-      if (scroll_pos % snapWidth > 0) {
-        scrollToX(snapTo, 25000);
-      }
-    }
-
-    function scrollToX(scrollTargetX, speed, easing) {
-        var scrollX = window.scrollX,
-            scrollTargetX = scrollTargetX || 0,
-            speed = speed || 2000,
-            easing = easing || 'easeOutSine',
-            currentTime = 0;
-
-        animating = true;
-
-        // min time .1, max time .8 seconds
-        var time = Math.max(.1, Math.min(Math.abs(scrollX - scrollTargetX) / speed, .8));
-
-        // easing equations from https://github.com/danro/easing-js/blob/master/easing.js
-        var PI_D2 = Math.PI / 2,
-        easingEquations = {
-            easeOutSine: function (pos) {
-                return Math.sin(pos * (Math.PI / 2));
-            },
-            easeInOutSine: function (pos) {
-                return (-0.5 * (Math.cos(Math.PI * pos) - 1));
-            },
-            easeInOutQuint: function (pos) {
-                if ((pos /= 0.5) < 1) {
-                    return 0.5 * Math.pow(pos, 5);
-                }
-                return 0.5 * (Math.pow((pos - 2), 5) + 2);
-            }
-        };
-
-        // add animation loop
-        function tick() {
-            currentTime += 1 / 60;
-
-            var p = currentTime / time;
-            var t = easingEquations[easing](p);
-
-            if (touchCanceler) {
-              return;
-            }
-
-            if (resizeCanceler) {
-              resizeCanceler = false;
-              return;
-            }
-
-            if (p < 1) {
-                window.requestAnimationFrame(tick);
-
-                window.scrollTo(scrollX + ((scrollTargetX - scrollX) * t), 0);
-            } else {
-                window.scrollTo(scrollTargetX, 0);
-                animating = false;
-            }
-        }
-
-        tick();
-    }
   }
 
   if ( document.readyState === 'complete' ) {

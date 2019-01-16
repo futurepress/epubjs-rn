@@ -12,7 +12,7 @@ import {
 
 import Orientation from "react-native-orientation";
 
-import RNFetchBlob from "react-native-fetch-blob"
+import RNFetchBlob from "rn-fetch-blob";
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
@@ -32,9 +32,9 @@ const core = require("epubjs/lib/utils/core");
 const Uri = require("epubjs/lib/utils/url");
 const Path = require("epubjs/lib/utils/path");
 
-const Rendition = require("./Rendition");
+import Rendition from './Rendition';
 
-class Epub extends Component {
+class Epub extends Component<{}> {
 
   constructor(props) {
     super(props);
@@ -380,4 +380,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = Epub;
+export default Epub;
