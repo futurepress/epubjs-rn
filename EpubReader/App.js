@@ -81,7 +81,8 @@ class EpubReader extends Component {
                 // console.log("Table of Contents", book.toc)
                 this.setState({
                   title : book.package.metadata.title,
-                  toc: book.navigation.toc
+                  toc: book.navigation.toc,
+                  book: book
                 });
               }}
               onPress={(cfi, position, rendition)=> {
@@ -90,6 +91,12 @@ class EpubReader extends Component {
               }}
               onLongPress={(cfi, rendition)=> {
                 console.log("longpress", cfi);
+              }}
+              onDblPress={(cfi,position, imgSrc, rendition) => {
+                // Path relative to where the book is opened
+                console.log(this.state.book.path.directory);
+                // imgSrc is the actual src in the img html tag
+                console.log("dblpress", cfi, position, imgSrc)
               }}
               onViewAdded={(index) => {
                 console.log("added", index)
