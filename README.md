@@ -75,15 +75,17 @@ streamer.start("8899")
 Running the example app
 -------------------------
 
-Install from Yarn
+Install with NPM.
 
 ```bash
-yarn install -g react-native-cli
-yarn
+cd EpubReader/
+npm install -g react-native-cli
+npm i
 ```
 Then start the iOS or Android App
 
 ```bash
+npm start
 react-native run-ios
 react-native run-android
 ```
