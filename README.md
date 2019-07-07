@@ -14,7 +14,7 @@ npm install --save epubjs-rn
 
 then link the required libraries with
 ```bash
-react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link react-native-orientation
+react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link react-native-orientation && react-native link @react-native-community/async-storage
 ```
 
 then require the `components` you need
@@ -75,15 +75,17 @@ streamer.start("8899")
 Running the example app
 -------------------------
 
-Install from Yarn
+Install with yarn. (Don't use NPM unless you flatten the packages after install)
 
 ```bash
+cd EpubReader/
 yarn install -g react-native-cli
-yarn
+yarn i
 ```
 Then start the iOS or Android App
 
 ```bash
+yarn start
 react-native run-ios
 react-native run-android
 ```

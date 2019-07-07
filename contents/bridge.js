@@ -4,13 +4,18 @@ window.onerror = function (message, file, line, col, error) {
 };
 
 (function () {
-   var waitForReactNativePostMessageReady;
-
   function _ready() {
     var contents;
     var targetOrigin = "*";
     var sendMessage = function(obj) {
-      window.postMessage(JSON.stringify(obj), targetOrigin);
+      // window.postMessage(JSON.stringify(obj), targetOrigin);
+      if (!window.ReactNativeWebView.postMessage) {
+        setTimeout(() => {
+          sendMessage(obj);
+        }, 1);
+      } else {
+        window.ReactNativeWebView.postMessage(JSON.stringify(obj));
+      }
     };
 
     var q = [];
@@ -32,22 +37,6 @@ window.onerror = function (message, file, line, col, error) {
 
     console.error = function() {
       sendMessage({method:"error", value: Array.from(arguments)});
-    }
-
-    // var isReactNativePostMessageReady = !!window.originalPostMessage;
-    var isReactNativePostMessageReady = !!window.originalPostMessage || window.postMessage.toString().indexOf("[native code]") === -1;
-    var hasReactNativePostMessage = typeof window.webkit !== "undefined" &&
-                                    typeof window.webkit.messageHandlers !== "undefined" &&
-                                    typeof window.webkit.messageHandlers.reactNative !== "undefined" &&
-                                    typeof window.webkit.messageHandlers.reactNative.postMessage !== "undefined";
-
-    clearTimeout(waitForReactNativePostMessageReady);
-    if (!isReactNativePostMessageReady && hasReactNativePostMessage) {
-      window.originalPostMessage = window.postMessage;
-      window.postMessage = function (data) { window.webkit.messageHandlers.reactNative.postMessage(data); };
-    } else if (!isReactNativePostMessageReady && !hasReactNativePostMessage){
-      waitForReactNativePostMessageReady = setTimeout(_ready, 1);
-      return;
     }
 
     function onMessage(e) {
@@ -255,13 +244,31 @@ window.onerror = function (message, file, line, col, error) {
     }
 
     function openEpub(url, options) {
-      var settings = Object.assign({
+      var settings = {
         manager: "continuous",
         overflow: "visible",
         method: "blobUrl",
         fullsize: true,
         snap: isChrome
-      }, options);
+      };
+
+      if (options) {
+        if (options.manager) {
+          settings.manager = options.manager;
+        }
+
+        if (options.overflow) {
+          settings.overflow = options.overflow;
+        }
+
+        if (options.fullsize) {
+          settings.fullsize = options.fullsize;
+        }
+
+        if (options.snap) {
+          settings.snap = options.snap;
+        }
+      }
 
       window.book = book = ePub(url);
 
@@ -274,6 +281,7 @@ window.onerror = function (message, file, line, col, error) {
         var isLongPress = false;
         var longPressTimer;
         var touchduration = 300;
+        var preventTap;
         var $body = doc.getElementsByTagName('body')[0];
 
         function touchStartHandler(e) {

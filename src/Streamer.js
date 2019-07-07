@@ -25,7 +25,6 @@ class EpubStreamer {
     opts = opts || {};
     this.port = opts.port || "3" + Math.round(Math.random() * 1000);
     this.root = opts.root || "www";
-    this.server = new StaticServer(this.port, this.root, {localOnly: true});
 
     this.serverOrigin = 'file://';
 
@@ -34,14 +33,34 @@ class EpubStreamer {
     this.paths = [];
 
     this.started = false;
+    this.server = undefined;
+  }
+
+  setup() {
+    // Add the directory
+    return RNFetchBlob.fs.exists(`${Dirs.DocumentDir}/${this.root}`)
+      .then((exists) => {
+        if (!exists) {
+          return RNFetchBlob.fs.mkdir(`${Dirs.DocumentDir}/${this.root}`);
+        }
+      })
+      .then(() => {
+        return new StaticServer(this.port, this.root, {localOnly: true});
+      })
+      .catch((e) => { console.error(e) });
   }
 
   start() {
     this.started = true;
-    return this.server.start().then((url) => {
-      this.serverOrigin = url;
-      return url;
-    });
+    return this.setup()
+      .then((server) => {
+        this.server = server;
+        return this.server.start();
+      })
+      .then((url) => {
+        this.serverOrigin = url;
+        return url;
+      });
   }
 
   stop() {
@@ -89,7 +108,7 @@ class EpubStreamer {
 
   check(bookUrl) {
     const filename = this.filename(bookUrl);
-    const targetPath = `${Dirs.DocumentDir}/${filename}`;
+    const targetPath = `${Dirs.DocumentDir}/${this.root}/${filename}`;
 
     return RNFetchBlob.fs.exists(targetPath);
   }

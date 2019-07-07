@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  AsyncStorage,
   Dimensions,
   Platform,
   AppState,
@@ -14,6 +13,8 @@ import {
 import { WebView } from 'react-native-webview';
 
 import EventEmitter from 'event-emitter'
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 

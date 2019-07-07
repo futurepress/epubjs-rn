@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  AsyncStorage,
   Dimensions,
   AppState,
   WebView
@@ -13,6 +12,9 @@ import {
 import Orientation from "react-native-orientation";
 
 import RNFetchBlob from "rn-fetch-blob";
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;

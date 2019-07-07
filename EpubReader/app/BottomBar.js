@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Animated,
-  Slider
+  Animated
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/EvilIcons'
+
+import Slider from '@react-native-community/slider';
 
 const styles = StyleSheet.create({
   footer: {
