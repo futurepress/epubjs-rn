@@ -45,7 +45,7 @@ class EpubStreamer {
         }
       })
       .then(() => {
-        return new StaticServer(null, this.root, {localOnly: true});
+        return new StaticServer(this.port, this.root, {localOnly: true});
       })
       .catch((e) => { console.error(e) });
   }

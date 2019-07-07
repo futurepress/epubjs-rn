@@ -1980,9 +1980,9 @@ envinfo@^5.7.0:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-5.12.1.tgz#83068c33e0972eb657d6bc69a6df30badefb46ef"
   integrity sha512-pwdo0/G3CIkQ0y6PCXq4RdkvId2elvtPCJMG0konqlrfkWQbf1DWeH9K2b/cvu2YgGvPPTOnonZxXM1gikFu1w==
 
-"epubjs-rn@file:./epubjs-rn-3.r13.tgz":
-  version "0.1.0"
-  resolved "file:./epubjs-rn-3.r13.tgz#5d06f678f6e4f0c1c4e2e3d4fae8f993416d9972"
+"epubjs-rn@file:./epubjs-rn.r15.tgz":
+  version "0.1.1"
+  resolved "file:./epubjs-rn.r15.tgz#b48a0d95bff144b5f28b9fa4823f8c252e5b7101"
   dependencies:
     "@babel/polyfill" "^7.4.4"
     "@react-native-community/async-storage" "^1.5.0"
