@@ -14,7 +14,7 @@ npm install --save epubjs-rn
 
 then link the required libraries with
 ```bash
-react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link react-native-orientation && react-native link @react-native-community/async-storage
+react-native link react-native-static-server && react-native link react-native-webview && react-native link react-native-zip-archive && RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob && react-native link @lightbase/react-native-orientation && react-native link @react-native-community/async-storage
 ```
 
 then require the `components` you need
