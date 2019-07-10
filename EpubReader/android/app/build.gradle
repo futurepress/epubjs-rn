@@ -141,7 +141,7 @@ dependencies {
     implementation project(':react-native-zip-archive')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_slider')
-    implementation project(':react-native-orientation')
+    implementation project(':@lightbase_react-native-orientation')
     implementation project(':react-native-webview')
     implementation project(':react-native-static-server')
     implementation project(':rn-fetch-blob')

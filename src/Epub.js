@@ -9,7 +9,7 @@ import {
   WebView
 } from "react-native";
 
-import Orientation from "react-native-orientation";
+import Orientation from "@lightbase/react-native-orientation";
 
 import RNFetchBlob from "rn-fetch-blob";
 
