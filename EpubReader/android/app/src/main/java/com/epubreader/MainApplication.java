@@ -6,7 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.rnziparchive.RNZipArchivePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
-import com.github.yamill.orientation.OrientationPackage;
+import nl.lightbase.orientation.OrientationPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.futurepress.staticserver.FPStaticServerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;

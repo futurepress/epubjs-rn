@@ -5,13 +5,13 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "move": "mv epubjs-rn-*.tgz epubjs-rn.r15.tgz",
+    "move": "mv epubjs-rn-*.tgz epubjs-rn.r16.tgz",
     "preinstall": "npm pack ../ && npm run move",
-    "postinstall": "rm epubjs-rn.r15.tgz"
+    "postinstall": "rm epubjs-rn.r16.tgz"
   },
   "dependencies": {
     "@react-native-community/slider": "^1.1.4",
-    "epubjs-rn": "file:./epubjs-rn.r15.tgz",
+    "epubjs-rn": "file:./epubjs-rn.r16.tgz",
     "react": "16.8.3",
     "react-native": "0.59.9",
     "react-native-vector-icons": "^6.6.0"
