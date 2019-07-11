@@ -809,6 +809,13 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
+"@lightbase/react-native-orientation@^3.2.1":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@lightbase/react-native-orientation/-/react-native-orientation-3.2.2.tgz#7a420f55958030591609903fc353c8ef63ef7205"
+  integrity sha512-Hjoin63e4GIx97E3x3ykIKQyFjoTdes5FTKagc4vvVDwT8n3bjjQIODD2qps3A4l63KxggSrrcIuMy3tJ5j3Fw==
+  dependencies:
+    cuid "^2.1.6"
+
 "@react-native-community/async-storage@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.5.0.tgz#647ffcd832272068b0be57332e08d73036ed391f"
@@ -1787,6 +1794,11 @@ cssstyle@^1.0.0:
   dependencies:
     cssom "0.3.x"
 
+cuid@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/cuid/-/cuid-2.1.6.tgz#dc3a20b5a7497d36d32c0bf8a2997524c9c796c4"
+  integrity sha512-ZFp7PS6cSYMJNch9fc3tyHdE4T8TDo3Y5qAxb0KSA9mpiYDo7z9ql1CznFuuzxea9STVIDy0tJWm2lYiX2ZU1Q==
+
 d@1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/d/-/d-1.0.1.tgz#8698095372d58dbee346ffd0c7093f99f8f9eb5a"
@@ -1980,11 +1992,12 @@ envinfo@^5.7.0:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-5.12.1.tgz#83068c33e0972eb657d6bc69a6df30badefb46ef"
   integrity sha512-pwdo0/G3CIkQ0y6PCXq4RdkvId2elvtPCJMG0konqlrfkWQbf1DWeH9K2b/cvu2YgGvPPTOnonZxXM1gikFu1w==
 
-"epubjs-rn@file:./epubjs-rn.r15.tgz":
-  version "0.1.1"
-  resolved "file:./epubjs-rn.r15.tgz#b48a0d95bff144b5f28b9fa4823f8c252e5b7101"
+"epubjs-rn@file:./epubjs-rn.r16.tgz":
+  version "0.1.2"
+  resolved "file:./epubjs-rn.r16.tgz#9a3a01ca292a3ffd280555de0e244f5682a81649"
   dependencies:
     "@babel/polyfill" "^7.4.4"
+    "@lightbase/react-native-orientation" "^3.2.1"
     "@react-native-community/async-storage" "^1.5.0"
     base-64 "^0.1.0"
     buffer "^5.2.1"
@@ -1996,7 +2009,6 @@ envinfo@^5.7.0:
     path-webpack "0.0.3"
     react "16.8.3"
     react-native "0.59.9"
-    react-native-orientation "^3.1.3"
     react-native-static-server "^0.4.2"
     react-native-webview "^5.12.0"
     react-native-zip-archive "^4.1.1"
@@ -5123,11 +5135,6 @@ react-is@^16.8.1, react-is@^16.8.3, react-is@^16.8.4:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
-
-react-native-orientation@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-orientation/-/react-native-orientation-3.1.3.tgz#d45803841fe94b6cce9acbe904fd5ca191a3711e"
-  integrity sha512-A0h0E+2f95X4avmhaBG1ZT8WDxBACA/q//JN2eF1E7kq8AJVxt5XDiavv+aSBkBlqFsfF3bIS+T/DB5mXmnxuA==
 
 react-native-static-server@^0.4.2:
   version "0.4.2"
