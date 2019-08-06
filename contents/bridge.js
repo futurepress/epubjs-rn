@@ -244,31 +244,13 @@ window.onerror = function (message, file, line, col, error) {
     }
 
     function openEpub(url, options) {
-      var settings = {
+      var settings = Object.assign({
         manager: "continuous",
         overflow: "visible",
         method: "blobUrl",
         fullsize: true,
         snap: isChrome
-      };
-
-      if (options) {
-        if (options.manager) {
-          settings.manager = options.manager;
-        }
-
-        if (options.overflow) {
-          settings.overflow = options.overflow;
-        }
-
-        if (options.fullsize) {
-          settings.fullsize = options.fullsize;
-        }
-
-        if (options.snap) {
-          settings.snap = options.snap;
-        }
-      }
+      }, options);
 
       window.book = book = ePub(url);
 
@@ -463,3 +445,34 @@ window.onerror = function (message, file, line, col, error) {
     window.addEventListener("load", _ready, false);
   }
 }());
+
+// Object.assign polyfill -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+if (typeof Object.assign !== 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target === null || target === undefined) {
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource !== null && nextSource !== undefined) {
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
