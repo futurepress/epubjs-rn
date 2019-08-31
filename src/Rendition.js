@@ -231,8 +231,8 @@ class Rendition extends Component {
     }
   }
 
-  highlight (cfiRange, data) {
-    this.sendToBridge("highlight", [cfiRange, data]);
+  highlight (cfiRange, data, cb, className, style) {
+    this.sendToBridge("highlight", [cfiRange, data, cb, className,style]);
   }
 
   underline (cfiRange, data) {

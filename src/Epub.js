@@ -36,7 +36,7 @@ const Path = require("epubjs/lib/utils/path");
 
 import Rendition from './Rendition';
 
-class Epub extends Component<{}> {
+class Epub extends Component{
 
   constructor(props) {
     super(props);
