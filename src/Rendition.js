@@ -243,16 +243,16 @@ class Rendition extends Component {
     this.sendToBridge("mark", [cfiRange, data]);
 	}
 
-  unhighlight (cfiRange, data) {
-    this.sendToBridge("removeAnnotation", [cfiRange, data]);
+  unhighlight (cfiRange) {
+    this.sendToBridge("removeAnnotation", [cfiRange, "highlight"]);
 	}
 
-	ununderline (cfiRange, data) {
-    this.sendToBridge("removeAnnotation", [cfiRange, data]);
+	ununderline (cfiRange) {
+    this.sendToBridge("removeAnnotation", [cfiRange, "underline"]);
 	}
 
-	unmark (cfiRange, data) {
-    this.sendToBridge("removeAnnotation", [cfiRange, data]);
+	unmark (cfiRange) {
+    this.sendToBridge("removeAnnotation", [cfiRange, "mark"]);
 	}
 
   next() {
