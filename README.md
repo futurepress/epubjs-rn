@@ -79,8 +79,8 @@ Install with yarn. (Don't use NPM unless you flatten the packages after install)
 
 ```bash
 cd EpubReader/
-yarn install -g react-native-cli
-yarn i
+yarn global add react-native-cli
+yarn install 
 ```
 Then start the iOS or Android App
 
