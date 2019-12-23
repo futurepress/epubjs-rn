@@ -140,6 +140,10 @@ class Epub extends Component{
       return true;
     }
 
+    if (nextProps.onDblPress != this.props.onDblPress) {
+      return true;
+    }
+
     if (nextProps.stylesheet != this.props.stylesheet) {
       return true;
     }
@@ -332,6 +336,7 @@ class Epub extends Component{
         onMarkClicked={this.props.onMarkClicked}
         onPress={(this.props.onPress)}
         onLongPress={(this.props.onLongPress)}
+        onDblPress={(this.props.onDblPress)}
         onViewAdded={this.props.onViewAdded}
         beforeViewRemoved={this.props.beforeViewRemoved}
         themes={this.props.themes}

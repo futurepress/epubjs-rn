@@ -48,6 +48,10 @@ Then you can add the reader element in your code:
 * `script`: Url for a javascript file to be injected into the view
 * `minSpreadWidth`: cut off width for spreads
 * `gap`: gap (int) between columns / pages
+* `onPress`: Single tap
+* `onDlbPress`: double tap on the screen
+* `onLongPress`: Press and hold
+* `onSelected`: When the browser selects text
 
 Using a local file server
 -------------------------

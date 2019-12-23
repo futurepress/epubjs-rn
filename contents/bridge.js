@@ -262,9 +262,11 @@ window.onerror = function (message, file, line, col, error) {
         var currentPosition = { x: -1, y: -1 };
         var isLongPress = false;
         var longPressTimer;
-        var touchduration = 300;
-        var preventTap;
+        var touchduration = 250;
         var $body = doc.getElementsByTagName('body')[0];
+        var lastTap = undefined;
+        var preventTap = false;
+        var doubleTap = false;
 
         function touchStartHandler(e) {
           var f, target;
@@ -295,6 +297,21 @@ window.onerror = function (message, file, line, col, error) {
             }
           }
 
+          let now = Date.now();
+          if (lastTap && (now - lastTap) < touchduration && !doubleTap) {
+            let imgSrc = null;
+            if( e.changedTouches[0].target.hasAttribute('src') ){
+              imgSrc = e.changedTouches[0].target.getAttribute('src') ;
+            }
+            doubleTap = true;
+            preventTap = true;
+            cfi = contents.cfiFromNode(e.changedTouches[0].target).toString();
+
+            sendMessage({method:"dblpress", position: currentPosition, cfi: cfi, imgSrc: imgSrc});
+          } else {
+            lastTap = now;
+          }
+
 
           longPressTimer = setTimeout(function() {
             target = e.targetTouches[0].target;
@@ -320,7 +337,7 @@ window.onerror = function (message, file, line, col, error) {
           var cfi;
           clearTimeout(longPressTimer);
 
-          if(preventTap) {
+          if( preventTap) {
             preventTap = false;
             return;
           }
@@ -343,13 +360,14 @@ window.onerror = function (message, file, line, col, error) {
               isLongPress = false;
             } else {
               setTimeout(function() {
-                if(preventTap) {
+                if(preventTap || doubleTap) {
                   preventTap = false;
                   isLongPress = false;
+                  doubleTap = false;
                   return;
                 }
                 sendMessage({method:"press", position: currentPosition, cfi: cfi});
-              }, 10);
+              }, touchduration);
             }
           }
         }
@@ -370,6 +388,7 @@ window.onerror = function (message, file, line, col, error) {
             sendMessage({method:"longpress", position: currentPosition, cfi: cfi});
             isLongPress = false;
             preventTap = true;
+            doubleTap = false;
           }
         }
 

@@ -348,6 +348,10 @@ class Rendition extends Component {
         this.props.onLongPress && this.props.onLongPress(decoded.cfi, this);
         break;
       }
+      case "dblpress": {
+        this.props.onDblPress && this.props.onDblPress(decoded.cfi, decoded.position, decoded.imgSrc, this);
+        break;
+      }
       case "selected": {
         let {cfiRange} = decoded;
         this._selected(cfiRange);
