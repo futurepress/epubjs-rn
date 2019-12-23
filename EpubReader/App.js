@@ -109,8 +109,9 @@ class EpubReader extends Component {
                 // Add marker
                 rendition.highlight(cfiRange, {});
               }}
-              onMarkClicked={(cfiRange) => {
+              onMarkClicked={(cfiRange, data, rendition) => {
                 console.log("mark clicked", cfiRange)
+                rendition.unhighlight(cfiRange);
               }}
               // themes={{
               //   tan: {

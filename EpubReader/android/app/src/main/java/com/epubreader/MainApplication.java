@@ -3,11 +3,13 @@ package com.epubreader;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.rnziparchive.RNZipArchivePackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.reactnativecommunity.slider.ReactSliderPackage;
+import nl.lightbase.orientation.OrientationPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.futurepress.staticserver.FPStaticServerPackage;
-import com.github.yamill.orientation.OrientationPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -30,11 +32,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFetchBlobPackage(),
             new RNZipArchivePackage(),
+            new AsyncStoragePackage(),
+            new ReactSliderPackage(),
+            new OrientationPackage(),
             new RNCWebViewPackage(),
             new FPStaticServerPackage(),
-            new OrientationPackage(),
+            new RNFetchBlobPackage(),
             new VectorIconsPackage()
       );
     }

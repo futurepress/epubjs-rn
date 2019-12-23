@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  AsyncStorage,
   Dimensions,
   Platform,
   AppState,
@@ -14,6 +13,8 @@ import {
 import { WebView } from 'react-native-webview';
 
 import EventEmitter from 'event-emitter'
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 const URL = require("epubjs/libs/url/url-polyfill.js");
 
@@ -230,8 +231,8 @@ class Rendition extends Component {
     }
   }
 
-  highlight (cfiRange, data) {
-    this.sendToBridge("highlight", [cfiRange, data]);
+  highlight (cfiRange, data, cb, className, style) {
+    this.sendToBridge("highlight", [cfiRange, data, cb, className,style]);
   }
 
   underline (cfiRange, data) {
@@ -242,16 +243,16 @@ class Rendition extends Component {
     this.sendToBridge("mark", [cfiRange, data]);
 	}
 
-  unhighlight (cfiRange, data) {
-    this.sendToBridge("removeAnnotation", [cfiRange, data]);
+  unhighlight (cfiRange) {
+    this.sendToBridge("removeAnnotation", [cfiRange, "highlight"]);
 	}
 
-	ununderline (cfiRange, data) {
-    this.sendToBridge("removeAnnotation", [cfiRange, data]);
+	ununderline (cfiRange) {
+    this.sendToBridge("removeAnnotation", [cfiRange, "underline"]);
 	}
 
-	unmark (cfiRange, data) {
-    this.sendToBridge("removeAnnotation", [cfiRange, data]);
+	unmark (cfiRange) {
+    this.sendToBridge("removeAnnotation", [cfiRange, "mark"]);
 	}
 
   next() {

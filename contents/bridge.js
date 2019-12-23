@@ -4,13 +4,18 @@ window.onerror = function (message, file, line, col, error) {
 };
 
 (function () {
-   var waitForReactNativePostMessageReady;
-
   function _ready() {
     var contents;
     var targetOrigin = "*";
     var sendMessage = function(obj) {
-      window.postMessage(JSON.stringify(obj), targetOrigin);
+      // window.postMessage(JSON.stringify(obj), targetOrigin);
+      if (!window.ReactNativeWebView.postMessage) {
+        setTimeout(() => {
+          sendMessage(obj);
+        }, 1);
+      } else {
+        window.ReactNativeWebView.postMessage(JSON.stringify(obj));
+      }
     };
 
     var q = [];
@@ -32,22 +37,6 @@ window.onerror = function (message, file, line, col, error) {
 
     console.error = function() {
       sendMessage({method:"error", value: Array.from(arguments)});
-    }
-
-    // var isReactNativePostMessageReady = !!window.originalPostMessage;
-    var isReactNativePostMessageReady = !!window.originalPostMessage || window.postMessage.toString().indexOf("[native code]") === -1;
-    var hasReactNativePostMessage = typeof window.webkit !== "undefined" &&
-                                    typeof window.webkit.messageHandlers !== "undefined" &&
-                                    typeof window.webkit.messageHandlers.reactNative !== "undefined" &&
-                                    typeof window.webkit.messageHandlers.reactNative.postMessage !== "undefined";
-
-    clearTimeout(waitForReactNativePostMessageReady);
-    if (!isReactNativePostMessageReady && hasReactNativePostMessage) {
-      window.originalPostMessage = window.postMessage;
-      window.postMessage = function (data) { window.webkit.messageHandlers.reactNative.postMessage(data); };
-    } else if (!isReactNativePostMessageReady && !hasReactNativePostMessage){
-      waitForReactNativePostMessageReady = setTimeout(_ready, 1);
-      return;
     }
 
     function onMessage(e) {
@@ -475,3 +464,34 @@ window.onerror = function (message, file, line, col, error) {
     window.addEventListener("load", _ready, false);
   }
 }());
+
+// Object.assign polyfill -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+if (typeof Object.assign !== 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target === null || target === undefined) {
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource !== null && nextSource !== undefined) {
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}

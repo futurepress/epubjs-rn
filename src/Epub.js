@@ -4,15 +4,17 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
-  AsyncStorage,
   Dimensions,
   AppState,
   WebView
 } from "react-native";
 
-import Orientation from "react-native-orientation";
+import Orientation from "@lightbase/react-native-orientation";
 
 import RNFetchBlob from "rn-fetch-blob";
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 if (!global.Blob) {
   global.Blob = RNFetchBlob.polyfill.Blob;
@@ -34,7 +36,7 @@ const Path = require("epubjs/lib/utils/path");
 
 import Rendition from './Rendition';
 
-class Epub extends Component<{}> {
+class Epub extends Component{
 
   constructor(props) {
     super(props);
