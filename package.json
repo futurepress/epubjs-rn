@@ -1,6 +1,6 @@
 {
   "name": "@ottofeller/epubjs-rn",
-  "version": "0.1.21",
+  "version": "0.2.23",
   "repository": "https://github.com/ottofeller/epubjs-rn",
   "main": "./components/index.js",
   "private": false,
