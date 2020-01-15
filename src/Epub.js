@@ -155,7 +155,7 @@ class Epub extends Component{
     return false;
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if (nextProps.src !== this.props.src) {
       this.destroy();
     }

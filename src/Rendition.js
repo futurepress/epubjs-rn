@@ -283,11 +283,11 @@ class Rendition extends Component {
       promise: promiseId
     });
 
-    if (!this.webviewbridgeRef.current.webviewbridge) {
+    if (!this.webviewbridgeRef.current) {
       return;
     }
 
-    this.webviewbridgeRef.current.webviewbridge.postMessage(str);
+    this.webviewbridgeRef.current.postMessage(str);
   }
 
   _onWebViewLoaded() {
