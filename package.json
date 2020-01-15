@@ -1,8 +1,9 @@
 {
-  "name": "epubjs-rn",
-  "version": "0.1.5",
-  "repository": "https://github.com/futurepress/epubjs-rn",
+  "name": "@ottofeller/epubjs-rn",
+  "version": "0.1.20",
+  "repository": "https://github.com/ottofeller/epubjs-rn",
   "main": "./components/index.js",
+  "private": false,
   "scripts": {
     "start": "node EpubReader/node_modules/react-native/local-cli/cli.js start",
     "contents": "webpack --config contents/webpack.config.js",
@@ -14,22 +15,22 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@lightbase/react-native-orientation": "^3.2.1",
-    "@react-native-community/async-storage": "^1.5.0",
+    "@lightbase/react-native-orientation": "3.2.6",
+    "@react-native-community/async-storage": "1.7.1",
     "base-64": "^0.1.0",
     "buffer": "^5.2.1",
     "epubjs": "^0.3.84",
     "events": "^3.0.0",
     "i": "^0.3.6",
-    "jszip": "^3.2.1",
-    "lodash": "^4.17.11",
+    "jszip": "3.2.2",
+    "lodash": "^4.17.15",
     "path-webpack": "0.0.3",
-    "react": "16.8.3",
-    "react-native": "0.59.9",
-    "react-native-static-server": "^0.4.2",
-    "react-native-webview": "^5.12.0",
-    "react-native-zip-archive": "^4.1.1",
-    "rn-fetch-blob": "^0.10.15",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-static-server": "0.4.2",
+    "react-native-webview": "8.0.3",
+    "react-native-zip-archive": "5.0.0",
+    "rn-fetch-blob": "0.12.0",
     "stream": "0.0.2",
     "stream-browserify": "^2.0.2",
     "util": "^0.12.0"
@@ -54,6 +55,7 @@
   },
   "files": [
     "components",
-    "package.json"
+    "package.json",
+    "epubjs-rn.podspec"
   ]
 }
