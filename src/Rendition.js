@@ -49,7 +49,6 @@ const EMBEDDED_HTML = `
 `;
 
 class Rendition extends Component {
-
   constructor(props) {
     super(props);
 
@@ -437,6 +436,8 @@ class Rendition extends Component {
           minWidth: this.props.width, minHeight: this.props.height
         }]}>
         <WebView
+          showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator}
+          showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
           ref={this.webviewbridgeRef}
           source={{html: EMBEDDED_HTML, baseUrl: this.props.url}}
           style={[styles.manager, {
@@ -488,6 +489,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
+
+Rendition.defaultProps = {
+  showsHorizontalScrollIndicator: true,
+  showsVerticalScrollIndicator: true,
+};
 
 EventEmitter(Rendition.prototype);
 
