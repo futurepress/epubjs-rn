@@ -103,6 +103,13 @@ class Epub extends Component{
       return true;
     }
 
+    if(nextProps.scrollEnabled !== this.props.scrollEnabled) {
+      return true;
+    }
+
+    if(nextProps.pagingEnabled !== this.props.pagingEnabled) {
+      return true;
+    }
 
     if (nextProps.color != this.props.color) {
       return true;
@@ -351,6 +358,8 @@ class Epub extends Component{
         resizeOnOrientationChange={this.props.resizeOnOrientationChange}
         showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator}
         showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
+        scrollEnabled={this.props.scrollEnabled}
+        pagingEnabled={this.props.pagingEnabled}
       />
     );
   }
