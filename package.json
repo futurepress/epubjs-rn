@@ -22,7 +22,7 @@
     "events": "^3.0.0",
     "i": "^0.3.6",
     "jszip": "^3.2.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "path-webpack": "0.0.3",
     "react": "16.8.3",
     "react-native": "0.59.9",
