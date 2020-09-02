@@ -103,6 +103,13 @@ class Epub extends Component{
       return true;
     }
 
+    if(nextProps.scrollEnabled !== this.props.scrollEnabled) {
+      return true;
+    }
+
+    if(nextProps.pagingEnabled !== this.props.pagingEnabled) {
+      return true;
+    }
 
     if (nextProps.color != this.props.color) {
       return true;
@@ -155,15 +162,10 @@ class Epub extends Component{
     return false;
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.src !== this.props.src) {
-      this.destroy();
-    }
-  }
-
   componentDidUpdate(prevProps) {
 
     if (prevProps.src !== this.props.src) {
+      this.destroy();
       this._loadBook(this.props.src);
     } else if (prevProps.orientation !== this.props.orientation) {
       _orientationDidChange(this.props.orientation);
@@ -226,6 +228,8 @@ class Epub extends Component{
   }
 
   _openBook(bookUrl, useBase64) {
+    __DEV__ && console.log("open book: ", bookUrl);
+
     var type = useBase64 ? "base64" : null;
 
     if (!this.rendition) {
@@ -352,6 +356,10 @@ class Epub extends Component{
         width={this.props.width}
         height={this.props.height}
         resizeOnOrientationChange={this.props.resizeOnOrientationChange}
+        showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator}
+        showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
+        scrollEnabled={this.props.scrollEnabled}
+        pagingEnabled={this.props.pagingEnabled}
       />
     );
   }
