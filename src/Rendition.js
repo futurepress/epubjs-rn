@@ -49,9 +49,11 @@ const EMBEDDED_HTML = `
 `;
 
 class Rendition extends Component {
-
   constructor(props) {
     super(props);
+
+    this.framerRef = React.createRef();
+    this.webviewbridgeRef = React.createRef();
 
     this.state = {
       loaded: false,
@@ -268,8 +270,8 @@ class Rendition extends Component {
   }
 
   postMessage(str) {
-    if (this.refs.webviewbridge) {
-      return this.refs.webviewbridge.postMessage(str);
+    if (this.webviewbridgeRef.current) {
+      return this.webviewbridgeRef.current.webviewbridge.postMessage(str);
     }
   }
 
@@ -280,11 +282,11 @@ class Rendition extends Component {
       promise: promiseId
     });
 
-    if (!this.refs.webviewbridge) {
+    if (!this.webviewbridgeRef.current) {
       return;
     }
 
-    this.refs.webviewbridge.postMessage(str);
+    this.webviewbridgeRef.current.postMessage(str);
   }
 
   _onWebViewLoaded() {
@@ -429,20 +431,22 @@ class Rendition extends Component {
     }
 
     return (
-      <View ref="framer" style={[styles.container, {
+      <View ref={this.framerRef} style={[styles.container, {
           maxWidth: this.props.width, maxHeight: this.props.height,
           minWidth: this.props.width, minHeight: this.props.height
         }]}>
         <WebView
-          ref="webviewbridge"
+          showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator}
+          showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
+          ref={this.webviewbridgeRef}
           source={{html: EMBEDDED_HTML, baseUrl: this.props.url}}
           style={[styles.manager, {
             backgroundColor: this.props.backgroundColor || "#FFFFFF"
           }]}
           bounces={false}
           javaScriptEnabled={true}
-          scrollEnabled={true}
-          pagingEnabled={this.props.flow === "paginated"}
+          scrollEnabled={this.props.scrollEnabled}
+          pagingEnabled={this.props.pagingEnabled}
           onMessage={this._onBridgeMessage.bind(this)}
           contentInsetAdjustmentBehavior="never"
           contentInset={{top: 0}}
@@ -485,6 +489,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
+
+Rendition.defaultProps = {
+  showsHorizontalScrollIndicator: true,
+  showsVerticalScrollIndicator: true,
+};
 
 EventEmitter(Rendition.prototype);
 
