@@ -25,7 +25,7 @@
     "lodash": "^4.17.21",
     "path-webpack": "0.0.3",
     "react": "16.8.3",
-    "react-native": "0.59.9",
+    "react-native": "^0.66.0",
     "react-native-static-server": "^0.4.2",
     "react-native-webview": "^5.12.0",
     "react-native-zip-archive": "^4.1.1",
