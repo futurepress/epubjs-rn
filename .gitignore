@@ -42,3 +42,4 @@ android/app/libs
 *.keystore
 
 components
+ePubJS-RN.code-workspace
