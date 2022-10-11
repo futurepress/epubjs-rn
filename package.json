@@ -18,7 +18,7 @@
     "@react-native-community/async-storage": "^1.5.0",
     "base-64": "^0.1.0",
     "buffer": "^5.2.1",
-    "epubjs": "^0.3.84",
+    "epubjs": "^0.3.93",
     "events": "^3.0.0",
     "i": "^0.3.6",
     "jszip": "^3.2.1",
